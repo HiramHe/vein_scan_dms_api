@@ -1,0 +1,33 @@
+server:
+  port: 8085
+
+spring:
+  # 配置数据源
+  datasource:
+    # JDBC配置
+    url: jdbc:mysql://39.106.68.204:3306/vein_scan_system?useSSL=false&serverTimezone=GMT%2B8
+    username: root
+    password: 1024
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+
+    druid:
+      # 初始化连接数
+      initial-size: 5
+
+  # 配置热部署
+  devtools:
+    restart:
+      enabled: false
+
+  redis:
+    host: 39.106.68.204
+    port: 6379
+
+#日志配置
+logging:
+  level:
+    hiram: debug
+
+swagger:
+  enabled: true

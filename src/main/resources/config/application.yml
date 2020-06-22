@@ -1,0 +1,57 @@
+# 服务器配置
+server:
+  # 服务器的HTTP端口，默认为8080
+  port: 8080
+  tomcat:
+    # tomcat的URI编码
+    uri-encoding: utf-8
+  # 应用访问路径
+  servlet:
+    context-path: /
+
+# 图像存储路径
+image:
+  infraredDirectory: G:/test/infrared/
+  ultrasoundDirectory: G:/test/ultrasound/
+
+# Spring配置
+spring:
+  application:
+    name: vein_scan_dms_api
+  profiles:
+    active: dev
+  jackson:
+    time-zone: GMT+8
+  # redis 配置
+  redis:
+    # 地址，默认localhost
+    host: localhost
+    # 端口，默认6379
+    port: 6379
+    password:
+
+  # 静态资源访问路径
+  mvc:
+    static-path-pattern: /static/**
+  # 静态资源映射路径，多个使用逗号分隔，根据前后关系确定优先级。换行，要用双引号引起来。
+  resources:
+    static-locations: "classpath:/META-INF/resources/,
+    classpath:/resources/,
+    classpath:/static/,
+    classpath:/public/,
+    file:${image.infraredDirectory},
+    file:${image.ultrasoundDirectory}"
+
+# mybatis-plus配置
+mybatis-plus:
+  # MyBatis 配置文件位置
+  config-location: classpath:mybatis/mybatis-config.xml
+  # MyBatis Mapper 所对应的 XML 文件位置，
+  mapper-locations: classpath:mybatis/**/*Mapper.xml
+  # 配置实体类所在位置
+  type-aliases-package: hiram.**.domain.**
+
+token:
+  header: Authorization
+  secret: hiram
+  expire-time: -1
