@@ -14,7 +14,6 @@ picture:
   infraredDirectory: G:/test/infrared/
   ultrasoundDirectory: G:/test/ultrasound/
 
-
 # Spring配置
 spring:
   application:
