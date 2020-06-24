@@ -7,7 +7,7 @@ spring:
     # JDBC配置
     url: jdbc:mysql://39.106.68.204:3306/vein_scan_system?useSSL=false&serverTimezone=GMT%2B8
     username: root
-    password: 1024
+    password: ENC(vcl4NF2E+Ztw2WXTTQWF0IKjUr1oTrEQflTXStztT1G3mqVZNefXhOEEuLjOU4OY)
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
 

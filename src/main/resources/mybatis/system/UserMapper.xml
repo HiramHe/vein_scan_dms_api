@@ -7,25 +7,52 @@
     <!--简单情况下，只需要指定实体类跟数据库表不一致的属性和列即可，一致的字段会自动映射-->
     <!--如果使用了collection等，则不会自动映射字段，需要手动一一指定-->
     <resultMap id="SysUserResult" type="SysUser">
-        <collection property="roles" javaType="java.util.List" ofType="SysRole">
-<!--            <result property="enabled" column="r_enabled" />-->
-<!--            <result property="remark" column="r_remark" />-->
-<!--            <result property="deleted" column="r_del" />-->
-<!--            <result property="gmtCreate" column="r_gc" />-->
-<!--            <result property="gmtModify" column="r_gm" />-->
-<!--            <result property="version" column="r_ver" />-->
-        </collection>
+        <id property="userId" column="user_id" />
+        <result property="username" column="username" />
+        <result property="password" column="password" />
+        <result property="username" column="username" />
+        <result property="nickname" column="nickname" />
+        <result property="realName" column="real_name" />
+        <result property="sex" column="sex" />
+        <result property="birthday" column="birthday" />
+        <result property="email" column="email" />
+        <result property="phoneNumber" column="phone_number" />
+        <result property="avatar" column="avatar" />
+        <result property="remark" column="remark" />
+        <result property="enabled" column="enabled" />
+        <result property="deleted" column="deleted" />
+        <result property="gmtCreate" column="gmt_create" />
+        <result property="gmtModify" column="gmt_modify" />
+        <result property="version" column="version" />
+        <collection property="roles" javaType="java.util.List" resultMap="RoleResult" />
+    </resultMap>
+    
+    <resultMap id="RoleResult" type="SysRole">
+        <id property="roleId" column="role_id" />
+        <result property="roleNameEn" column="role_name_en" />
+        <result property="roleNameZh" column="role_name_zh" />
+        <result property="enabled" column="r_enabled" />
+        <result property="remark" column="r_remark" />
+        <result property="deleted" column="r_del" />
+        <result property="gmtCreate" column="r_gc" />
+        <result property="gmtModify" column="r_gm" />
+        <result property="version" column="r_ver" />
     </resultMap>
 
 
-    <select id="selectUserList" resultMap="SysUserResult">
+    <sql id="selectUserVO">
         select u.*,
         r.role_id,r.role_name_zh,r.role_name_en,
         r.enabled as r_enabled,r.remark as r_remark,
         r.deleted as r_del,r.gmt_create as r_gc,r.gmt_modify as r_gm,r.version as r_ver
         from user u
-        left join user_role ur on u.user_id = ur.user_id
-        left join role r on ur.role_id = r.role_id
+            left join user_role ur on u.user_id = ur.user_id
+            left join role r on ur.role_id = r.role_id
+    </sql>
+
+    <select id="selectUserList" resultMap="SysUserResult">
+        <include refid="selectUserVO" />
     </select>
+
 
 </mapper>

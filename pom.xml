@@ -158,10 +158,18 @@
             <version>${jjwt.version}</version>
         </dependency>
 
+        <!--mysql等密码加密工具-->
+        <dependency>
+            <groupId>com.github.ulisesbocchio</groupId>
+            <artifactId>jasypt-spring-boot-starter</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+
 
 
     </dependencies>
-	
+
+
 	<build>
 		<plugins>
 			<plugin>

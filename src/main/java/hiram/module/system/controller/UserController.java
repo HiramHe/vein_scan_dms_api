@@ -24,9 +24,9 @@ public class UserController {
     IUserService iUserService;
 
     @GetMapping("/list")
-    public ResultObject selectUserList(){
+    public List selectUserList(){
         List<SysUser> sysUsers = iUserService.selectUserList();
         sysUsers.forEach(System.out::println);
-        return null;
+        return sysUsers;
     }
 }

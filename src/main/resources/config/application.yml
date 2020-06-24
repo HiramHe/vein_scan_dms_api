@@ -10,9 +10,10 @@ server:
     context-path: /
 
 # 图像存储路径
-image:
+picture:
   infraredDirectory: G:/test/infrared/
   ultrasoundDirectory: G:/test/ultrasound/
+
 
 # Spring配置
 spring:
@@ -30,18 +31,6 @@ spring:
     port: 6379
     password:
 
-  # 静态资源访问路径
-  mvc:
-    static-path-pattern: /static/**
-  # 静态资源映射路径，多个使用逗号分隔，根据前后关系确定优先级。换行，要用双引号引起来。
-  resources:
-    static-locations: "classpath:/META-INF/resources/,
-    classpath:/resources/,
-    classpath:/static/,
-    classpath:/public/,
-    file:${image.infraredDirectory},
-    file:${image.ultrasoundDirectory}"
-
 # mybatis-plus配置
 mybatis-plus:
   # MyBatis 配置文件位置
@@ -55,3 +44,7 @@ token:
   header: Authorization
   secret: hiram
   expire-time: -1
+
+jasypt:
+  encryptor:
+    password: hiram

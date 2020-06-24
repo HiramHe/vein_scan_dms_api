@@ -16,5 +16,5 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "swagger")
 public class SwaggerProperties {
     //默认为false
-    private boolean enabled = false;
+    private boolean enabled = true;
 }
