@@ -4,9 +4,11 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import hiram.common.web.domain.entity.BaseEntity;
 import lombok.Data;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -32,7 +34,8 @@ public class SysUser extends BaseEntity{
 
     private String sex;
 
-    private Date birthday;
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GTM+8")
+    private Timestamp birthday;
 
     private String email;
 

@@ -6,6 +6,7 @@ import hiram.common.web.controller.BaseController;
 import hiram.common.web.domain.vo.TableData;
 import hiram.module.image.domain.Infrared;
 import hiram.module.image.service.InfraredService;
+import io.swagger.annotations.Api;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import java.util.List;
  * @Description: ""
  */
 
+@Api(tags = "image-Infrared-Controller")
 @RestController
 @RequestMapping("/infrared")
 public class InfraredController extends BaseController {

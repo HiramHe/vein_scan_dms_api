@@ -1,6 +1,7 @@
 package hiram.common.web.controller;
 
 import hiram.common.web.ResultCode;
+import hiram.common.web.ResultObject;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.logging.Log;
@@ -36,19 +37,20 @@ public class CommonController {
     }
 
     /*
-    让前端随时查看ResultCode的含义。
+    让前端随时查看ResultCode中的枚举项。
      */
-    @ApiOperation(value = "查看接口返回码的定义")
-    @GetMapping("/ResultObjectCodes")
-    public Map<Object,Object> showResultCodes(){
-        ResultCode[] resultCodes = ResultCode.values();
+    @ApiOperation(value = "查看接口返回码的定义列表")
+    @GetMapping("/ResultCodes")
+    public ResultObject<Map<String,Object>> showResultCodes(){
 
-        Map<Object,Object> code_msg = new HashMap<>();
-        code_msg.put("code","msg");
-        for (ResultCode resultCode:resultCodes) {
-            code_msg.put(resultCode.getCode(),resultCode.getMsg());
+        Map<Long,String> resultCodes = new HashMap<>();
+        for (ResultCode resultCode : ResultCode.values()) {
+            resultCodes.put(resultCode.getCode(),resultCode.getMsg());
         }
 
-        return code_msg;
+        Map<String,Object> data = new HashMap<>();
+        data.put("code:msg",resultCodes);
+
+        return ResultObject.success(ResultCode.SUCCESS,data);
     }
 }
