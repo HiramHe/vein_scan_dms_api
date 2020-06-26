@@ -1,10 +1,11 @@
 package hiram.module.system.controller;
 
-import hiram.common.web.ResultCode;
-import hiram.common.web.ResultObject;
+import hiram.common.enums.ResultCode;
+import hiram.common.pojo.ResultObject;
 import hiram.module.system.domain.entity.SysUser;
 import hiram.module.system.service.IUserService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +21,7 @@ import java.util.Map;
  * @Description: ""
  */
 
-@Api( tags = "system-User-Controller")
+@Api( tags = "用户管理接口")
 @RestController
 @RequestMapping("/system/user")
 public class UserController {
@@ -29,6 +30,7 @@ public class UserController {
     IUserService iUserService;
 
     @GetMapping("/list")
+    @ApiOperation(value = "查询用户列表")
     public ResultObject<Map<String,Object>> selectUserList(){
 
         Map<String,Object> data = new HashMap<>();

@@ -1,4 +1,4 @@
-package hiram.common.token;
+package hiram.common.jwt;
 
 /**
  * @Author: HiramHe

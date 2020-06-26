@@ -1,12 +1,13 @@
 package hiram.common.service.impl;
 
-import hiram.common.configuration.TokenProperties;
+import hiram.common.jwt.TokenProperties;
 import hiram.common.constant.Constants;
+import hiram.common.exception.TokenException;
 import hiram.common.service.ITokenService;
-import hiram.common.token.JwtUtils;
+import hiram.common.jwt.JwtUtils;
 import hiram.common.utils.IdUtils;
 import hiram.common.web.domain.dto.LoginUser;
-import hiram.support.redis.RedisCache;
+import hiram.common.redis.RedisCache;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.impl.DefaultClaims;
 import org.apache.commons.lang3.StringUtils;
@@ -50,7 +51,7 @@ public class TokenServiceImpl implements ITokenService {
 
         String token = JwtUtils.generateToken(claims,tokenProperties.getSecret());
 
-        refreshToken(loginUser);
+        this.refreshToken(loginUser);
 
         return token;
     }
@@ -78,14 +79,17 @@ public class TokenServiceImpl implements ITokenService {
     public LoginUser getLoginUser(HttpServletRequest request) throws Exception {
         // 获取请求携带的令牌
         String token = getToken(request);
-        if ( !StringUtils.isEmpty(token) )
-        {
-            Claims claims = JwtUtils.parseToken(token,tokenProperties.getSecret());
-            // 解析对应的权限以及用户信息
-            String uuid = (String) claims.get(Constants.LOGIN_USER_KEY);
-            return redisCache.getCacheObject(uuid);
+
+        if(StringUtils.isEmpty(token)){
+            throw new TokenException("token is null");
         }
-        return null;
+
+        Claims claims = JwtUtils.parseToken(token,tokenProperties.getSecret());
+        // 解析对应的权限以及用户信息
+        String uuid = (String) claims.get(Constants.LOGIN_USER_KEY);
+
+        return redisCache.getCacheObject(uuid);
+
     }
 
     @Override

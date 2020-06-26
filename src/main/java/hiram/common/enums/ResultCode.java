@@ -1,4 +1,4 @@
-package hiram.common.web;
+package hiram.common.enums;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -15,15 +15,18 @@ public enum ResultCode {
      * 成功
      */
     SUCCESS(2000, "执行成功"),
-    SUCCESS_AUTHENTICATE(2001,"身份认证成功"),
-    SUCCESS_LOGOUT(2002,"退出成功"),
+    SUCCESS_AUTHENTICATE(2011,"身份认证成功"),
+    SUCCESS_LOGOUT(2021,"退出成功"),
 
     /**
      * 失败
      */
     FAILED(4000, "操作失败"),
-    FAILED_AUTHENTICATE(4001, "身份认证失败"),
-    LOGIN_EXPIRED(4005,"登录已失效，请重新登录!")
+    FAILED_AUTHENTICATE(4011, "身份认证失败"),
+    LOGIN_EXPIRED(4012,"登录已失效，请重新登录"),
+    TOKEN_UNTRUSTED(4021,"不受信的token凭证"),
+    TOKEN_NULL(4022,"token不能为空"),
+    USER_NOT_EXIST(4031,"用户不存在")
     ;
 
     private final long code;

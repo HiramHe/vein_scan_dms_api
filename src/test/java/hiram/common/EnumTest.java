@@ -1,6 +1,6 @@
 package hiram.common;
 
-import hiram.common.web.ResultCode;
+import hiram.common.enums.ResultCode;
 import org.junit.Test;
 
 import java.util.HashMap;

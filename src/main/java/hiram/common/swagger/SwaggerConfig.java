@@ -1,6 +1,6 @@
-package hiram.module.tool.swagger;
+package hiram.common.swagger;
 
-import hiram.common.configuration.TokenProperties;
+import hiram.common.jwt.TokenProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

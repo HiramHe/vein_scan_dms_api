@@ -1,4 +1,4 @@
-package hiram.common.constant;
+package hiram.common.enums;
 
 /**
  * @Author: HiramHe

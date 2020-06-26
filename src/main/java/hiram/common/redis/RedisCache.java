@@ -1,4 +1,4 @@
-package hiram.support.redis;
+package hiram.common.redis;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.*;

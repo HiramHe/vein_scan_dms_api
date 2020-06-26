@@ -1,7 +1,7 @@
 package hiram.module.security.handler;
 
-import hiram.common.web.ResultCode;
-import hiram.common.web.ResultObject;
+import hiram.common.enums.ResultCode;
+import hiram.common.pojo.ResultObject;
 import hiram.common.utils.JsonUtils;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;

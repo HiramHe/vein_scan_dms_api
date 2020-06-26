@@ -1,6 +1,6 @@
 package hiram.common;
 
-import hiram.common.token.JwtUtils;
+import hiram.common.jwt.JwtUtils;
 import hiram.module.system.domain.entity.SysUser;
 import org.junit.Test;
 

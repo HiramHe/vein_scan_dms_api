@@ -1,7 +1,7 @@
 package hiram.common.web.controller;
 
-import hiram.common.web.ResultCode;
-import hiram.common.web.ResultObject;
+import hiram.common.enums.ResultCode;
+import hiram.common.pojo.ResultObject;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.logging.Log;
@@ -19,7 +19,7 @@ import java.util.Map;
  * @Description: ""
  */
 
-@Api(tags = "完全公开接口")
+@Api(tags = "公开接口")
 @RestController
 @RequestMapping("/common")
 public class CommonController {
@@ -39,8 +39,8 @@ public class CommonController {
     /*
     让前端随时查看ResultCode中的枚举项。
      */
-    @ApiOperation(value = "查看接口返回码的定义列表")
-    @GetMapping("/ResultCodes")
+    @ApiOperation(value = "查看接口返回码的定义")
+    @GetMapping("/ResultCode/show")
     public ResultObject<Map<String,Object>> showResultCodes(){
 
         Map<Long,String> resultCodes = new HashMap<>();

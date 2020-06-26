@@ -1,4 +1,4 @@
-package hiram.module.tool.swagger;
+package hiram.common.swagger;
 
 import lombok.Data;
 import lombok.Getter;

@@ -42,7 +42,7 @@ mybatis-plus:
 token:
   header: Authorization
   secret: hiram
-  expire-time: -1
+  expire-time: 1440
 
 jasypt:
   encryptor:

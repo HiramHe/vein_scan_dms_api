@@ -9,7 +9,6 @@ import hiram.common.web.domain.entity.BaseEntity;
 import lombok.Data;
 
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -48,6 +47,7 @@ public class SysUser extends BaseEntity{
 
     private boolean enabled;
 
+    @TableField(exist = false)
     private List<SysRole> roles;
 
 }

@@ -18,8 +18,4 @@ public interface IUserService {
     SysUser selectUserByUsername(String username);
 
     List<SysUser> selectUserList();
-
-    boolean login(String username, String password);
-
-    boolean checkLogin(String username, String password);
 }

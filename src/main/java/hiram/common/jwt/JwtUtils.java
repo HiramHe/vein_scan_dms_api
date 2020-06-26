@@ -1,4 +1,4 @@
-package hiram.common.token;
+package hiram.common.jwt;
 
 import hiram.common.utils.JsonUtils;
 import io.jsonwebtoken.Claims;
@@ -11,13 +11,14 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.UUID;
 
+
 /**
  * @Author: HiramHe
  * @Date: 2020/5/5 13:41
  * @Description: "jwt工具类"
  */
 
-/**
+/*
  * JwtException继承RuntimeException，
  * 所以JwtException及其子类均为运行时异常。
  */
