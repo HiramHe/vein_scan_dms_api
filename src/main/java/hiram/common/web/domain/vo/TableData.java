@@ -17,5 +17,5 @@ public class TableData {
     private long total;
 
     /*列表数据*/
-    private List<?> rows;
+    private List<?> results;
 }

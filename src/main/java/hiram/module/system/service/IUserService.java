@@ -1,7 +1,9 @@
 package hiram.module.system.service;
 
 import hiram.module.system.domain.entity.SysUser;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import hiram.module.system.domain.vo.UserInsertVO;
+import hiram.module.system.domain.vo.UserListParam;
+import hiram.module.system.domain.vo.UserUpdateParam;
 
 import java.util.List;
 
@@ -17,5 +19,25 @@ public interface IUserService {
 
     SysUser selectUserByUsername(String username);
 
-    List<SysUser> selectUserList();
+    List<SysUser> selectUserList(UserListParam userListParam);
+
+    Long recoverDeletedUserById(Long userId);
+
+    Long updateUser(UserUpdateParam userUpdateParam);
+
+    Long logicallyDeleteUserByIds(Long[] userIds);
+
+    Long logicallyDeleteUserById(Long userId);
+
+    Long physicallyDeleteUserById(Long userId);
+
+    Long recoverDeletedUserByIds(Long[] userIds);
+
+    Long insertUser(UserInsertVO userInsertVO);
+
+    boolean checkUserNameExist(String username);
+
+    boolean checkPhoneUnique(SysUser user);
+
+    boolean checkEmailUnique(SysUser user);
 }

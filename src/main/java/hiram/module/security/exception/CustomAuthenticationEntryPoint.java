@@ -1,6 +1,6 @@
 package hiram.module.security.exception;
 
-import hiram.common.pojo.ResultObject;
+import hiram.common.web.domain.entity.ResultObject;
 import hiram.common.utils.JsonUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

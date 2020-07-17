@@ -5,10 +5,15 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import hiram.common.web.domain.entity.BaseEntity;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -16,13 +21,15 @@ import java.util.List;
  */
 
 @Data
+@NoArgsConstructor
 @TableName(value = "user")
+@ApiModel(description = "系统用户")
 public class SysUser extends BaseEntity{
 
-    @TableId(value="user_id",type = IdType.NONE)
     private Long userId;
 
     @TableField(value = "username")
+    @ApiModelProperty(value = "用户名")
     private String username;
 
     private String password;
@@ -38,7 +45,6 @@ public class SysUser extends BaseEntity{
 
     private String email;
 
-    @TableField(value="phone_number")
     private String phoneNumber;
 
     private String avatar;
@@ -49,5 +55,11 @@ public class SysUser extends BaseEntity{
 
     @TableField(exist = false)
     private List<SysRole> roles;
+
+    private List<Long> roleIds;
+
+    public SysUser(String username) {
+        this.username = username;
+    }
 
 }

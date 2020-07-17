@@ -2,7 +2,10 @@ package hiram.common.web.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.io.Serializable;
 import java.sql.Time;
@@ -19,15 +22,16 @@ import java.util.Date;
 @Data
 public class BaseEntity implements Serializable {
 
-    @TableField(value = "deleted")
+    //接口的参数是对象时，让本字段不显示在swagger中
+    @ApiModelProperty(hidden = true)
     private boolean deleted = false;
 
     @TableField(value = "gmt_create")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GTM+8")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Timestamp gmtCreate;
 
     @TableField(value = "gmt_modify")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GTM+8")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Timestamp gmtModify;
 
     @TableField(value = "version")

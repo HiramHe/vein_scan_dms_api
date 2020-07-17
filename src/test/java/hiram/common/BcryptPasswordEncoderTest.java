@@ -13,5 +13,7 @@ public class BcryptPasswordEncoderTest {
     public static void main(String[] args) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         System.out.println(encoder.encode("12345"));
+
+        System.out.println(" ".trim().length());
     }
 }

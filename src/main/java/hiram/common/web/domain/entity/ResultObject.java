@@ -1,4 +1,4 @@
-package hiram.common.pojo;
+package hiram.common.web.domain.entity;
 
 import hiram.common.enums.ResultCode;
 import io.swagger.annotations.ApiModel;

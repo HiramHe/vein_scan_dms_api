@@ -6,7 +6,15 @@
 
     <!--简单情况下，只需要指定实体类跟数据库表不一致的属性和列即可，一致的字段会自动映射-->
     <!--如果使用了collection等，则不会自动映射字段，需要手动一一指定-->
-    <resultMap id="SysUserResult" type="SysUser">
+
+    <resultMap id="BaseMap" type="hiram.common.web.domain.entity.BaseEntity">
+        <result property="deleted" column="deleted" />
+        <result property="gmtCreate" column="gmt_create" />
+        <result property="gmtModify" column="gmt_modify" />
+        <result property="version" column="version" />
+    </resultMap>
+    
+    <resultMap id="SysUserResult" type="SysUser" extends="BaseMap">
         <id property="userId" column="user_id" />
         <result property="username" column="username" />
         <result property="password" column="password" />
@@ -20,25 +28,29 @@
         <result property="avatar" column="avatar" />
         <result property="remark" column="remark" />
         <result property="enabled" column="enabled" />
-        <result property="deleted" column="deleted" />
-        <result property="gmtCreate" column="gmt_create" />
-        <result property="gmtModify" column="gmt_modify" />
-        <result property="version" column="version" />
+        <!--结果嵌套处理，分页时total计算的是一对多中的多，导致分页错误-->
         <collection property="roles" javaType="java.util.List" resultMap="RoleResult" />
     </resultMap>
+
+    <!--使用查询嵌套，解决一对多时的分页问题-->
+    <resultMap id="SysUserResult1" type="SysUser" extends="BaseMap">
+        <id property="userId" column="user_id" />
+        <collection property="roles" javaType="java.util.List" select="selectRolesOfUser" column="user_id" />
+    </resultMap>
     
-    <resultMap id="RoleResult" type="SysRole">
+    <resultMap id="RoleResult" type="SysRole" extends="BaseMap">
         <id property="roleId" column="role_id" />
         <result property="roleNameEn" column="role_name_en" />
         <result property="roleNameZh" column="role_name_zh" />
-        <result property="enabled" column="r_enabled" />
-        <result property="remark" column="r_remark" />
-        <result property="deleted" column="r_del" />
-        <result property="gmtCreate" column="r_gc" />
-        <result property="gmtModify" column="r_gm" />
-        <result property="version" column="r_ver" />
+        <result property="enabled" column="enabled" />
+        <result property="remark" column="remark" />
     </resultMap>
 
+    <resultMap id="RoleResult1" type="SysRole" extends="BaseMap">
+    </resultMap>
+
+    <resultMap id="UserRolesResult" type="UserRole">
+    </resultMap>
 
     <sql id="selectUserVO">
         select u.*,
@@ -50,9 +62,149 @@
             left join role r on ur.role_id = r.role_id
     </sql>
 
-    <select id="selectUserList" resultMap="SysUserResult">
-        <include refid="selectUserVO" />
+    <select id="checkUserNameExist" parameterType="String" resultType="Long">
+        select count(1)
+        from user
+        where username = #{username}
     </select>
+
+    <select id="checkPhoneUnique" parameterType="String" resultType="SysUser">
+        select user_id,phone_number
+        from user
+        where phone_number = #{phoneNumber}
+    </select>
+
+    <select id="checkEmailUnique" parameterType="String" resultType="SysUser">
+        select user_id,email
+        from user
+        where email = #{email}
+    </select>
+
+    <!--集条件查询于一体-->
+    <select id="selectUserList" parameterType="UserListParam" resultMap="SysUserResult1">
+        select u.*
+        from user u
+        where deleted=0
+        <if test="username != null and username != ''">
+            and u.username like concat('%', #{username}, '%')
+        </if>
+        <if test="phoneNumber != null and phoneNumber != ''">
+            and u.phone_number like concat('%', #{phoneNumber}, '%')
+        </if>
+        <if test="beginTime != null and endTime != null">
+            and Date(u.gmt_create) &gt;= #{beginTime} and Date(u.gmt_create) &lt;= #{endTime}
+        </if>
+    </select>
+
+    <select id="selectRolesOfUser" resultMap="RoleResult1">
+        select r.*
+        from role r
+        left join user_role ur on r.role_id=ur.role_id
+        where r.deleted = 0
+            and user_id = #{user_id}
+    </select>
+    
+    <insert id="insertUser" useGeneratedKeys="true" keyProperty="userId" parameterType="UserInsertVO">
+        insert into user(
+        <if test="username != null and username != ''">username,</if>
+        <if test="password != null and password != ''">password,</if>
+        <if test="nickname != null and nickname != ''">nickname,</if>
+        <if test="realName != null and realName != ''">real_name,</if>
+        <if test="sex != null and sex != ''">sex,</if>
+        <if test="birthday != null">birthday,</if>
+        <if test="email != null and email != ''">email,</if>
+        <if test="phoneNumber != null and phoneNumber != ''">phone_number,</if>
+        <if test="avatar != null and avatar != ''">avatar,</if>
+        <if test="remark != null and remark != ''">remark,</if>
+        <if test="enabled != null">enabled</if>
+        ) values (
+        <if test="username != null and username != ''">#{username},</if>
+        <if test="password != null and password != ''">#{password},</if>
+        <if test="nickname != null and nickname != ''">#{nickname},</if>
+        <if test="realName != null and realName != ''">#{realName},</if>
+        <if test="sex != null and sex != ''">#{sex},</if>
+        <if test="birthday != null">#{birthday},</if>
+        <if test="email != null and email != ''">#{email},</if>
+        <if test="phoneNumber != null and phoneNumber != ''">#{phoneNumber},</if>
+        <if test="avatar != null and avatar != ''">#{avatar},</if>
+        <if test="remark != null and remark != ''">#{remark},</if>
+        <if test="enabled != null">#{enabled}</if>
+        )
+    </insert>
+
+    <!--如果userId为null，则语句不会执行-->
+    <!--注意，不要使用动态where语句-->
+    <update id="updateUser" parameterType="UserUpdateParam">
+        update user
+        <set>
+            <if test="nickname != null and nickname != ''">
+                nickname = #{nickname},
+            </if>
+            <if test="sex != null and sex != ''">
+                sex = #{sex},
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email},
+            </if>
+            <if test="phoneNumber != null and phoneNumber != ''">
+                phone_Number = #{phoneNumber},
+            </if>
+            <if test="avatar != null and avatar != ''">
+                avatar = #{avatar},
+            </if>
+            <if test="remark != null and remark != ''">
+                remark = #{remark},
+            </if>
+            <if test="enabled != null">
+                enabled = #{enabled},
+            </if>
+        </set>
+        where user_id = #{userId}
+    </update>
+    
+    <update id="recoverDeletedUserById" parameterType="Long">
+        update user
+        set deleted=0
+        where user_id=#{userId}
+    </update>
+
+    <update id="recoverDeletedUserByIds" parameterType="java.util.List">
+        update user
+        set deleted = 0
+        <where>
+            <if test="array != null and array.length >0">
+                user_id in
+                <foreach collection="array" item="userId" open="(" separator="," close=")">
+                    #{userId}
+                </foreach>
+            </if>
+        </where>
+    </update>
+    
+    <delete id="logicallyDeleteUserByIds" parameterType="java.util.List">
+        update user
+        set deleted = 1
+        <where>
+            <if test="array != null and array.length >0">
+                user_id in
+                <foreach collection="array" item="userId" open="(" separator="," close=")">
+                    #{userId}
+                </foreach>
+            </if>
+        </where>
+
+    </delete>
+
+    <delete id="logicallyDeleteUserById" parameterType="Long">
+        update user
+        set deleted = 1
+        where user_id = #{userId}
+    </delete>
+
+    <delete id="physicallyDeleteUserById" parameterType="Long">
+        delete from user
+        where user_id = #{userId}
+    </delete>
 
 
 </mapper>

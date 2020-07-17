@@ -3,7 +3,7 @@ package hiram.module.system.controller;
 import hiram.common.service.ITokenService;
 import hiram.common.utils.ServletUtils;
 import hiram.common.enums.ResultCode;
-import hiram.common.pojo.ResultObject;
+import hiram.common.web.domain.entity.ResultObject;
 import hiram.common.web.domain.dto.LoginUser;
 import hiram.module.system.domain.entity.SysRole;
 import hiram.module.system.domain.entity.SysUser;
@@ -27,7 +27,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/profile")
-@Api(tags = "当前登录用户接口")
+@Api(tags = "个人中心接口")
 public class ProfileController {
 
     @Autowired

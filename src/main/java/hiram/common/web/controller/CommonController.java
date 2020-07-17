@@ -1,7 +1,7 @@
 package hiram.common.web.controller;
 
 import hiram.common.enums.ResultCode;
-import hiram.common.pojo.ResultObject;
+import hiram.common.web.domain.entity.ResultObject;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.logging.Log;

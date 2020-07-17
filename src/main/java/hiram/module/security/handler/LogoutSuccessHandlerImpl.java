@@ -4,7 +4,7 @@ import hiram.common.web.domain.dto.LoginUser;
 import hiram.common.service.ITokenService;
 import hiram.common.utils.JsonUtils;
 import hiram.common.enums.ResultCode;
-import hiram.common.pojo.ResultObject;
+import hiram.common.web.domain.entity.ResultObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;

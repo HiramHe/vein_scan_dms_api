@@ -1,7 +1,7 @@
 package hiram.module.image.controller;
 
 import hiram.common.enums.ResultCode;
-import hiram.common.pojo.ResultObject;
+import hiram.common.web.domain.entity.ResultObject;
 import hiram.common.web.controller.BaseController;
 import hiram.common.web.domain.vo.TableData;
 import hiram.module.image.domain.Infrared;

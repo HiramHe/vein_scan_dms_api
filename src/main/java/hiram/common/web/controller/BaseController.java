@@ -49,7 +49,7 @@ public class BaseController {
         TableData tableData = new TableData();
 
         tableData.setTotal(new PageInfo<>(list).getTotal());
-        tableData.setRows(list);
+        tableData.setResults(list);
 
         return tableData;
     }

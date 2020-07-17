@@ -9,7 +9,7 @@ import lombok.Data;
  */
 
 @Data
-public class UserPasswordVo {
+public class UserPasswordVO {
 
     private String oldPassword;
 

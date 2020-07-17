@@ -1,7 +1,7 @@
 package hiram.module.system.controller;
 
 import hiram.common.enums.ResultCode;
-import hiram.common.pojo.ResultObject;
+import hiram.common.web.domain.entity.ResultObject;
 import hiram.module.system.domain.entity.LoginBody;
 import hiram.module.system.service.LoginService;
 import io.swagger.annotations.Api;
