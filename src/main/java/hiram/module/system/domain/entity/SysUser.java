@@ -1,11 +1,8 @@
 package hiram.module.system.domain.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import hiram.common.web.domain.entity.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -13,7 +10,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -56,6 +52,7 @@ public class SysUser extends BaseEntity{
     @TableField(exist = false)
     private List<SysRole> roles;
 
+    @TableField(exist = false)
     private List<Long> roleIds;
 
     public SysUser(String username) {
