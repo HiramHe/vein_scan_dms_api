@@ -64,6 +64,7 @@ public class ProfileController {
         return resultObject;
     }
 
+    @ApiOperation(value = "修改密码", hidden = true )
     public ResultObject<?> updatePassword(String oldPassword, String newPassword) throws Exception {
         LoginUser loginUser = iTokenService.getLoginUser(ServletUtils.getRequest());
 
