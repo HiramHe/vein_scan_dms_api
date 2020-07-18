@@ -1,7 +1,7 @@
 package hiram.module.system.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import hiram.common.utils.StringUtils;
+import hiram.common.utils.MyStringUtils;
 import hiram.module.system.domain.vo.UserInsertVO;
 import hiram.module.system.domain.vo.UserListParam;
 import hiram.module.system.domain.vo.UserUpdateParam;
@@ -98,7 +98,7 @@ public class UserServiceImpl implements IUserService {
     @Override
     public boolean checkPhoneUnique(SysUser user) {
 
-        Long userId = StringUtils.isNull(user.getUserId()) ? -1L : user.getUserId();
+        Long userId = MyStringUtils.isNull(user.getUserId()) ? -1L : user.getUserId();
         SysUser db_user = userMapper.checkPhoneUnique(user.getPhoneNumber());
 
         return db_user == null || db_user.getUserId().equals(userId);
@@ -107,7 +107,7 @@ public class UserServiceImpl implements IUserService {
     @Override
     public boolean checkEmailUnique(SysUser user) {
 
-        Long userId = StringUtils.isNull(user.getUserId()) ? -1L : user.getUserId();
+        Long userId = MyStringUtils.isNull(user.getUserId()) ? -1L : user.getUserId();
         SysUser db_user = userMapper.checkEmailUnique(user.getEmail());
 
         return db_user == null || db_user.getUserId().equals(userId);

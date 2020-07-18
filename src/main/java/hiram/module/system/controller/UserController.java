@@ -1,7 +1,7 @@
 package hiram.module.system.controller;
 
 import hiram.common.enums.ResultCode;
-import hiram.common.utils.StringUtils;
+import hiram.common.utils.MyStringUtils;
 import hiram.common.web.domain.entity.ResultObject;
 import hiram.common.web.controller.BaseController;
 import hiram.common.web.domain.vo.TableData;
@@ -66,7 +66,7 @@ public class UserController extends BaseController {
             @RequestBody UserInsertVO userInsertVO){
 
         ////检查用户名和密码是否为空
-        if(StringUtils.isEmpty(userInsertVO.getUsername())  || StringUtils.isEmpty(userInsertVO.getPassword())){
+        if(MyStringUtils.isEmpty(userInsertVO.getUsername())  || MyStringUtils.isEmpty(userInsertVO.getPassword())){
             return ResultObject.failed(ResultCode.USERNAME_PASSWORD_NULL);
         }
 
@@ -80,12 +80,12 @@ public class UserController extends BaseController {
         }
 
         //检查手机号是否已存在
-        if(!StringUtils.isEmpty(user.getPhoneNumber()) && !iUserService.checkPhoneUnique(user)){
+        if(!MyStringUtils.isEmpty(user.getPhoneNumber()) && !iUserService.checkPhoneUnique(user)){
             return ResultObject.failed(ResultCode.PHONENUMBER_NOT_UNIQUE);
         }
 
         //检查邮箱账号是否已存在
-        if(!StringUtils.isEmpty(user.getEmail()) && !iUserService.checkEmailUnique(user)){
+        if(!MyStringUtils.isEmpty(user.getEmail()) && !iUserService.checkEmailUnique(user)){
             return ResultObject.failed(ResultCode.EMAIL_NOT_UNIQUE);
         }
 

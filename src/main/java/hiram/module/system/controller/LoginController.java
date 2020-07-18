@@ -6,9 +6,12 @@ import hiram.module.system.domain.entity.LoginBody;
 import hiram.module.system.service.LoginService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
@@ -24,6 +27,8 @@ import java.util.Map;
 @Api(tags = "登录接口")
 public class LoginController {
 
+    Log logger = LogFactory.getLog(getClass());
+
     @Autowired
     LoginService loginService;
 
@@ -32,10 +37,14 @@ public class LoginController {
      */
     @PostMapping("/login")
     @ApiOperation(value = "登录处理")
-    public ResultObject<?> login(LoginBody loginBody){
+    public ResultObject<?> login(@RequestBody LoginBody loginBody){
+
+        if(logger.isDebugEnabled()){
+            System.out.println("LoginBody:"+loginBody);
+        }
 
         if(StringUtils.isEmpty(loginBody.getUsername()) || StringUtils.isEmpty(loginBody.getPassword())){
-            return ResultObject.failed(ResultCode.FAILED_AUTHENTICATE);
+            return ResultObject.failed(ResultCode.USERNAME_PASSWORD_NULL);
         }
 
         String token = loginService.login(loginBody.getUsername(), loginBody.getPassword());

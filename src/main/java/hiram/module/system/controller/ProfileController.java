@@ -36,12 +36,13 @@ public class ProfileController {
     @Autowired
     IRoleService roleService;
 
-    @GetMapping("/getInfo")
     @ApiOperation(value = "获取当前登录用户详细信息")
+    @GetMapping("/getInfo")
     public ResultObject<?> profile() throws Exception {
 
         /*
-        如果有token，则已经在request中携带了
+        如果有token，则已经在request中携带了。
+        抛出的异常会被全局异常处理器捕获并处理。
          */
         LoginUser loginUser = iTokenService.getLoginUser(ServletUtils.getRequest());
 
@@ -61,5 +62,11 @@ public class ProfileController {
         }
 
         return resultObject;
+    }
+
+    public ResultObject<?> updatePassword(String oldPassword, String newPassword) throws Exception {
+        LoginUser loginUser = iTokenService.getLoginUser(ServletUtils.getRequest());
+
+        return null;
     }
 }

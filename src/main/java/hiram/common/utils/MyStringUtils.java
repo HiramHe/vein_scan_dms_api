@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @Description: ""
  */
 
-public class StringUtils {
+public class MyStringUtils {
 
     /** 空字符串 */
     private static final String NULLSTR = "";
