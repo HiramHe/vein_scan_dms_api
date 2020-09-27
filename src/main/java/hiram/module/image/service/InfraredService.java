@@ -1,6 +1,7 @@
 package hiram.module.image.service;
 
-import hiram.module.image.domain.Infrared;
+import hiram.module.image.pojo.entity.Infrared;
+import hiram.module.image.pojo.vo.InfraredListParam;
 
 import java.util.List;
 
@@ -15,5 +16,5 @@ public interface InfraredService {
 
     Infrared selectByInfraredId(Long infraredId);
 
-    List<Infrared> list();
+    List<Infrared> list(InfraredListParam infraredListParam);
 }

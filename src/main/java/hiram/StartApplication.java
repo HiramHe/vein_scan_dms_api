@@ -1,8 +1,13 @@
 package hiram;
 
+import org.apache.catalina.Context;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.boot.web.servlet.ServletContextInitializer;
+import org.springframework.web.servlet.function.ServerResponse;
+
+import javax.servlet.ServletContainerInitializer;
 
 /**
  * @Author: HiramHe

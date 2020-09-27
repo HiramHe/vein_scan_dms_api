@@ -1,9 +1,9 @@
 package hiram.module.system.service;
 
-import hiram.module.system.domain.entity.SysUser;
-import hiram.module.system.domain.vo.UserInsertVO;
-import hiram.module.system.domain.vo.UserListParam;
-import hiram.module.system.domain.vo.UserUpdateParam;
+import hiram.module.system.pojo.entity.SysUser;
+import hiram.module.system.pojo.vo.UserInsertVO;
+import hiram.module.system.pojo.vo.UserListParam;
+import hiram.module.system.pojo.vo.UserUpdateParam;
 
 import java.util.List;
 
@@ -14,8 +14,6 @@ import java.util.List;
  */
 
 public interface IUserService {
-
-    void insert(SysUser sysUser);
 
     SysUser selectUserByUsername(String username);
 
@@ -40,4 +38,6 @@ public interface IUserService {
     boolean checkPhoneUnique(SysUser user);
 
     boolean checkEmailUnique(SysUser user);
+
+    int resetUserPwd(Long userId, String newPassword);
 }

@@ -1,7 +1,8 @@
 package hiram.module.image.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import hiram.module.image.domain.Infrared;
+import hiram.module.image.pojo.entity.Infrared;
+import hiram.module.image.pojo.vo.InfraredListParam;
 import hiram.module.image.mapper.InfraredMapper;
 import hiram.module.image.service.InfraredService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class InfraredServiceImpl implements InfraredService {
     }
 
     @Override
-    public List<Infrared> list() {
-        return infraredMapper.selectList(null);
+    public List<Infrared> list(InfraredListParam infraredListParam) {
+        return infraredMapper.selectInfraredList(infraredListParam);
     }
 }

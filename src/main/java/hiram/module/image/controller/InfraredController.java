@@ -1,20 +1,18 @@
 package hiram.module.image.controller;
 
 import hiram.common.enums.ResultCode;
-import hiram.common.web.domain.entity.ResultObject;
-import hiram.common.web.controller.BaseController;
-import hiram.common.web.domain.vo.TableData;
-import hiram.module.image.domain.Infrared;
+import hiram.component.common.pojo.vo.ResultObject;
+import hiram.component.common.controller.BaseController;
+import hiram.component.common.pojo.vo.TableData;
+import hiram.module.image.pojo.entity.Infrared;
+import hiram.module.image.pojo.vo.InfraredListParam;
 import hiram.module.image.service.InfraredService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -45,18 +43,21 @@ public class InfraredController extends BaseController {
         }
     }
 
-    @GetMapping("/list")
+    @PostMapping("/list/{pageNum}/{pageSize}")
     @ApiOperation(value = "查询红外图像列表")
-    public ResultObject<?> list(){
+    public ResultObject<?> list(
+            @PathVariable("pageNum") int pageNum,
+            @PathVariable("pageSize") int pageSize,
+            @RequestBody(required = false) InfraredListParam infraredListParam){
 
-        startPage();
-        List<Infrared> infrareds = infraredService.list();
+        this.startPage();
+        List<Infrared> infrareds = infraredService.list(infraredListParam);
 
         if(logger.isDebugEnabled()){
             logger.debug(infrareds);
         }
 
-        TableData tableData = getTableData(infrareds);
+        TableData tableData = this.getTableData(infrareds);
 
         return ResultObject.success(ResultCode.SUCCESS,tableData);
     }

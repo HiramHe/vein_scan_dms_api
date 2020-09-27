@@ -1,8 +1,11 @@
 package hiram.module.image.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import hiram.module.image.domain.Infrared;
+import hiram.module.image.pojo.entity.Infrared;
+import hiram.module.image.pojo.vo.InfraredListParam;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * @Author: HiramHe
@@ -13,4 +16,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface InfraredMapper extends BaseMapper<Infrared> {
 
+    List<Infrared> selectInfraredList(InfraredListParam infraredListParam);
 }

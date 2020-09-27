@@ -1,9 +1,9 @@
 package hiram.module.system.service.impl;
 
-import hiram.common.exception.UserException;
-import hiram.common.service.ITokenService;
-import hiram.common.web.domain.dto.LoginUser;
-import hiram.module.system.domain.entity.SysUser;
+import hiram.component.common.service.ITokenService;
+import hiram.component.common.pojo.vo.LoginUser;
+import hiram.component.exception.UserException;
+import hiram.module.system.pojo.entity.SysUser;
 import hiram.module.system.service.IUserService;
 import hiram.module.system.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;

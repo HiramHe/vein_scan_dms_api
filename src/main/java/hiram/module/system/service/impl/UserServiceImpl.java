@@ -2,11 +2,11 @@ package hiram.module.system.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import hiram.common.utils.MyStringUtils;
-import hiram.module.system.domain.vo.UserInsertVO;
-import hiram.module.system.domain.vo.UserListParam;
-import hiram.module.system.domain.vo.UserUpdateParam;
+import hiram.module.system.pojo.vo.UserInsertVO;
+import hiram.module.system.pojo.vo.UserListParam;
+import hiram.module.system.pojo.vo.UserUpdateParam;
 import hiram.module.system.mapper.UserMapper;
-import hiram.module.system.domain.entity.SysUser;
+import hiram.module.system.pojo.entity.SysUser;
 import hiram.module.system.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -29,13 +29,6 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     BCryptPasswordEncoder passwordEncoder;
 
-
-    @Override
-    public void insert(SysUser sysUser) {
-        sysUser.setPassword(passwordEncoder.encode(sysUser.getPassword()));
-
-        userMapper.insert(sysUser);
-    }
 
     @Override
     public SysUser selectUserByUsername(String username) {
@@ -111,5 +104,12 @@ public class UserServiceImpl implements IUserService {
         SysUser db_user = userMapper.checkEmailUnique(user.getEmail());
 
         return db_user == null || db_user.getUserId().equals(userId);
+    }
+
+    @Override
+    public int resetUserPwd(Long userId, String newPassword) {
+        newPassword = passwordEncoder.encode(newPassword);
+
+        return userMapper.resetUserPwd(userId,newPassword);
     }
 }

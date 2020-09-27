@@ -7,14 +7,15 @@
     <!--简单情况下，只需要指定实体类跟数据库表不一致的属性和列即可，一致的字段会自动映射-->
     <!--如果使用了collection等，则不会自动映射字段，需要手动一一指定-->
 
-    <resultMap id="BaseMap" type="hiram.common.web.domain.entity.BaseEntity">
+    <resultMap id="baseMap" type="hiram.component.common.pojo.entity.BaseEntity">
         <result property="deleted" column="deleted" />
         <result property="gmtCreate" column="gmt_create" />
         <result property="gmtModify" column="gmt_modify" />
         <result property="version" column="version" />
     </resultMap>
-    
-    <resultMap id="SysUserResult" type="SysUser" extends="BaseMap">
+
+    <!--未使用-->
+    <resultMap id="sysUserResult" type="hiram.module.system.pojo.entity.SysUser" extends="baseMap">
         <id property="userId" column="user_id" />
         <result property="username" column="username" />
         <result property="password" column="password" />
@@ -29,16 +30,16 @@
         <result property="remark" column="remark" />
         <result property="enabled" column="enabled" />
         <!--结果嵌套处理，分页时total计算的是一对多中的多，导致分页错误-->
-        <collection property="roles" javaType="java.util.List" resultMap="RoleResult" />
+        <collection property="roles" javaType="java.util.List" resultMap="roleResult" />
     </resultMap>
 
     <!--使用查询嵌套，解决一对多时的分页问题-->
-    <resultMap id="SysUserResult1" type="SysUser" extends="BaseMap">
+    <resultMap id="sysUserResult1" type="hiram.module.system.pojo.entity.SysUser" extends="baseMap">
         <id property="userId" column="user_id" />
         <collection property="roles" javaType="java.util.List" select="selectRolesOfUser" column="user_id" />
     </resultMap>
     
-    <resultMap id="RoleResult" type="SysRole" extends="BaseMap">
+    <resultMap id="roleResult" type="hiram.module.system.pojo.entity.SysRole" extends="baseMap">
         <id property="roleId" column="role_id" />
         <result property="roleNameEn" column="role_name_en" />
         <result property="roleNameZh" column="role_name_zh" />
@@ -46,10 +47,10 @@
         <result property="remark" column="remark" />
     </resultMap>
 
-    <resultMap id="RoleResult1" type="SysRole" extends="BaseMap">
+    <resultMap id="roleResult1" type="hiram.module.system.pojo.entity.SysRole" extends="baseMap">
     </resultMap>
 
-    <resultMap id="UserRolesResult" type="UserRole">
+    <resultMap id="userRolesResult" type="hiram.module.system.pojo.entity.UserRole">
     </resultMap>
 
     <sql id="selectUserVO">
@@ -68,20 +69,20 @@
         where username = #{username}
     </select>
 
-    <select id="checkPhoneUnique" parameterType="String" resultType="SysUser">
+    <select id="checkPhoneUnique" parameterType="String" resultType="hiram.module.system.pojo.entity.SysUser">
         select user_id,phone_number
         from user
         where phone_number = #{phoneNumber}
     </select>
 
-    <select id="checkEmailUnique" parameterType="String" resultType="SysUser">
+    <select id="checkEmailUnique" parameterType="String" resultType="hiram.module.system.pojo.entity.SysUser">
         select user_id,email
         from user
         where email = #{email}
     </select>
 
     <!--集条件查询于一体-->
-    <select id="selectUserList" parameterType="UserListParam" resultMap="SysUserResult1">
+    <select id="selectUserList" parameterType="hiram.module.system.pojo.vo.UserListParam" resultMap="sysUserResult1">
         select u.*
         from user u
         where deleted=0
@@ -96,7 +97,7 @@
         </if>
     </select>
 
-    <select id="selectRolesOfUser" resultMap="RoleResult1">
+    <select id="selectRolesOfUser" resultMap="roleResult1">
         select r.*
         from role r
         left join user_role ur on r.role_id=ur.role_id
@@ -104,7 +105,7 @@
             and user_id = #{user_id}
     </select>
     
-    <insert id="insertUser" useGeneratedKeys="true" keyProperty="userId" parameterType="UserInsertVO">
+    <insert id="insertUser" useGeneratedKeys="true" keyProperty="userId" parameterType="hiram.module.system.pojo.vo.UserInsertVO">
         insert into user(
         <if test="username != null and username != ''">username,</if>
         <if test="password != null and password != ''">password,</if>
@@ -134,7 +135,7 @@
 
     <!--如果userId为null，则语句不会执行-->
     <!--注意，不要使用动态where语句-->
-    <update id="updateUser" parameterType="UserUpdateParam">
+    <update id="updateUser" parameterType="hiram.module.system.pojo.vo.UserUpdateParam">
         update user
         <set>
             <if test="nickname != null and nickname != ''">
@@ -179,6 +180,12 @@
                 </foreach>
             </if>
         </where>
+    </update>
+
+    <update id="resetUserPwd">
+        update user
+        set password = #{newPassword}
+        where user_id = #{userId}
     </update>
     
     <delete id="logicallyDeleteUserByIds" parameterType="java.util.List">

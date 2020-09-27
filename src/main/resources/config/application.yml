@@ -10,8 +10,8 @@ server:
     context-path: /
 
 # 图像存储路径
-picture:
-  infraredDirectory: G:/test/infrared/
+image:
+  infraredDirectory: G:/test/infrared
   ultrasoundDirectory: G:/test/ultrasound/
 
 # Spring配置
@@ -22,6 +22,14 @@ spring:
     active: dev
   jackson:
     time-zone: GMT+8
+
+  servlet:
+    multipart:
+      enabled: true
+      #单个文件大小限制
+      max-file-size: 10MB
+      #请求总文件大小限制
+      max-request-size: 100MB
   # redis 配置
   redis:
     # 地址，默认localhost

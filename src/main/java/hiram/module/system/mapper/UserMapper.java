@@ -1,10 +1,10 @@
 package hiram.module.system.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import hiram.module.system.domain.entity.SysUser;
-import hiram.module.system.domain.vo.UserInsertVO;
-import hiram.module.system.domain.vo.UserListParam;
-import hiram.module.system.domain.vo.UserUpdateParam;
+import hiram.module.system.pojo.entity.SysUser;
+import hiram.module.system.pojo.vo.UserInsertVO;
+import hiram.module.system.pojo.vo.UserListParam;
+import hiram.module.system.pojo.vo.UserUpdateParam;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -39,4 +39,6 @@ public interface UserMapper extends BaseMapper<SysUser> {
     SysUser checkPhoneUnique(String phoneNumber);
 
     SysUser checkEmailUnique(String phoneNumber);
+
+    int resetUserPwd(Long userId, String newPassword);
 }

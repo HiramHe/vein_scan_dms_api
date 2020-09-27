@@ -2,7 +2,7 @@ package hiram.common;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.json.JsonMapper;
-import hiram.module.system.domain.entity.SysUser;
+import hiram.module.system.pojo.entity.SysUser;
 import org.junit.Test;
 
 /**

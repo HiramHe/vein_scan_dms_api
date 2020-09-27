@@ -1,7 +1,7 @@
 package hiram.system;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import hiram.module.system.domain.entity.SysUser;
+import hiram.module.system.pojo.entity.SysUser;
 import hiram.module.system.mapper.UserMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;

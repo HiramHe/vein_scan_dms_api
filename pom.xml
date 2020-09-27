@@ -165,6 +165,19 @@
             <version>3.0.2</version>
         </dependency>
 
+        <!--zip4j-->
+        <dependency>
+            <groupId>net.lingala.zip4j</groupId>
+            <artifactId>zip4j</artifactId>
+            <version>2.6.1</version>
+        </dependency>
+
+        <!--解析dicom文件-->
+        <dependency>
+            <groupId>org.dcm4che</groupId>
+            <artifactId>dcm4che-core</artifactId>
+            <version>5.22.2</version>
+        </dependency>
 
 
     </dependencies>
@@ -186,5 +199,33 @@
 			</plugin>
 		</plugins>
 	</build>
+
+
+    <repositories><!-- 代码库 -->
+        <repository>
+            <id>maven-ali</id>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+                <checksumPolicy>fail</checksumPolicy>
+            </snapshots>
+        </repository>
+
+        <repository>
+            <id>dcm4che</id>
+            <name>dcm4che</name>
+            <url>http://www.dcm4che.org/maven2/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 
 </project>

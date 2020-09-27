@@ -2,13 +2,13 @@ package hiram.module.system.controller;
 
 import hiram.common.enums.ResultCode;
 import hiram.common.utils.MyStringUtils;
-import hiram.common.web.domain.entity.ResultObject;
-import hiram.common.web.controller.BaseController;
-import hiram.common.web.domain.vo.TableData;
-import hiram.module.system.domain.entity.SysUser;
-import hiram.module.system.domain.vo.UserInsertVO;
-import hiram.module.system.domain.vo.UserListParam;
-import hiram.module.system.domain.vo.UserUpdateParam;
+import hiram.component.common.pojo.vo.ResultObject;
+import hiram.component.common.controller.BaseController;
+import hiram.component.common.pojo.vo.TableData;
+import hiram.module.system.pojo.entity.SysUser;
+import hiram.module.system.pojo.vo.UserInsertVO;
+import hiram.module.system.pojo.vo.UserListParam;
+import hiram.module.system.pojo.vo.UserUpdateParam;
 import hiram.module.system.service.IUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -39,10 +39,10 @@ public class UserController extends BaseController {
     private IUserService iUserService;
 
     @ApiOperation(value = "查询用户列表")
-    @PostMapping("/list")
+    @PostMapping("/list/{pageNum}/{pageSize}")
     public ResultObject<?> selectUserList(
-            @RequestParam(value = "pageNum",defaultValue = "1",required = false) int pageNum,
-            @RequestParam(value = "pageSize",defaultValue = "5",required = false) int pageSize,
+            @PathVariable("pageNum") int pageNum,
+            @PathVariable("pageSize") int pageSize,
             @RequestBody(required = false) UserListParam userListParam){
 
         if(logger.isDebugEnabled()){

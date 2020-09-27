@@ -10,7 +10,7 @@
     1.分析需求，分析查询的字段来自哪些表
     2.确定使用哪种连接查询
     -->
-    <select id="selectRolesByUsername" resultType="hiram.module.system.domain.entity.SysRole">
+    <select id="selectRolesByUsername" resultType="hiram.module.system.pojo.entity.SysRole">
         SELECT r.*
             FROM role as r
             inner join user_role as ur

@@ -1,7 +1,7 @@
 package hiram.module.system.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import hiram.module.system.domain.entity.SysRole;
+import hiram.module.system.pojo.entity.SysRole;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

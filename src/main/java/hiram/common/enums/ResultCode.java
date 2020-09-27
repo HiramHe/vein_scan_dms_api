@@ -31,7 +31,13 @@ public enum ResultCode {
     EMAIL_NOT_UNIQUE(4018,"邮箱账号已存在"),
     TOKEN_UNTRUSTED(4021,"不受信的token凭证"),
     TOKEN_NULL(4022,"token不能为空"),
-    USER_NOT_EXIST(4031,"用户不存在")
+    USER_NOT_EXIST(4031,"用户不存在"),
+    OLDPASSWORD_ERROR(4040,"旧密码错误"),
+    NEWPASSWORD_SAME_ERROR(4042,"新密码与旧密码不能相同"),
+    RESETPASSWORD_ERROR(4044,"修改密码异常，请联系管理员"),
+
+    FILE_UPLOAD_INFRARED_EMPTY(4111,"红外图像不得为空"),
+    FILE_FORMAT_NOT_SUPPORT(4112,"文件格式不支持")
     ;
 
     private final long code;
