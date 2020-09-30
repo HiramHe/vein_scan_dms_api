@@ -1,10 +1,13 @@
 package hiram.module.image.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import hiram.module.image.pojo.dto.InfraredDTO;
 import hiram.module.image.pojo.entity.Infrared;
 import hiram.module.image.pojo.vo.InfraredListParam;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.dao.DataAccessException;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -17,4 +20,6 @@ import java.util.List;
 public interface InfraredMapper extends BaseMapper<Infrared> {
 
     List<Infrared> selectInfraredList(InfraredListParam infraredListParam);
+
+    int insertOne(Infrared infrared) throws DataAccessException;
 }

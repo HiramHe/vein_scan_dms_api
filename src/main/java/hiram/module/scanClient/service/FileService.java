@@ -1,11 +1,12 @@
 package hiram.module.scanClient.service;
 
-import hiram.module.image.pojo.entity.BUltrasound;
-import hiram.module.image.pojo.entity.Infrared;
-import hiram.module.image.pojo.entity.InfraredDescription;
+import hiram.module.image.pojo.dto.BUltrasoundDTO;
+import hiram.module.image.pojo.dto.InfraredDTO;
+import hiram.module.image.pojo.dto.InfraredDescriptionDTO;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 /**
  * @Author: HiramHe
@@ -15,10 +16,17 @@ import java.io.IOException;
 
 public interface FileService {
 
-    void upload2Local(MultipartFile infraredImage,
+    boolean upload2Local(MultipartFile infraredImage,
                       MultipartFile bUltrasoundImage,
-                      Infrared infrared,
-                      InfraredDescription infraredDescription,
-                      BUltrasound bUltrasound
-                      ) throws IOException;
+                      InfraredDTO infraredDTO,
+                      InfraredDescriptionDTO infraredDescriptionDTO,
+                      BUltrasoundDTO bUltrasoundDTO
+                      ) throws Exception;
+
+    boolean saveFile(MultipartFile file,String fileName, String directoryStr) throws IOException;
+
+    boolean saveFile(MultipartFile infraredImage,String infraredFileName,
+                         MultipartFile bUltrasoundImage,String bUltrasoundFileName) throws IOException;
+
+    boolean deleteFile(String fileName,String directoryStr);
 }

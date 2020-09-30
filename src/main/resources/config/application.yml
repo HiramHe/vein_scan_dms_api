@@ -11,8 +11,10 @@ server:
 
 # 图像存储路径
 image:
-  infraredDirectory: G:/test/infrared
-  ultrasoundDirectory: G:/test/ultrasound/
+  infraredDirectoryOnWin: G:/test/infrared
+  ultrasoundDirectoryOnWin: G:/test/ultrasound/
+  infraredDirectoryOnLinux: /tmp/infrared/
+  ultrasoundDirectoryOnLinux: /tmp/ultrasound/
 
 # Spring配置
 spring:

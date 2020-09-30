@@ -53,4 +53,26 @@
         where b_ultrasound_id = #{b_ultrasound_id}
     </select>
 
+    <insert id="insertOne" parameterType="hiram.module.image.pojo.entity.Infrared" useGeneratedKeys="true" keyProperty="infraredId">
+        insert into
+        infrared_image(
+        <if test="perspective != null and perspective != ''">perspective,</if>
+        <if test="filename != null and filename != ''">filename,</if>
+        <if test="path != null and path != ''">path,</if>
+        <if test="scanTime != null">scan_time,</if>
+        <if test="patientId != null and patientId != 0">patient_id,</if>
+        <if test="userId != null and userId != 0">user_id,</if>
+        version
+        )
+        values (
+        <if test="perspective != null and perspective != ''">#{perspective},</if>
+        <if test="filename != null and filename != ''">#{filename},</if>
+        <if test="path != null and path != ''">#{path},</if>
+        <if test="scanTime != null">#{scanTime},</if>
+        <if test="patientId != null and patientId != 0">#{patientId},</if>
+        <if test="userId != null and userId != 0">#{userId},</if>
+        1
+        )
+    </insert>
+
 </mapper>

@@ -17,6 +17,8 @@ public enum ResultCode {
     SUCCESS(2000, "执行成功"),
     SUCCESS_AUTHENTICATE(2011,"身份认证成功"),
     SUCCESS_LOGOUT(2021,"退出成功"),
+    SUCCESS_UPLOAD(2022,"数据上传成功"),
+
 
     /**
      * 失败
@@ -38,13 +40,17 @@ public enum ResultCode {
 
     FILE_UPLOAD_INFRARED_EMPTY(4111,"红外图像不得为空"),
     FILE_FORMAT_NOT_SUPPORT(4112,"文件格式不支持"),
-    FILE_SIZE_TOO_LARGE(4113,"文件大小过大")
+    FILE_SIZE_TOO_LARGE(4113,"文件大小过大"),
+    COORDINATE_WRONG(4114,"坐标错误"),
+    EXCEPTION_IO(4115,"IO异常，请联系管理员"),
+    EXCEPTION_DAO(4116,"数据持久层异常，请联系管理员"),
+    EXCEPTION_SERVER(4120,"服务器异常，请联系管理员")
     ;
 
     private final long code;
     private final String msg;
 
-    private ResultCode(final long code, final String msg) {
+    ResultCode(final long code, final String msg) {
         this.code = code;
         this.msg = msg;
     }
