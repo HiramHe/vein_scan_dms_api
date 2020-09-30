@@ -13,8 +13,8 @@ server:
 image:
   infraredDirectoryOnWin: G:/test/infrared
   ultrasoundDirectoryOnWin: G:/test/ultrasound/
-  infraredDirectoryOnLinux: /tmp/infrared/
-  ultrasoundDirectoryOnLinux: /tmp/ultrasound/
+  infraredDirectoryOnLinux: /tmp/vein_scan_dms/infrared/
+  ultrasoundDirectoryOnLinux: /tmp/vein_scan_dms/ultrasound/
 
 # Spring配置
 spring:
