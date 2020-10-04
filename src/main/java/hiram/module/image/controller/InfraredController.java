@@ -4,7 +4,7 @@ import hiram.common.enums.ResultCode;
 import hiram.component.common.pojo.vo.ResultObject;
 import hiram.component.common.controller.BaseController;
 import hiram.component.common.pojo.vo.TableData;
-import hiram.module.image.pojo.entity.Infrared;
+import hiram.module.image.pojo.po.Infrared;
 import hiram.module.image.pojo.vo.InfraredListParam;
 import hiram.module.image.service.InfraredService;
 import io.swagger.annotations.Api;

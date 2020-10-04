@@ -1,4 +1,4 @@
-package hiram.module.image.pojo.entity;
+package hiram.module.image.pojo.po;
 
 import hiram.component.common.pojo.entity.BaseEntity;
 import lombok.Data;
@@ -16,8 +16,10 @@ public class InfraredDescription extends BaseEntity {
     private Long infraredId;
     private String description;
     private String severityLevel;
-    private Long xCoordinate;
-    private Long yCoordinate;
+    private Long descriptionXCoordinate;
+    private Long descriptionYCoordinate;
+    private Long bUltrasoundXCoordinate;
+    private Long bUltrasoundYCoordinate;
     private Long bUltrasoundId;
 
 }

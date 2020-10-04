@@ -1,5 +1,6 @@
 package hiram.component.web;
 
+import hiram.common.enums.ResourcePatternLocation;
 import hiram.component.properties.file.ImageProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -29,10 +30,10 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
-        registry.addResourceHandler("/**").addResourceLocations(
-                "classpath:/static/");
+        registry.addResourceHandler(ResourcePatternLocation.STATIC.getPathPattern())
+                .addResourceLocations(ResourcePatternLocation.STATIC.getLocation());
 
-        registry.addResourceHandler("/picture/**")
+        registry.addResourceHandler(ResourcePatternLocation.IMAGE.getPathPattern())
                 .addResourceLocations("file:" + imageProperties.getInfraredDirectory())
                 .addResourceLocations("file:" + imageProperties.getUltrasoundDirectory())
         ;
@@ -40,11 +41,11 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
         /*
         swagger静态资源映射
          */
-        registry.addResourceHandler("swagger-ui.html")
-                .addResourceLocations("classpath:/META-INF/resources/")
+        registry.addResourceHandler(ResourcePatternLocation.SWAGGERUI.getPathPattern())
+                .addResourceLocations(ResourcePatternLocation.SWAGGERUI.getLocation())
         ;
-        registry.addResourceHandler("/webjars/**")
-                .addResourceLocations("classpath:/META-INF/resources/webjars/")
+        registry.addResourceHandler(ResourcePatternLocation.WEBJARS.getPathPattern())
+                .addResourceLocations(ResourcePatternLocation.WEBJARS.getLocation())
         ;
 
     }

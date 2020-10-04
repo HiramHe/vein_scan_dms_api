@@ -14,8 +14,10 @@ public class InfraredDescriptionDTO {
     private Long infraredId;
     private String description;
     private String severityLevel;
-    private Long xCoordinate;
-    private Long yCoordinate;
+    private Long descriptionXCoordinate;
+    private Long descriptionYCoordinate;
+    private Long bUltrasoundXCoordinate;
+    private Long bUltrasoundYCoordinate;
     private Long bUltrasoundId;
 
 }

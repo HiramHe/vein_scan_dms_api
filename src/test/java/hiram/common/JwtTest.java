@@ -1,7 +1,7 @@
 package hiram.common;
 
 import hiram.common.utils.token.JwtUtils;
-import hiram.module.system.pojo.entity.SysUser;
+import hiram.module.system.pojo.po.SysUser;
 import org.junit.Test;
 
 /**

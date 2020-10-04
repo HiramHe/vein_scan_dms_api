@@ -1,7 +1,7 @@
 package hiram.module.image.pojo.vo;
 
-import hiram.module.image.pojo.entity.BUltrasound;
-import hiram.module.image.pojo.entity.InfraredDescription;
+import hiram.module.image.pojo.po.BUltrasound;
+import hiram.module.image.pojo.po.InfraredDescription;
 import lombok.Data;
 
 /**

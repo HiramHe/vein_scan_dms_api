@@ -1,7 +1,7 @@
 package hiram.image;
 
 import hiram.module.image.pojo.dto.InfraredDTO;
-import hiram.module.image.pojo.entity.Infrared;
+import hiram.module.image.pojo.po.Infrared;
 import hiram.module.image.service.InfraredService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -30,7 +31,6 @@ public class InfraredServiceTest {
         infraredDTO.setPerspective("正面");
         infraredDTO.setFilename("infraredTest.png");
         infraredDTO.setPath(null);
-        infraredDTO.setScanTime(new Date());
         infraredDTO.setPatientId(1l);
         infraredDTO.setUserId(1l);
 

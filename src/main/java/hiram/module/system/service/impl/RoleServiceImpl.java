@@ -1,6 +1,6 @@
 package hiram.module.system.service.impl;
 
-import hiram.module.system.pojo.entity.SysRole;
+import hiram.module.system.pojo.po.SysRole;
 import hiram.module.system.mapper.RoleMapper;
 import hiram.module.system.service.IRoleService;
 import org.springframework.beans.factory.annotation.Autowired;

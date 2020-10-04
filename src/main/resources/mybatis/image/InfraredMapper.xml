@@ -22,7 +22,7 @@
     <resultMap id="infraredDescription" type="hiram.module.image.pojo.vo.InfraredDescriptionVO" extends="baseMap">
         <id property="descriptionId" column="description_id" />
         <result property="bUltrasoundId" column="b_ultrasound_id" />
-        <association property="bUltrasound" javaType="hiram.module.image.pojo.entity.BUltrasound" column="b_ultrasound_id" select="descriptionBUltrasound" />
+        <association property="bUltrasound" javaType="hiram.module.image.pojo.po.BUltrasound" column="b_ultrasound_id" select="descriptionBUltrasound" />
     </resultMap>
 
 
@@ -47,13 +47,13 @@
         where infrared_id = #{infrared_id}
     </select>
 
-    <select id="descriptionBUltrasound" resultType="hiram.module.image.pojo.entity.BUltrasound">
+    <select id="descriptionBUltrasound" resultType="hiram.module.image.pojo.po.BUltrasound">
         select *
         from b_ultrasound
         where b_ultrasound_id = #{b_ultrasound_id}
     </select>
 
-    <insert id="insertOne" parameterType="hiram.module.image.pojo.entity.Infrared" useGeneratedKeys="true" keyProperty="infraredId">
+    <insert id="insertOne" parameterType="hiram.module.image.pojo.po.Infrared" useGeneratedKeys="true" keyProperty="infraredId">
         insert into
         infrared_image(
         <if test="perspective != null and perspective != ''">perspective,</if>

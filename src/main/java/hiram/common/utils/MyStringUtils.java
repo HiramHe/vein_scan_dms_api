@@ -16,10 +16,6 @@ public class MyStringUtils {
     /** 下划线 */
     private static final char SEPARATOR = '_';
 
-    public static boolean isNull(Object object){
-        return object == null;
-    }
-
     public static boolean isEmpty(String str){
         return str == null || str.trim().length() == 0;
     }

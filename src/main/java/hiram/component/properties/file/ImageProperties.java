@@ -1,11 +1,7 @@
 package hiram.component.properties.file;
 
 import lombok.Data;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -29,12 +25,13 @@ public class ImageProperties implements InitializingBean {
     private String infraredDirectory = "";
     private String ultrasoundDirectory = "";
 
-    //重构路径
+    //重构路径，根据操作系统类型，设置图像存储路径
     private void setDirectory(){
 
         boolean isWin = System.getProperty("os.name").toLowerCase().contains("win");
         boolean isLinux = System.getProperty("os.name").toLowerCase().contains("linux");
 
+        //保证路径以 “/” 为结束符
         infraredDirectoryOnWin = infraredDirectoryOnWin.endsWith("/") ?
                 infraredDirectoryOnWin : infraredDirectoryOnWin + "/";
 
@@ -47,6 +44,7 @@ public class ImageProperties implements InitializingBean {
         ultrasoundDirectoryOnLinux = ultrasoundDirectoryOnLinux.endsWith("/") ?
                 ultrasoundDirectoryOnLinux : ultrasoundDirectoryOnLinux + "/";
 
+        //设置图像存储路径
         if (isWin){
             infraredDirectory = infraredDirectoryOnWin;
             ultrasoundDirectory = ultrasoundDirectoryOnWin;

@@ -1,4 +1,4 @@
-package hiram.module.image.pojo.entity;
+package hiram.module.image.pojo.po;
 
 import hiram.component.common.pojo.entity.BaseEntity;
 import lombok.Data;

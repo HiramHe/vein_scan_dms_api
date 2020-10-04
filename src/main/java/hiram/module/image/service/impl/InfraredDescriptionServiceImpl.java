@@ -2,14 +2,12 @@ package hiram.module.image.service.impl;
 
 import hiram.module.image.mapper.InfraredDescriptionMapper;
 import hiram.module.image.pojo.dto.InfraredDescriptionDTO;
-import hiram.module.image.pojo.entity.InfraredDescription;
+import hiram.module.image.pojo.po.InfraredDescription;
 import hiram.module.image.service.InfraredDescriptionService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
-
-import java.sql.SQLException;
 
 /**
  * @Author: HiramHe

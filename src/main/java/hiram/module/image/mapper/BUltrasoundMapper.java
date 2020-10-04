@@ -1,10 +1,8 @@
 package hiram.module.image.mapper;
 
-import hiram.module.image.pojo.entity.BUltrasound;
+import hiram.module.image.pojo.po.BUltrasound;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.dao.DataAccessException;
-
-import java.sql.SQLException;
 
 /**
  * @Author: HiramHe

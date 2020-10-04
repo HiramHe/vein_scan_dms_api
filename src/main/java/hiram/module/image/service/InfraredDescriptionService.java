@@ -1,10 +1,8 @@
 package hiram.module.image.service;
 
 import hiram.module.image.pojo.dto.InfraredDescriptionDTO;
-import hiram.module.image.pojo.entity.InfraredDescription;
+import hiram.module.image.pojo.po.InfraredDescription;
 import org.springframework.dao.DataAccessException;
-
-import java.sql.SQLException;
 
 /**
  * @Author: HiramHe

@@ -1,10 +1,14 @@
-package hiram.module.system.pojo.entity;
+package hiram.module.system.pojo.po;
+
+import lombok.Data;
 
 /**
  * @Author: HiramHe
- * @Date: 2020/4/24 10:47
+ * @Date: 2020/10/1 14:43
  * @Description: ""
  */
+
+@Data
 public class RoleMenu {
 
     /** 角色ID */
@@ -12,5 +16,4 @@ public class RoleMenu {
 
     /** 菜单ID */
     private Long menuId;
-
 }

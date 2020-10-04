@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="hiram.module.image.mapper.BUltrasoundMapper">
 
-    <insert id="insertOne" parameterType="hiram.module.image.pojo.entity.BUltrasound" useGeneratedKeys="true" keyProperty="bUltrasoundId">
+    <insert id="insertOne" parameterType="hiram.module.image.pojo.po.BUltrasound" useGeneratedKeys="true" keyProperty="bUltrasoundId">
         insert into
         b_ultrasound(
         <if test="filename != null and filename != ''">filename,</if>

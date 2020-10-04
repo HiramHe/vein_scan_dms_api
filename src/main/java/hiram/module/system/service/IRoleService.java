@@ -1,6 +1,6 @@
 package hiram.module.system.service;
 
-import hiram.module.system.pojo.entity.SysRole;
+import hiram.module.system.pojo.po.SysRole;
 
 import java.util.List;
 

@@ -6,6 +6,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * @Author: HiramHe
@@ -15,17 +17,17 @@ import java.sql.Timestamp;
 
 @Data
 @ApiModel
-public class UserListParam {
+public class UserQueryArgsVO {
 
     private String username;
 
     private String phoneNumber;
 
-    @ApiModelProperty(value = "起始创建日期:yyyy-MM-dd")
+    @ApiModelProperty(value = "起始创建日期")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "GMT+8")
-    private Timestamp beginTime;
+    private LocalDate beginTime;
 
-    @ApiModelProperty(value = "截止创建日期:yyyy-MM-dd")
+    @ApiModelProperty(value = "截止创建日期")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "GMT+8")
-    private Timestamp endTime;
+    private LocalDate endTime;
 }

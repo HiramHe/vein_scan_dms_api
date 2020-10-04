@@ -1,7 +1,7 @@
 package hiram.module.patient.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import hiram.module.patient.pojo.entity.Patient;
+import hiram.module.patient.pojo.po.Patient;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

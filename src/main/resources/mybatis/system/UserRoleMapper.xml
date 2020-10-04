@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="hiram.module.system.mapper.UserRoleMapper">
+
+    <delete id="deleteUserRoleByUserIdRoleId">
+        delete
+        from user_role
+        where user_id = #{userId} and role_id = #{roleId};
+    </delete>
+
+    <delete id="deleteUserRoleByUserId" parameterType="Long">
+        delete
+        from user_role
+        where user_id = #{userId};
+    </delete>
+
+    <insert id="insertUserRole" useGeneratedKeys="true" parameterType="hiram.module.system.pojo.po.UserRole">
+        insert into user_role(
+        user_id,
+        role_id
+        )
+        values
+        (
+        #{userId},
+        #{roleId}
+        );
+    </insert>
+
+    <insert id="batchInsertUserRole" parameterType="java.util.List">
+        insert into user_role(user_id,role_id)
+        values
+        <foreach collection="list" separator="," item="item" index="index">
+            (#{item.userId},#{item.roleId})
+        </foreach>
+    </insert>
+
+</mapper>

@@ -1,8 +1,8 @@
 package hiram.component.common.pojo.vo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import hiram.module.system.pojo.entity.SysRole;
-import hiram.module.system.pojo.entity.SysUser;
+import hiram.module.system.pojo.po.SysRole;
+import hiram.module.system.pojo.po.SysUser;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -106,6 +106,6 @@ public class LoginUser implements UserDetails {
     @JsonIgnore
     @Override
     public boolean isEnabled() {
-        return user.isEnabled();
+        return user.getEnabled();
     }
 }

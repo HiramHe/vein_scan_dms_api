@@ -1,9 +1,11 @@
 package hiram.module.system.service;
 
-import hiram.module.system.pojo.entity.SysUser;
-import hiram.module.system.pojo.vo.UserInsertVO;
-import hiram.module.system.pojo.vo.UserListParam;
-import hiram.module.system.pojo.vo.UserUpdateParam;
+import hiram.module.system.pojo.dto.UserQueryRtDTO;
+import hiram.module.system.pojo.dto.UserUpdateArgsDTO;
+import hiram.module.system.pojo.po.SysUser;
+import hiram.module.system.pojo.vo.UserInsertArgsVO;
+import hiram.module.system.pojo.vo.UserQueryArgsVO;
+import hiram.module.system.pojo.vo.UserUpdateArgsVO;
 
 import java.util.List;
 
@@ -15,29 +17,37 @@ import java.util.List;
 
 public interface IUserService {
 
+    /*查询*/
     SysUser selectUserByUsername(String username);
 
-    List<SysUser> selectUserList(UserListParam userListParam);
+    List<UserQueryRtDTO> selectUserList(UserQueryArgsVO userQueryArgsVO);
 
+    /*恢复*/
     Long recoverDeletedUserById(Long userId);
 
-    Long updateUser(UserUpdateParam userUpdateParam);
+    Long recoverDeletedUserByIds(Long[] userIds);
 
+    /*更新*/
+    Long updateUser(UserUpdateArgsDTO userUpdateArgsDTO) throws Exception;
+
+    /*删除*/
     Long logicallyDeleteUserByIds(Long[] userIds);
 
     Long logicallyDeleteUserById(Long userId);
 
     Long physicallyDeleteUserById(Long userId);
 
-    Long recoverDeletedUserByIds(Long[] userIds);
+    /*插入*/
+    SysUser insertUser(UserInsertArgsVO userInsertArgsVO);
 
-    Long insertUser(UserInsertVO userInsertVO);
+    /*校验*/
 
-    boolean checkUserNameExist(String username);
+    boolean checkUserNameUnique(Long userId,String username);
 
-    boolean checkPhoneUnique(SysUser user);
+    boolean checkPhoneUnique(Long userId,String phoneNumber);
 
-    boolean checkEmailUnique(SysUser user);
+    boolean checkEmailUnique(Long userId,String email);
 
+    /*重置密码*/
     int resetUserPwd(Long userId, String newPassword);
 }

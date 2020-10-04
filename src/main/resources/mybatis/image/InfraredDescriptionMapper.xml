@@ -4,14 +4,16 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="hiram.module.image.mapper.InfraredDescriptionMapper">
 
-    <insert id="insertOne" parameterType="hiram.module.image.pojo.entity.InfraredDescription" useGeneratedKeys="true" keyProperty="descriptionId">
+    <insert id="insertOne" parameterType="hiram.module.image.pojo.po.InfraredDescription" useGeneratedKeys="true" keyProperty="descriptionId">
         insert into
         infrared_description(
         <if test="infraredId != null and infraredId != 0">infrared_id,</if>
         <if test="description != null and description != ''">description,</if>
         <if test="severityLevel != null and severityLevel != ''">severity_level,</if>
-        <if test="xCoordinate != null">x_coordinate,</if>
-        <if test="yCoordinate != null">y_coordinate,</if>
+        <if test="descriptionXCoordinate != null">description_x_coordinate,</if>
+        <if test="descriptionYCoordinate != null">description_y_coordinate,</if>
+        <if test="bUltrasoundXCoordinate != null">b_ultrasound_x_coordinate,</if>
+        <if test="bUltrasoundYCoordinate != null">b_ultrasound_y_coordinate,</if>
         <if test="bUltrasoundId != null and bUltrasoundId != 0">b_ultrasound_id,</if>
         version
         )
@@ -19,8 +21,10 @@
         <if test="infraredId != null and infraredId != 0">#{infraredId},</if>
         <if test="description != null and description != ''">#{description},</if>
         <if test="severityLevel != null and severityLevel != ''">#{severityLevel},</if>
-        <if test="xCoordinate != null">#{xCoordinate},</if>
-        <if test="yCoordinate != null">#{yCoordinate},</if>
+        <if test="descriptionXCoordinate != null">#{descriptionXCoordinate},</if>
+        <if test="descriptionYCoordinate != null">#{descriptionYCoordinate},</if>
+        <if test="bUltrasoundXCoordinate != null">#{bUltrasoundXCoordinate},</if>
+        <if test="bUltrasoundYCoordinate != null">#{bUltrasoundYCoordinate},</if>
         <if test="bUltrasoundId != null and bUltrasoundId != 0">#{bUltrasoundId},</if>
         1
         )

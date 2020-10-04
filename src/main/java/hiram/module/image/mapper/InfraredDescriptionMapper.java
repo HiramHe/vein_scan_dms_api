@@ -1,6 +1,6 @@
 package hiram.module.image.mapper;
 
-import hiram.module.image.pojo.entity.InfraredDescription;
+import hiram.module.image.pojo.po.InfraredDescription;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.dao.DataAccessException;
 

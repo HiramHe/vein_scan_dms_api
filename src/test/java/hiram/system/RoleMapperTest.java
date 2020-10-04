@@ -1,6 +1,6 @@
 package hiram.system;
 
-import hiram.module.system.pojo.entity.SysRole;
+import hiram.module.system.pojo.po.SysRole;
 import hiram.module.system.mapper.RoleMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;

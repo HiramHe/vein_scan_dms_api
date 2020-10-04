@@ -2,10 +2,16 @@ package hiram.module.system.pojo.vo;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -15,13 +21,15 @@ import java.util.List;
  */
 
 @Data
-public class UserInsertVO {
+@ApiModel
+public class UserInsertArgsVO {
 
-    @ApiModelProperty(hidden = true)
-    private Long userId;
-
+    @NotNull
+    @NotEmpty
     private String username;
 
+    @NotNull
+    @NotEmpty
     private String password;
 
     private String nickname;
@@ -31,20 +39,16 @@ public class UserInsertVO {
     private String sex;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd",timezone = "GTM+8")
-    private Timestamp birthday;
+    private LocalDate birthday;
 
+    @Email
     private String email;
 
     private String phoneNumber;
 
-    @ApiModelProperty(hidden = true)
-    private String avatar;
-
     private String remark;
 
-    private boolean enabled;
+    private Boolean enabled = true;
 
-    @ApiModelProperty(hidden = true)
-    @TableField(exist = false)
-    private List<Long> roleIds;
+
 }

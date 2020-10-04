@@ -15,7 +15,7 @@
     </resultMap>
 
     <!--未使用-->
-    <resultMap id="sysUserResult" type="hiram.module.system.pojo.entity.SysUser" extends="baseMap">
+    <resultMap id="sysUserResult1" type="hiram.module.system.pojo.po.SysUser" extends="baseMap">
         <id property="userId" column="user_id" />
         <result property="username" column="username" />
         <result property="password" column="password" />
@@ -30,16 +30,17 @@
         <result property="remark" column="remark" />
         <result property="enabled" column="enabled" />
         <!--结果嵌套处理，分页时total计算的是一对多中的多，导致分页错误-->
-        <collection property="roles" javaType="java.util.List" resultMap="roleResult" />
+        <collection property="roles" javaType="java.util.List" resultMap="roleResult1" />
     </resultMap>
 
     <!--使用查询嵌套，解决一对多时的分页问题-->
-    <resultMap id="sysUserResult1" type="hiram.module.system.pojo.entity.SysUser" extends="baseMap">
+    <resultMap id="sysUserResult" type="hiram.module.system.pojo.dto.UserQueryRtDTO" extends="baseMap">
         <id property="userId" column="user_id" />
-        <collection property="roles" javaType="java.util.List" select="selectRolesOfUser" column="user_id" />
+        <collection property="roles" javaType="java.util.List" select="selectRoleByUserId" column="user_id" />
     </resultMap>
-    
-    <resultMap id="roleResult" type="hiram.module.system.pojo.entity.SysRole" extends="baseMap">
+
+    <!--用不上-->
+    <resultMap id="roleResult1" type="hiram.module.system.pojo.po.SysRole" extends="baseMap">
         <id property="roleId" column="role_id" />
         <result property="roleNameEn" column="role_name_en" />
         <result property="roleNameZh" column="role_name_zh" />
@@ -47,10 +48,11 @@
         <result property="remark" column="remark" />
     </resultMap>
 
-    <resultMap id="roleResult1" type="hiram.module.system.pojo.entity.SysRole" extends="baseMap">
+    <resultMap id="roleResult" type="hiram.module.system.pojo.po.SysRole" extends="baseMap">
+        <id property="roleId" column="role_id" />
     </resultMap>
 
-    <resultMap id="userRolesResult" type="hiram.module.system.pojo.entity.UserRole">
+    <resultMap id="userRolesResult" type="hiram.module.system.pojo.po.UserRole">
     </resultMap>
 
     <sql id="selectUserVO">
@@ -63,26 +65,26 @@
             left join role r on ur.role_id = r.role_id
     </sql>
 
-    <select id="checkUserNameExist" parameterType="String" resultType="Long">
-        select count(1)
+    <select id="checkUserNameUnique" parameterType="String" resultType="hiram.module.system.pojo.po.SysUser">
+        select user_id
         from user
         where username = #{username}
     </select>
 
-    <select id="checkPhoneUnique" parameterType="String" resultType="hiram.module.system.pojo.entity.SysUser">
-        select user_id,phone_number
+    <select id="checkPhoneUnique" parameterType="String" resultType="hiram.module.system.pojo.po.SysUser">
+        select user_id
         from user
         where phone_number = #{phoneNumber}
     </select>
 
-    <select id="checkEmailUnique" parameterType="String" resultType="hiram.module.system.pojo.entity.SysUser">
-        select user_id,email
+    <select id="checkEmailUnique" parameterType="String" resultType="hiram.module.system.pojo.po.SysUser">
+        select user_id
         from user
         where email = #{email}
     </select>
 
     <!--集条件查询于一体-->
-    <select id="selectUserList" parameterType="hiram.module.system.pojo.vo.UserListParam" resultMap="sysUserResult1">
+    <select id="selectUserList" parameterType="hiram.module.system.pojo.dto.UserQueryArgsDTO" resultMap="sysUserResult">
         select u.*
         from user u
         where deleted=0
@@ -97,15 +99,15 @@
         </if>
     </select>
 
-    <select id="selectRolesOfUser" resultMap="roleResult1">
+    <select id="selectRoleByUserId" parameterType="Long" resultMap="roleResult">
         select r.*
         from role r
         left join user_role ur on r.role_id=ur.role_id
         where r.deleted = 0
             and user_id = #{user_id}
     </select>
-    
-    <insert id="insertUser" useGeneratedKeys="true" keyProperty="userId" parameterType="hiram.module.system.pojo.vo.UserInsertVO">
+
+    <insert id="insertUser" useGeneratedKeys="true" keyProperty="userId" parameterType="hiram.module.system.pojo.po.SysUser">
         insert into user(
         <if test="username != null and username != ''">username,</if>
         <if test="password != null and password != ''">password,</if>
@@ -117,7 +119,8 @@
         <if test="phoneNumber != null and phoneNumber != ''">phone_number,</if>
         <if test="avatar != null and avatar != ''">avatar,</if>
         <if test="remark != null and remark != ''">remark,</if>
-        <if test="enabled != null">enabled</if>
+        <if test="enabled != null">enabled,</if>
+        version
         ) values (
         <if test="username != null and username != ''">#{username},</if>
         <if test="password != null and password != ''">#{password},</if>
@@ -129,20 +132,30 @@
         <if test="phoneNumber != null and phoneNumber != ''">#{phoneNumber},</if>
         <if test="avatar != null and avatar != ''">#{avatar},</if>
         <if test="remark != null and remark != ''">#{remark},</if>
-        <if test="enabled != null">#{enabled}</if>
+        <if test="enabled != null">#{enabled},</if>
+        1
         )
     </insert>
 
     <!--如果userId为null，则语句不会执行-->
     <!--注意，不要使用动态where语句-->
-    <update id="updateUser" parameterType="hiram.module.system.pojo.vo.UserUpdateParam">
+    <update id="updateUser" parameterType="hiram.module.system.pojo.po.SysUser">
         update user
         <set>
+            <if test="username != null and username != ''">
+                username = #{username},
+            </if>
             <if test="nickname != null and nickname != ''">
                 nickname = #{nickname},
             </if>
+            <if test="realName != null and realName != ''">
+                real_name = #{realName},
+            </if>
             <if test="sex != null and sex != ''">
                 sex = #{sex},
+            </if>
+            <if test="birthday != null">
+                birthday = #{birthday},
             </if>
             <if test="email != null and email != ''">
                 email = #{email},
@@ -162,7 +175,7 @@
         </set>
         where user_id = #{userId}
     </update>
-    
+
     <update id="recoverDeletedUserById" parameterType="Long">
         update user
         set deleted=0
@@ -187,7 +200,7 @@
         set password = #{newPassword}
         where user_id = #{userId}
     </update>
-    
+
     <delete id="logicallyDeleteUserByIds" parameterType="java.util.List">
         update user
         set deleted = 1

@@ -1,18 +1,13 @@
 package hiram.image;
 
 import hiram.module.image.pojo.dto.BUltrasoundDTO;
-import hiram.module.image.pojo.dto.InfraredDTO;
-import hiram.module.image.pojo.entity.BUltrasound;
-import hiram.module.image.pojo.entity.Infrared;
+import hiram.module.image.pojo.po.BUltrasound;
 import hiram.module.image.service.BUltrasoundService;
-import hiram.module.image.service.InfraredService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.Date;
 
 /**
  * @Author: HiramHe

@@ -1,4 +1,4 @@
-package hiram.module.system.pojo.entity;
+package hiram.module.system.pojo.vo;
 
 import lombok.Data;
 
@@ -9,7 +9,7 @@ import lombok.Data;
  */
 
 @Data
-public class LoginBody {
+public class LoginArgsVO {
 
     private String username;
 

@@ -1,4 +1,4 @@
-package hiram.module.system.pojo.entity;
+package hiram.module.system.pojo.po;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -17,7 +18,6 @@ import java.util.List;
  */
 
 @Data
-@NoArgsConstructor
 @TableName(value = "user")
 @ApiModel(description = "系统用户")
 public class SysUser extends BaseEntity{
@@ -37,7 +37,7 @@ public class SysUser extends BaseEntity{
     private String sex;
 
     @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GTM+8")
-    private Timestamp birthday;
+    private LocalDate birthday;
 
     private String email;
 
@@ -47,16 +47,21 @@ public class SysUser extends BaseEntity{
 
     private String remark;
 
-    private boolean enabled;
+    private Boolean enabled;
 
-    @TableField(exist = false)
-    private List<SysRole> roles;
-
-    @TableField(exist = false)
-    private List<Long> roleIds;
+    public SysUser(){}
 
     public SysUser(String username) {
         this.username = username;
     }
 
+    //仅供LoginUser使用
+    public boolean getEnabled() {
+
+        if (enabled == null){
+            return true;
+        }
+
+        return this.enabled;
+    }
 }

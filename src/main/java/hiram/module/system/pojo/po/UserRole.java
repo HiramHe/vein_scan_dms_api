@@ -1,11 +1,11 @@
-package hiram.module.system.pojo.entity;
+package hiram.module.system.pojo.po;
 
 import hiram.component.common.pojo.entity.BaseEntity;
 import lombok.Data;
 
 /**
  * @Author: HiramHe
- * @Date: 2020/4/24 10:46
+ * @Date: 2020/10/1 14:41
  * @Description: ""
  */
 

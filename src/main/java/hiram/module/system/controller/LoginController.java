@@ -2,7 +2,7 @@ package hiram.module.system.controller;
 
 import hiram.common.enums.ResultCode;
 import hiram.component.common.pojo.vo.ResultObject;
-import hiram.module.system.pojo.entity.LoginBody;
+import hiram.module.system.pojo.vo.LoginArgsVO;
 import hiram.module.system.service.LoginService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -37,17 +37,17 @@ public class LoginController {
      */
     @PostMapping("/login")
     @ApiOperation(value = "登录处理")
-    public ResultObject<?> login(@RequestBody LoginBody loginBody){
+    public ResultObject<?> login(@RequestBody LoginArgsVO loginArgsVO){
 
         if(logger.isDebugEnabled()){
-            System.out.println("LoginBody:"+loginBody);
+            System.out.println("LoginBody:"+ loginArgsVO);
         }
 
-        if(StringUtils.isEmpty(loginBody.getUsername()) || StringUtils.isEmpty(loginBody.getPassword())){
+        if(StringUtils.isEmpty(loginArgsVO.getUsername()) || StringUtils.isEmpty(loginArgsVO.getPassword())){
             return ResultObject.failed(ResultCode.USERNAME_PASSWORD_NULL);
         }
 
-        String token = loginService.login(loginBody.getUsername(), loginBody.getPassword());
+        String token = loginService.login(loginArgsVO.getUsername(), loginArgsVO.getPassword());
 
         if(token != null){
             Map<String,String> data = new HashMap<>();

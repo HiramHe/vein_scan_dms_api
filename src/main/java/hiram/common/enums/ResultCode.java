@@ -15,6 +15,7 @@ public enum ResultCode {
      * 成功
      */
     SUCCESS(2000, "执行成功"),
+    SUCCESS_NOACTION(2005,"成功，无动作"),
     SUCCESS_AUTHENTICATE(2011,"身份认证成功"),
     SUCCESS_LOGOUT(2021,"退出成功"),
     SUCCESS_UPLOAD(2022,"数据上传成功"),
@@ -24,7 +25,10 @@ public enum ResultCode {
      * 失败
      */
     FAILED(4000, "操作失败"),
-    COLLECTION_NULL(4002,"集合不得为空"),
+    FAILED_NOACTION(4001,"失败，无动作"),
+    RECORD_EXIST(4002,"数据已存在"),
+    FUNCTION_TODO(4003,"功能待实现"),
+    COLLECTION_NULL(4005,"集合不得为空"),
     FAILED_AUTHENTICATE(4011, "身份认证失败"),
     LOGIN_EXPIRED(4012,"登录已失效，请重新登录"),
     USER_EXIST(4014,"用户已存在"),
@@ -37,7 +41,7 @@ public enum ResultCode {
     OLDPASSWORD_ERROR(4040,"旧密码错误"),
     NEWPASSWORD_SAME_ERROR(4042,"新密码与旧密码不能相同"),
     RESETPASSWORD_ERROR(4044,"修改密码异常，请联系管理员"),
-
+    WRONG_USERID(4045,"userId不正确"),
     FILE_UPLOAD_INFRARED_EMPTY(4111,"红外图像不得为空"),
     FILE_FORMAT_NOT_SUPPORT(4112,"文件格式不支持"),
     FILE_SIZE_TOO_LARGE(4113,"文件大小过大"),
@@ -50,7 +54,7 @@ public enum ResultCode {
     private final long code;
     private final String msg;
 
-    ResultCode(final long code, final String msg) {
+    private ResultCode(long code, String msg) {
         this.code = code;
         this.msg = msg;
     }

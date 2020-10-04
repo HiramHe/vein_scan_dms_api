@@ -2,22 +2,18 @@ package hiram.module.image.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import hiram.module.image.pojo.dto.InfraredDTO;
-import hiram.module.image.pojo.entity.Infrared;
+import hiram.module.image.pojo.po.Infrared;
 import hiram.module.image.pojo.vo.InfraredListParam;
 import hiram.module.image.mapper.InfraredMapper;
 import hiram.module.image.service.InfraredService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.ibatis.jdbc.SQL;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
 import java.util.List;
-import java.util.logging.Logger;
 
 /**
  * @Author: HiramHe

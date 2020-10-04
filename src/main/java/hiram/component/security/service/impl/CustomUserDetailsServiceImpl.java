@@ -1,8 +1,8 @@
 package hiram.component.security.service.impl;
 
 import hiram.component.common.pojo.vo.LoginUser;
-import hiram.module.system.pojo.entity.SysRole;
-import hiram.module.system.pojo.entity.SysUser;
+import hiram.module.system.pojo.po.SysRole;
+import hiram.module.system.pojo.po.SysUser;
 import hiram.module.system.service.IRoleService;
 import hiram.module.system.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,23 +1,31 @@
 package hiram.module.system.controller;
 
+import hiram.common.utils.MyStringUtils;
+import hiram.common.utils.ObjectUtils;
 import hiram.component.common.service.ITokenService;
 import hiram.common.utils.ServletUtils;
 import hiram.common.enums.ResultCode;
 import hiram.component.common.pojo.vo.ResultObject;
 import hiram.component.common.pojo.vo.LoginUser;
-import hiram.module.system.pojo.entity.SysRole;
-import hiram.module.system.pojo.entity.SysUser;
+import hiram.module.system.pojo.dto.UserQueryRtDTO;
+import hiram.module.system.pojo.dto.UserUpdateArgsDTO;
+import hiram.module.system.pojo.po.SysRole;
+import hiram.module.system.pojo.po.SysUser;
+import hiram.module.system.pojo.vo.*;
 import hiram.module.system.service.IRoleService;
 import hiram.module.system.service.IUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +53,11 @@ public class ProfileController {
     @Autowired
     BCryptPasswordEncoder encoder;
 
-    @ApiOperation(value = "获取当前登录用户详细信息")
+    /*
+    done 功能实现
+    done 错误提示
+     */
+    @ApiOperation(value = "获取个人信息")
     @GetMapping("/getInfo")
     public ResultObject<?> profile() throws Exception {
 
@@ -59,11 +71,21 @@ public class ProfileController {
 
         if(loginUser != null){
             SysUser sysUser = loginUser.getUser();
+
+            UserVO userVO = new UserVO();
+            BeanUtils.copyProperties(sysUser,userVO);
+
             List<SysRole> roles = roleService.selectRolesByUsername(sysUser.getUsername());
-            sysUser.setRoles(roles);
+            List<RoleVO> roleVOs = new ArrayList<>();
+            for (SysRole sysRole:roles){
+                RoleVO roleVO = new RoleVO();
+                BeanUtils.copyProperties(sysRole,roleVO);
+                roleVOs.add(roleVO);
+            }
 
             Map<String,Object> data = new HashMap<>();
-            data.put("user",sysUser);
+            data.put("user",userVO);
+            data.put("roles",roleVOs);
 
             resultObject = ResultObject.success(ResultCode.SUCCESS,data);
         } else {
@@ -97,5 +119,129 @@ public class ProfileController {
         }
 
         return ResultObject.failed(ResultCode.RESETPASSWORD_ERROR);
+    }
+
+    /*
+    done 修改数据库
+    done 修改缓存
+    done 错误处理
+     */
+    @ApiOperation(value = "修改个人信息")
+    @PostMapping(value = "/updateProfile")
+    public ResultObject<?> updateProfile(@RequestBody @Valid ProfileUpdateArgsVO profileUpdateArgsVO) throws Exception {
+
+        Long userId = profileUpdateArgsVO.getUserId();
+
+        //校验userId
+        if (userId == null || userId<=0){
+            return ResultObject.failed(ResultCode.WRONG_USERID);
+        }
+
+        //校验所有参数是否都为null
+        if (
+                MyStringUtils.isEmpty(profileUpdateArgsVO.getNickname())
+                        && MyStringUtils.isEmpty(profileUpdateArgsVO.getRealName())
+                        && MyStringUtils.isEmpty(profileUpdateArgsVO.getSex())
+                        && MyStringUtils.isEmpty(profileUpdateArgsVO.getEmail())
+                        && ObjectUtils.isNull(profileUpdateArgsVO.getBirthday())
+                        && MyStringUtils.isEmpty(profileUpdateArgsVO.getPhoneNumber())
+                        && MyStringUtils.isEmpty(profileUpdateArgsVO.getRemark())
+        ){
+            return ResultObject.success(ResultCode.SUCCESS_NOACTION);
+        }
+
+        LoginUser loginUser = iTokenService.getLoginUser(ServletUtils.getRequest());
+
+        //校验用户名唯一性
+        String username = profileUpdateArgsVO.getUsername();
+        if (username!=null){
+            boolean isUserNameUnique = iUserService.checkUserNameUnique(userId,username);
+
+            if (!isUserNameUnique){
+                return ResultObject.failed(ResultCode.USER_EXIST);
+            }
+        }
+
+        //校验email唯一性
+        String email = profileUpdateArgsVO.getEmail();
+        if (email!=null){
+            boolean isEmailUnique = iUserService.checkEmailUnique(userId,email);
+
+            if (!isEmailUnique){
+                return ResultObject.failed(ResultCode.EMAIL_NOT_UNIQUE);
+            }
+        }
+
+        //校验手机号唯一性
+        String phoneNumber = profileUpdateArgsVO.getPhoneNumber();
+        if (phoneNumber!=null){
+            boolean isPhoneUnique = iUserService.checkPhoneUnique(userId,phoneNumber);
+
+            if (!isPhoneUnique){
+                return ResultObject.failed(ResultCode.PHONENUMBER_NOT_UNIQUE);
+            }
+        }
+
+        //将vo转换为dto
+        UserUpdateArgsDTO userUpdateArgsDTO = new UserUpdateArgsDTO();
+        BeanUtils.copyProperties(profileUpdateArgsVO,userUpdateArgsDTO);
+
+        Long rt;
+        try {
+            rt = iUserService.updateUser(userUpdateArgsDTO);
+        } catch (Exception e) {
+            return ResultObject.failed(ResultCode.FAILED);
+        }
+
+        //更新缓存
+        if (rt > 0){
+            String nickname = profileUpdateArgsVO.getNickname();
+            String realName = profileUpdateArgsVO.getRealName();
+            String sex = profileUpdateArgsVO.getSex();
+            LocalDate birthday = profileUpdateArgsVO.getBirthday();
+            String remark = profileUpdateArgsVO.getRemark();
+
+            if (!MyStringUtils.isEmpty(username)){
+                loginUser.getUser().setUsername(username);
+            }
+            if (!MyStringUtils.isEmpty(nickname)){
+                loginUser.getUser().setNickname(nickname);
+            }
+            if (!MyStringUtils.isEmpty(realName)){
+                loginUser.getUser().setRealName(realName);
+            }
+            if (!MyStringUtils.isEmpty(sex)){
+                loginUser.getUser().setSex(sex);
+            }
+            if (!ObjectUtils.isNull(birthday)){
+                loginUser.getUser().setBirthday(birthday);
+            }
+            if (!MyStringUtils.isEmpty(email)){
+                loginUser.getUser().setEmail(email);
+            }
+            if (!MyStringUtils.isEmpty(phoneNumber)){
+                loginUser.getUser().setPhoneNumber(phoneNumber);
+            }
+            if (!MyStringUtils.isEmpty(remark)){
+                loginUser.getUser().setRemark(remark);
+            }
+
+            iTokenService.setLoginUser(loginUser);
+
+            return ResultObject.success(ResultCode.SUCCESS);
+        }
+
+        return ResultObject.failed(ResultCode.FAILED);
+    }
+
+    /*
+    todo 功能实现
+     */
+    @ApiOperation(value = "用户头像")
+    @PostMapping("/avatar")
+    public ResultObject<?> avatar(@RequestParam MultipartFile file){
+
+
+        return ResultObject.failed(ResultCode.FUNCTION_TODO);
     }
 }

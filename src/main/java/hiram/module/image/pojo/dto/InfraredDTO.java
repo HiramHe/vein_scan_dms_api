@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -19,7 +20,7 @@ public class InfraredDTO {
     private String perspective;
     private String filename;
     private String path;
-    private Date scanTime;
+    private LocalDateTime scanTime;
     private Long patientId;
     private Long userId;
 }

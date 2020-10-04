@@ -4,9 +4,9 @@ import hiram.component.properties.file.ImageProperties;
 import hiram.module.image.pojo.dto.BUltrasoundDTO;
 import hiram.module.image.pojo.dto.InfraredDTO;
 import hiram.module.image.pojo.dto.InfraredDescriptionDTO;
-import hiram.module.image.pojo.entity.BUltrasound;
-import hiram.module.image.pojo.entity.Infrared;
-import hiram.module.image.pojo.entity.InfraredDescription;
+import hiram.module.image.pojo.po.BUltrasound;
+import hiram.module.image.pojo.po.Infrared;
+import hiram.module.image.pojo.po.InfraredDescription;
 import hiram.module.image.service.BUltrasoundService;
 import hiram.module.image.service.InfraredDescriptionService;
 import hiram.module.image.service.InfraredService;
@@ -21,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.SQLException;
 
 /**
  * @Author: HiramHe
@@ -76,7 +75,7 @@ public class FileServiceImpl implements FileService {
             bUltrasound = bUltrasoundService.insertOne(bUltrasoundDTO);
         }
 
-        //插入红外图像描述记录
+        //插入红外图像描述
         InfraredDescription infraredDescription = null;
         if (infraredDescriptionDTO != null){
             if (infrared != null){

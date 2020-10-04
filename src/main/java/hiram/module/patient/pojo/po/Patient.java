@@ -1,4 +1,4 @@
-package hiram.module.patient.pojo.entity;
+package hiram.module.patient.pojo.po;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import hiram.component.common.pojo.entity.BaseEntity;

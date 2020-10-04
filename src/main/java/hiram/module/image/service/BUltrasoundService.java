@@ -1,10 +1,8 @@
 package hiram.module.image.service;
 
 import hiram.module.image.pojo.dto.BUltrasoundDTO;
-import hiram.module.image.pojo.entity.BUltrasound;
+import hiram.module.image.pojo.po.BUltrasound;
 import org.springframework.dao.DataAccessException;
-
-import java.sql.SQLException;
 
 /**
  * @Author: HiramHe

@@ -15,4 +15,8 @@ public class Constants {
      * 令牌前缀
      */
     public static final String TOKEN_PREFIX = "Bearer";
+
+    public static Boolean UNIQUE = true;
+
+    public static Boolean NOT_UNIQUE = false;
 }

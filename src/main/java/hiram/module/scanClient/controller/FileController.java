@@ -9,24 +9,21 @@ import hiram.component.properties.file.ImageProperties;
 import hiram.module.image.pojo.dto.BUltrasoundDTO;
 import hiram.module.image.pojo.dto.InfraredDTO;
 import hiram.module.image.pojo.dto.InfraredDescriptionDTO;
-import hiram.module.image.pojo.entity.BUltrasound;
-import hiram.module.image.pojo.entity.Infrared;
-import hiram.module.image.pojo.entity.InfraredDescription;
 import hiram.module.scanClient.service.FileService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.models.auth.In;
+import io.swagger.annotations.ApiParam;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * @Author: HiramHe
@@ -44,6 +41,8 @@ import java.util.Date;
 @RequestMapping("/client")
 public class FileController {
 
+    private Log logger = LogFactory.getLog(getClass());
+
     @Autowired
     private ImageProperties imageProperties;
 
@@ -52,17 +51,21 @@ public class FileController {
 
     @ApiOperation(value = "上传图像", hidden = false)
     @PutMapping("/upload")
-    public ResultObject<?> uploadImage(@RequestParam(required = true) MultipartFile infraredImage,
+    public ResultObject<?> uploadImage(@RequestParam MultipartFile infraredImage,
                                        MultipartFile bUltrasoundImage,
                                        String perspective,
-                                       @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-                                       Date scanTime,
-                                       @RequestParam(required = true)Long patientId,
-                                       @RequestParam(required = true)Long userId,
+                                       @ApiParam(value = "yyyy-MM-dd HH:mm:ss")
+                                       @RequestParam(required = false)
+                                           @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+                                                   LocalDateTime scanTime,
+                                       @RequestParam Long patientId,
+                                       @RequestParam(required = false) Long userId,
                                        String description,
                                        String severityLevel,
-                                       Long xCoordinate,
-                                       Long yCoordinate
+                                       Long descriptionXCoordinate,
+                                       Long descriptionYCoordinate,
+                                       Long bUltrasoundXCoordinate,
+                                       Long bUltrasoundYCoordinate
                                        ){
 
         //红外图像不得为空
@@ -76,7 +79,10 @@ public class FileController {
             return ResultObject.failed(ResultCode.FILE_FORMAT_NOT_SUPPORT);
         }
 
-        if ((xCoordinate==null && yCoordinate!=null) || (xCoordinate!=null && yCoordinate==null)){
+        if ((descriptionXCoordinate==null && descriptionYCoordinate!=null) || (descriptionXCoordinate!=null && descriptionYCoordinate==null)){
+            return ResultObject.failed(ResultCode.COORDINATE_WRONG);
+        }
+        if ((bUltrasoundXCoordinate==null && bUltrasoundYCoordinate!=null) || (bUltrasoundXCoordinate!=null && bUltrasoundYCoordinate==null)){
             return ResultObject.failed(ResultCode.COORDINATE_WRONG);
         }
 
@@ -105,13 +111,16 @@ public class FileController {
         //构建红外图像描述对象
         InfraredDescriptionDTO infraredDescriptionDTO = null;
         if (!MyStringUtils.isEmpty(description) || !MyStringUtils.isEmpty(severityLevel)
-                || (xCoordinate!=null && yCoordinate!=null)){
+                || (descriptionXCoordinate!=null && descriptionYCoordinate!=null)
+                || (bUltrasoundXCoordinate!=null && bUltrasoundYCoordinate!=null)){
 
             infraredDescriptionDTO = new InfraredDescriptionDTO();
             infraredDescriptionDTO.setDescription(description);
             infraredDescriptionDTO.setSeverityLevel(severityLevel);
-            infraredDescriptionDTO.setXCoordinate(xCoordinate);
-            infraredDescriptionDTO.setYCoordinate(yCoordinate);
+            infraredDescriptionDTO.setDescriptionXCoordinate(descriptionXCoordinate);
+            infraredDescriptionDTO.setDescriptionYCoordinate(descriptionYCoordinate);
+            infraredDescriptionDTO.setBUltrasoundXCoordinate(bUltrasoundXCoordinate);
+            infraredDescriptionDTO.setBUltrasoundYCoordinate(bUltrasoundYCoordinate);
         }
 
 
@@ -122,16 +131,24 @@ public class FileController {
 
             return ResultObject.failed(ResultCode.EXCEPTION_IO);
         } catch (DataAccessException e) {
-            //删除磁盘上的文件
-            if (infraredDTO != null){
-                fileService.deleteFile(infraredDTO.getFilename(),infraredDTO.getPath());
+
+            if (logger.isDebugEnabled()){
+                logger.debug(e);
             }
+
+            //删除磁盘上的文件
+            fileService.deleteFile(infraredDTO.getFilename(),infraredDTO.getPath());
+
             if (bUltrasoundDTO != null){
                 fileService.deleteFile(bUltrasoundDTO.getFilename(),bUltrasoundDTO.getPath());
             }
 
             return ResultObject.failed(ResultCode.EXCEPTION_DAO);
         } catch (Exception e) {
+            e.printStackTrace();
+            if (logger.isDebugEnabled()){
+                logger.debug(e);
+            }
 
             return ResultObject.failed(ResultCode.EXCEPTION_SERVER);
         }
