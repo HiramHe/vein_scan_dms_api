@@ -55,7 +55,8 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedOrigins("*")
                 .allowCredentials(true)
-                .allowedHeaders("GET","POST","DELETE","PUT","PATCH")
-                .maxAge(3600 * 24);
+                .allowedMethods("GET","POST","DELETE","PUT","PATCH")
+//                .maxAge(3600 * 24)
+        ;
     }
 }

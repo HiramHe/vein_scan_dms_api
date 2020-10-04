@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import hiram.common.enums.ResultCode;
 import hiram.common.utils.FileUtils;
 import hiram.common.utils.MyStringUtils;
+import hiram.component.common.pojo.dto.Coordinate;
 import hiram.component.common.pojo.vo.ResultObject;
 import hiram.component.properties.file.ImageProperties;
 import hiram.module.image.pojo.dto.BUltrasoundDTO;
@@ -51,7 +52,7 @@ public class FileController {
 
     @ApiOperation(value = "上传图像", hidden = false)
     @PutMapping("/upload")
-    public ResultObject<?> uploadImage(@RequestParam MultipartFile infraredImage,
+    public ResultObject<?> uploadWithSingleBUltra(@RequestParam MultipartFile infraredImage,
                                        MultipartFile bUltrasoundImage,
                                        String perspective,
                                        @ApiParam(value = "yyyy-MM-dd HH:mm:ss")
@@ -154,5 +155,26 @@ public class FileController {
         }
 
         return ResultObject.success(ResultCode.SUCCESS_UPLOAD);
+    }
+
+    @ApiOperation(value = "单红外图像多B超图像上传")
+    @PutMapping("/uploadWithMultiBUltra")
+    public void uploadWithMultiBUltra(@RequestParam MultipartFile infraredImage,
+                                      MultipartFile[] bUltrasoundImages,
+                                      String perspective,
+                                      @ApiParam(value = "yyyy-MM-dd HH:mm:ss")
+                                      @RequestParam(required = false)
+                                      @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+                                              LocalDateTime scanTime,
+                                      @RequestParam Long patientId,
+                                      @RequestParam(required = false) Long userId,
+                                      String description,
+                                      String severityLevel,
+                                      Long descriptionXCoordinate,
+                                      Long descriptionYCoordinate,
+                                      Coordinate[] bUltrasoundCoordinates){
+
+        System.out.println();
+
     }
 }

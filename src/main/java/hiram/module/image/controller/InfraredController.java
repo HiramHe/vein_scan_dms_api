@@ -22,7 +22,7 @@ import java.util.List;
  * @Description: ""
  */
 
-@Api(tags = "图像管理-红外图像接口")
+@Api(tags = "红外图像接口")
 @RestController
 @RequestMapping("/infrared")
 public class InfraredController extends BaseController {
