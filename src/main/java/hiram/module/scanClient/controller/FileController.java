@@ -157,24 +157,25 @@ public class FileController {
         return ResultObject.success(ResultCode.SUCCESS_UPLOAD);
     }
 
-    @ApiOperation(value = "单红外图像多B超图像上传")
-    @PutMapping("/uploadWithMultiBUltra")
-    public void uploadWithMultiBUltra(@RequestParam MultipartFile infraredImage,
-                                      MultipartFile[] bUltrasoundImages,
-                                      String perspective,
-                                      @ApiParam(value = "yyyy-MM-dd HH:mm:ss")
-                                      @RequestParam(required = false)
-                                      @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-                                              LocalDateTime scanTime,
-                                      @RequestParam Long patientId,
-                                      @RequestParam(required = false) Long userId,
-                                      String description,
-                                      String severityLevel,
-                                      Long descriptionXCoordinate,
-                                      Long descriptionYCoordinate,
-                                      Coordinate[] bUltrasoundCoordinates){
-
-        System.out.println();
-
-    }
+//    @ApiOperation(value = "单红外图像多B超图像上传")
+//    @PutMapping("/uploadWithMultiBUltra")
+//    public void uploadWithMultiBUltra(@RequestParam MultipartFile infraredImage,
+//                                      MultipartFile[] bUltrasoundImages,
+//                                      String perspective,
+//                                      @ApiParam(value = "yyyy-MM-dd HH:mm:ss")
+//                                      @RequestParam(required = false)
+//                                      @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+//                                              LocalDateTime scanTime,
+//                                      @RequestParam Long patientId,
+//                                      @RequestParam(required = false) Long userId,
+//                                      String description,
+//                                      String severityLevel,
+//                                      Long descriptionXCoordinate,
+//                                      Long descriptionYCoordinate
+////                                      Coordinate[] bUltrasoundCoordinates
+//                                      ){
+//
+//        System.out.println();
+//
+//    }
 }
