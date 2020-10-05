@@ -2,6 +2,7 @@ package hiram.module.patient.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import hiram.module.patient.pojo.po.Patient;
+import hiram.module.patient.pojo.query.PatientAddServiceQuery;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -12,5 +13,15 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface PatientMapper extends BaseMapper<Patient> {
+
+    Integer insertOne(Patient patient);
+
+    Patient checkPatientNameUnique(String patientName);
+
+    Patient checkPhoneNumberUnique(String phoneNumber);
+
+    Patient checkEmailUnique(String email);
+
+    Patient selectPatientByPatientId(Long patientId);
 
 }

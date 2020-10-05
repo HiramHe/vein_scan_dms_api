@@ -1,8 +1,11 @@
 package hiram.module.image.pojo.po;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import hiram.component.common.pojo.entity.BaseEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
@@ -13,6 +16,9 @@ import java.time.LocalDateTime;
  */
 
 @Data
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+@TableName("infrared_image")
 public class Infrared extends BaseEntity {
     private Long infraredId;
     private String perspective;

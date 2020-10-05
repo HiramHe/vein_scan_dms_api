@@ -1,23 +1,22 @@
-package hiram.module.patient.pojo.po;
+package hiram.module.patient.pojo.vo;
 
-import com.baomidou.mybatisplus.annotation.TableId;
 import hiram.component.common.pojo.entity.BaseEntity;
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.time.LocalDate;
 
 /**
  * @Author: HiramHe
- * @Date: 2020/4/28 12:28
+ * @Date: 2020/10/5 16:24
  * @Description: ""
  */
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-public class Patient extends BaseEntity {
+public class PatientSelectVO extends BaseEntity {
 
     private Long patientId;
     private String patientName;
@@ -29,5 +28,4 @@ public class Patient extends BaseEntity {
     private String remark;
     private String addId;
     private String addOrient;
-
 }

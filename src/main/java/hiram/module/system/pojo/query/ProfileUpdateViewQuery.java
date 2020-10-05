@@ -1,6 +1,8 @@
 package hiram.module.system.pojo.query;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiParam;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -18,9 +20,6 @@ import java.time.LocalDate;
 @Data
 public class ProfileUpdateViewQuery {
 
-    @NotNull(message = "useId不能为空")
-    private Long userId;
-
     private String username;
 
     private String nickname;
@@ -30,8 +29,10 @@ public class ProfileUpdateViewQuery {
     @Size(max = 1)
     private String sex;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "GMT+8")
-//    @DateTimeFormat(pattern = "yyyy-MM-dd")
+//    @ApiModelProperty("yyyy-MM-dd")
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    @ApiParam("yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthday;
 
     @Email(message = "邮箱格式不正确")

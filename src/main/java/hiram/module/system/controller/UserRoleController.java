@@ -33,7 +33,7 @@ public class UserRoleController {
     private UserRoleService userRoleService;
 
     @ApiOperation(value = "添加用户角色")
-    @PutMapping("/add")
+    @PostMapping("/add")
     public ResultObject<?> add(@RequestParam() Long userId,
                                @RequestParam() Long roleId){
 
@@ -61,7 +61,7 @@ public class UserRoleController {
     @ApiOperation("删除用户角色")
     @DeleteMapping("/delete")
     public ResultObject<?> delete(@RequestParam() Long userId,
-                                 @RequestParam(required = false) Long roleId){
+                                  @RequestParam(required = false) Long roleId){
 
         Long rt = 0L;
 

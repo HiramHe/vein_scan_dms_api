@@ -94,8 +94,8 @@ public class ProfileController {
         return resultObject;
     }
 
-    @ApiOperation(value = "修改密码", hidden = false )
-    @PostMapping(value = "/updatePassword")
+    @ApiOperation(value = "修改密码")
+    @PutMapping(value = "/updatePassword")
     public ResultObject<?> updatePassword(String oldPassword, String newPassword) throws Exception {
         LoginUser loginUser = iTokenService.getLoginUser(ServletUtils.getRequest());
 
@@ -126,15 +126,8 @@ public class ProfileController {
     done 错误处理
      */
     @ApiOperation(value = "修改个人信息")
-    @PostMapping(value = "/updateProfile")
-    public ResultObject<?> updateProfile(@RequestBody @Valid ProfileUpdateViewQuery profileUpdateViewQuery) throws Exception {
-
-        Long userId = profileUpdateViewQuery.getUserId();
-
-        //校验userId
-        if (userId == null || userId<=0){
-            return ResultObject.failed(ResultCode.WRONG_USERID);
-        }
+    @PutMapping(value = "/updateProfile")
+    public ResultObject<?> updateProfile(@Valid ProfileUpdateViewQuery profileUpdateViewQuery) throws Exception {
 
         //校验所有参数是否都为null
         if (
@@ -150,6 +143,7 @@ public class ProfileController {
         }
 
         LoginUser loginUser = iTokenService.getLoginUser(ServletUtils.getRequest());
+        Long userId = loginUser.getUser().getUserId();
 
         //校验用户名唯一性
         String username = profileUpdateViewQuery.getUsername();
@@ -184,6 +178,7 @@ public class ProfileController {
         //将vo转换为dto
         UserUpdateServiceQuery userUpdateServiceQuery = new UserUpdateServiceQuery();
         BeanUtils.copyProperties(profileUpdateViewQuery, userUpdateServiceQuery);
+        userUpdateServiceQuery.setUserId(userId);
 
         Long rt;
         try {
@@ -236,8 +231,8 @@ public class ProfileController {
     /*
     todo 功能实现
      */
-    @ApiOperation(value = "用户头像")
-    @PostMapping("/avatar")
+    @ApiOperation(value = "用户头像",hidden = true)
+    @PutMapping("/avatar")
     public ResultObject<?> avatar(@RequestParam MultipartFile file){
 
 

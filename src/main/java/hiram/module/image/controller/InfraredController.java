@@ -32,8 +32,8 @@ public class InfraredController extends BaseController {
     @Autowired
     private InfraredService infraredService;
 
+    @ApiOperation(value = "根据红外图像id查询红外图像",hidden = true)
     @GetMapping("/query/{id}")
-    @ApiOperation(value = "根据红外图像id查询红外图像")
     public void selectOneById(@PathVariable("id") Long infraredId){
         Infrared infrared = infraredService.selectByInfraredId(infraredId);
         if(logger.isDebugEnabled()){
@@ -43,12 +43,12 @@ public class InfraredController extends BaseController {
         }
     }
 
-    @PostMapping("/list/{pageNum}/{pageSize}")
-    @ApiOperation(value = "查询红外图像列表")
+    @ApiOperation(value = "查询红外图像列表",hidden = true)
+    @GetMapping("/list/{pageNum}/{pageSize}")
     public ResultObject<?> list(
             @PathVariable("pageNum") int pageNum,
             @PathVariable("pageSize") int pageSize,
-            @RequestBody(required = false) InfraredListViewQuery infraredListViewQuery){
+            InfraredListViewQuery infraredListViewQuery){
 
         this.startPage();
         List<Infrared> infrareds = infraredService.list(infraredListViewQuery);

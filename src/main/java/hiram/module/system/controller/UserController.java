@@ -55,11 +55,11 @@ public class UserController extends BaseController {
     todo 异常捕获
      */
     @ApiOperation(value = "查询用户列表")
-    @PostMapping("/list")
+    @GetMapping("/list")
     public ResultObject<?> list(
             @RequestParam(value = "pageNum") int pageNum,
             @RequestParam(value = "pageSize") int pageSize,
-            @RequestBody(required = false) UserListViewQuery userListViewQuery){
+            UserListViewQuery userListViewQuery){
 
         if(logger.isDebugEnabled()){
             if(userListViewQuery !=null && userListViewQuery.getBeginTime() != null){
@@ -110,8 +110,8 @@ public class UserController extends BaseController {
     todo 返回vo给前端
      */
     @ApiOperation(value = "添加系统用户")
-    @PutMapping("/add")
-    public ResultObject<?> add(@RequestBody UserInsertViewQuery userInsertViewQuery){
+    @PostMapping("/add")
+    public ResultObject<?> add(@Valid UserInsertViewQuery userInsertViewQuery){
 
         ////检查用户名和密码是否为空
         if(MyStringUtils.isEmpty(userInsertViewQuery.getUsername())  || MyStringUtils.isEmpty(userInsertViewQuery.getPassword())){
@@ -173,7 +173,7 @@ public class UserController extends BaseController {
     @ApiOperation(value = "根据用户id，批量恢复逻辑删除的用户")
     @PutMapping("/recoverDeletedUserByIds")
     public ResultObject<?> recoverDeletedUserByIds(
-            @RequestBody(required = false) Long[] userIds){
+            @RequestParam(required = false) Long[] userIds){
 
         Long rows = iUserService.recoverDeletedUserByIds(userIds);
 
@@ -193,9 +193,8 @@ public class UserController extends BaseController {
     done 捕获异常
      */
     @ApiOperation(value = "根据用户id，更新用户基本信息")
-    @PostMapping("/update")
-    public ResultObject<?> updateUser(
-            @Valid @RequestBody UserUpdateViewQuery userUpdateViewQuery){
+    @PutMapping("/update")
+    public ResultObject<?> updateUser(@Valid UserUpdateViewQuery userUpdateViewQuery){
 
         Long userId = userUpdateViewQuery.getUserId();
 
@@ -329,7 +328,7 @@ public class UserController extends BaseController {
     @ApiOperation(value = "根据用户id，物理删除指定用户", hidden = true)
     @DeleteMapping("/physicallyDeleteUserById")
     public ResultObject<?> physicallyDeleteUserById(
-            @RequestBody(required = false) Long userId){
+            @RequestParam(required = false) Long userId){
 
         Long affectRows = iUserService.physicallyDeleteUserById(userId);
 
@@ -344,7 +343,7 @@ public class UserController extends BaseController {
     done 错误提示
      */
     @ApiOperation(value = "重置用户密码")
-    @PostMapping(value = "/resetUserPwd")
+    @PutMapping(value = "/resetUserPwd")
     public ResultObject<?> resetUserPwd(@RequestParam Long userId,
                                         @RequestParam String newPassword){
 

@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -25,6 +26,6 @@ public class UserListServiceQuery {
 
     private String username;
     private String phoneNumber;
-    private Timestamp beginTime;
-    private Timestamp endTime;
+    private LocalDate beginTime;
+    private LocalDate endTime;
 }

@@ -1,5 +1,6 @@
 package hiram.module.system.pojo.query;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -26,10 +27,11 @@ public class UserUpdateViewQuery {
 
     private String realName;
 
-    @Size(max = 1)
+    @Size(max = 1,message = "长度不能超过1个字符")
     private String sex;
 
 //    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    @ApiModelProperty("yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthday;
 

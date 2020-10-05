@@ -77,6 +77,7 @@ public class FileController {
             return ResultObject.failed(ResultCode.FILE_FORMAT_NOT_SUPPORT);
         }
 
+        //校验坐标
         if ((descriptionXCoordinate==null && descriptionYCoordinate!=null) || (descriptionXCoordinate!=null && descriptionYCoordinate==null)){
             return ResultObject.failed(ResultCode.COORDINATE_WRONG);
         }
@@ -124,10 +125,13 @@ public class FileController {
 
         //保存数据
         try {
+
             fileService.upload2Local(infraredImage,bUltrasoundImage, infraredServiceQuery, infraredDescriptionServiceQuery, bUltrasoundServiceQuery);
+
         } catch (IOException e) {
 
             return ResultObject.failed(ResultCode.EXCEPTION_IO);
+
         } catch (DataAccessException e) {
 
             if (logger.isDebugEnabled()){
@@ -142,8 +146,8 @@ public class FileController {
             }
 
             return ResultObject.failed(ResultCode.EXCEPTION_DAO);
+
         } catch (Exception e) {
-            e.printStackTrace();
             if (logger.isDebugEnabled()){
                 logger.debug(e);
             }

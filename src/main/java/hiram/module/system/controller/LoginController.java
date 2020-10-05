@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,7 +38,7 @@ public class LoginController {
      */
     @PostMapping("/login")
     @ApiOperation(value = "登录处理")
-    public ResultObject<?> login(@RequestBody LoginViewQuery loginViewQuery){
+    public ResultObject<?> login(@Valid LoginViewQuery loginViewQuery){
 
         if(logger.isDebugEnabled()){
             System.out.println("LoginBody:"+ loginViewQuery);
