@@ -1,6 +1,6 @@
 package hiram.module.system.service;
 
-import hiram.module.system.pojo.dto.UserRoleInsertArgsDTO;
+import hiram.module.system.pojo.query.UserRoleInsertServiceQuery;
 import hiram.module.system.pojo.po.UserRole;
 
 import java.util.List;
@@ -25,10 +25,10 @@ public interface UserRoleService {
 
     /**
      * 插入用户角色
-     * @param userRoleInsertArgsDTO
+     * @param userRoleInsertServiceQuery
      * @return
      */
-    UserRole insertUserRole(UserRoleInsertArgsDTO userRoleInsertArgsDTO) throws Exception;
+    UserRole insertUserRole(UserRoleInsertServiceQuery userRoleInsertServiceQuery) throws Exception;
 
     /**
      * 批量插入用户角色

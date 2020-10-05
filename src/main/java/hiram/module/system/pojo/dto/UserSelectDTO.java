@@ -1,15 +1,14 @@
-package hiram.module.system.pojo.vo;
+package hiram.module.system.pojo.dto;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import hiram.component.common.pojo.entity.BaseEntity;
+import hiram.module.system.pojo.po.SysRole;
+import hiram.module.system.pojo.po.SysUser;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.List;
@@ -20,17 +19,16 @@ import java.util.List;
  * @Description: ""
  */
 
+/*
+rt = return
+ */
+
 @Data
-@ApiModel
-public class UserInsertArgsVO {
+public class UserSelectDTO extends BaseEntity {
 
-    @NotNull
-    @NotEmpty
+    private Long userId;
+
     private String username;
-
-    @NotNull
-    @NotEmpty
-    private String password;
 
     private String nickname;
 
@@ -38,17 +36,17 @@ public class UserInsertArgsVO {
 
     private String sex;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd",timezone = "GTM+8")
     private LocalDate birthday;
 
-    @Email
     private String email;
 
     private String phoneNumber;
 
+    private String avatar;
+
     private String remark;
 
-    private Boolean enabled = true;
+    private Boolean enabled;
 
-
+    private List<SysRole> roles;
 }

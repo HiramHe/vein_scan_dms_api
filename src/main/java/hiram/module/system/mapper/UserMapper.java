@@ -1,10 +1,9 @@
 package hiram.module.system.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import hiram.module.system.pojo.dto.UserQueryArgsDTO;
-import hiram.module.system.pojo.dto.UserQueryRtDTO;
+import hiram.module.system.pojo.query.UserListServiceQuery;
+import hiram.module.system.pojo.dto.UserSelectDTO;
 import hiram.module.system.pojo.po.SysUser;
-import hiram.module.system.pojo.vo.UserUpdateArgsVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -25,7 +24,9 @@ import java.util.List;
 public interface UserMapper extends BaseMapper<SysUser> {
 
     //查询
-    List<UserQueryRtDTO> selectUserList(UserQueryArgsDTO userQueryArgsDTO);
+    List<UserSelectDTO> selectUserList(UserListServiceQuery userListServiceQuery);
+
+    SysUser selectUserByUserId(Long userId);
 
     //恢复
     Long recoverDeletedUserById(Long userId);
@@ -54,4 +55,5 @@ public interface UserMapper extends BaseMapper<SysUser> {
 
     //重置密码
     int resetUserPwd(Long userId, String newPassword);
+
 }

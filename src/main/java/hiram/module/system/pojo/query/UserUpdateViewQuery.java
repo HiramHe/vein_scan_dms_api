@@ -1,13 +1,12 @@
-package hiram.module.system.pojo.vo;
+package hiram.module.system.pojo.query;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 /**
  * @Author: HiramHe
@@ -16,7 +15,7 @@ import java.time.LocalDateTime;
  */
 
 @Data
-public class UserUpdateArgsVO {
+public class UserUpdateViewQuery {
 
     @NotNull(message = "useId不能为空")
     private Long userId;

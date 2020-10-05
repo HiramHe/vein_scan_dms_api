@@ -1,4 +1,4 @@
-package hiram.module.system.pojo.vo;
+package hiram.module.system.pojo.query;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 
 @Data
 @ApiModel
-public class UserQueryArgsVO {
+public class UserListViewQuery {
 
     private String username;
 

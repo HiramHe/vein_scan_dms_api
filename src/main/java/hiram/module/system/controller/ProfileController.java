@@ -7,8 +7,8 @@ import hiram.common.utils.ServletUtils;
 import hiram.common.enums.ResultCode;
 import hiram.component.common.pojo.vo.ResultObject;
 import hiram.component.common.pojo.vo.LoginUser;
-import hiram.module.system.pojo.dto.UserQueryRtDTO;
-import hiram.module.system.pojo.dto.UserUpdateArgsDTO;
+import hiram.module.system.pojo.query.ProfileUpdateViewQuery;
+import hiram.module.system.pojo.query.UserUpdateServiceQuery;
 import hiram.module.system.pojo.po.SysRole;
 import hiram.module.system.pojo.po.SysUser;
 import hiram.module.system.pojo.vo.*;
@@ -19,7 +19,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -128,9 +127,9 @@ public class ProfileController {
      */
     @ApiOperation(value = "修改个人信息")
     @PostMapping(value = "/updateProfile")
-    public ResultObject<?> updateProfile(@RequestBody @Valid ProfileUpdateArgsVO profileUpdateArgsVO) throws Exception {
+    public ResultObject<?> updateProfile(@RequestBody @Valid ProfileUpdateViewQuery profileUpdateViewQuery) throws Exception {
 
-        Long userId = profileUpdateArgsVO.getUserId();
+        Long userId = profileUpdateViewQuery.getUserId();
 
         //校验userId
         if (userId == null || userId<=0){
@@ -139,13 +138,13 @@ public class ProfileController {
 
         //校验所有参数是否都为null
         if (
-                MyStringUtils.isEmpty(profileUpdateArgsVO.getNickname())
-                        && MyStringUtils.isEmpty(profileUpdateArgsVO.getRealName())
-                        && MyStringUtils.isEmpty(profileUpdateArgsVO.getSex())
-                        && MyStringUtils.isEmpty(profileUpdateArgsVO.getEmail())
-                        && ObjectUtils.isNull(profileUpdateArgsVO.getBirthday())
-                        && MyStringUtils.isEmpty(profileUpdateArgsVO.getPhoneNumber())
-                        && MyStringUtils.isEmpty(profileUpdateArgsVO.getRemark())
+                MyStringUtils.isEmpty(profileUpdateViewQuery.getNickname())
+                        && MyStringUtils.isEmpty(profileUpdateViewQuery.getRealName())
+                        && MyStringUtils.isEmpty(profileUpdateViewQuery.getSex())
+                        && MyStringUtils.isEmpty(profileUpdateViewQuery.getEmail())
+                        && ObjectUtils.isNull(profileUpdateViewQuery.getBirthday())
+                        && MyStringUtils.isEmpty(profileUpdateViewQuery.getPhoneNumber())
+                        && MyStringUtils.isEmpty(profileUpdateViewQuery.getRemark())
         ){
             return ResultObject.success(ResultCode.SUCCESS_NOACTION);
         }
@@ -153,7 +152,7 @@ public class ProfileController {
         LoginUser loginUser = iTokenService.getLoginUser(ServletUtils.getRequest());
 
         //校验用户名唯一性
-        String username = profileUpdateArgsVO.getUsername();
+        String username = profileUpdateViewQuery.getUsername();
         if (username!=null){
             boolean isUserNameUnique = iUserService.checkUserNameUnique(userId,username);
 
@@ -163,7 +162,7 @@ public class ProfileController {
         }
 
         //校验email唯一性
-        String email = profileUpdateArgsVO.getEmail();
+        String email = profileUpdateViewQuery.getEmail();
         if (email!=null){
             boolean isEmailUnique = iUserService.checkEmailUnique(userId,email);
 
@@ -173,7 +172,7 @@ public class ProfileController {
         }
 
         //校验手机号唯一性
-        String phoneNumber = profileUpdateArgsVO.getPhoneNumber();
+        String phoneNumber = profileUpdateViewQuery.getPhoneNumber();
         if (phoneNumber!=null){
             boolean isPhoneUnique = iUserService.checkPhoneUnique(userId,phoneNumber);
 
@@ -183,23 +182,23 @@ public class ProfileController {
         }
 
         //将vo转换为dto
-        UserUpdateArgsDTO userUpdateArgsDTO = new UserUpdateArgsDTO();
-        BeanUtils.copyProperties(profileUpdateArgsVO,userUpdateArgsDTO);
+        UserUpdateServiceQuery userUpdateServiceQuery = new UserUpdateServiceQuery();
+        BeanUtils.copyProperties(profileUpdateViewQuery, userUpdateServiceQuery);
 
         Long rt;
         try {
-            rt = iUserService.updateUser(userUpdateArgsDTO);
+            rt = iUserService.updateUser(userUpdateServiceQuery);
         } catch (Exception e) {
             return ResultObject.failed(ResultCode.FAILED);
         }
 
         //更新缓存
         if (rt > 0){
-            String nickname = profileUpdateArgsVO.getNickname();
-            String realName = profileUpdateArgsVO.getRealName();
-            String sex = profileUpdateArgsVO.getSex();
-            LocalDate birthday = profileUpdateArgsVO.getBirthday();
-            String remark = profileUpdateArgsVO.getRemark();
+            String nickname = profileUpdateViewQuery.getNickname();
+            String realName = profileUpdateViewQuery.getRealName();
+            String sex = profileUpdateViewQuery.getSex();
+            LocalDate birthday = profileUpdateViewQuery.getBirthday();
+            String remark = profileUpdateViewQuery.getRemark();
 
             if (!MyStringUtils.isEmpty(username)){
                 loginUser.getUser().setUsername(username);

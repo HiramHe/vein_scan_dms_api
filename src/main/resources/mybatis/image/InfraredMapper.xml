@@ -27,7 +27,7 @@
 
 
     <!--集条件查询于一体-->
-    <select id="selectInfraredList" parameterType="hiram.module.image.pojo.vo.InfraredListParam" resultMap="infraredResult">
+    <select id="selectInfraredList" parameterType="hiram.module.image.pojo.query.InfraredListViewQuery" resultMap="infraredResult">
         select infrared.*,patient_name,username
         from infrared_image infrared
         left join patient on infrared.patient_id=patient.patient_id

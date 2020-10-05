@@ -1,8 +1,8 @@
 package hiram.module.image.service;
 
-import hiram.module.image.pojo.dto.InfraredDTO;
+import hiram.module.image.pojo.query.InfraredServiceQuery;
 import hiram.module.image.pojo.po.Infrared;
-import hiram.module.image.pojo.vo.InfraredListParam;
+import hiram.module.image.pojo.query.InfraredListViewQuery;
 import org.springframework.dao.DataAccessException;
 
 import java.util.List;
@@ -18,7 +18,7 @@ public interface InfraredService {
 
     Infrared selectByInfraredId(Long infraredId);
 
-    List<Infrared> list(InfraredListParam infraredListParam);
+    List<Infrared> list(InfraredListViewQuery infraredListViewQuery);
 
-    Infrared insertOne(InfraredDTO infraredDTO) throws DataAccessException;
+    Infrared insertOne(InfraredServiceQuery infraredServiceQuery) throws DataAccessException;
 }

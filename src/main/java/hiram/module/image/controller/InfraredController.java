@@ -5,7 +5,7 @@ import hiram.component.common.pojo.vo.ResultObject;
 import hiram.component.common.controller.BaseController;
 import hiram.component.common.pojo.vo.TableData;
 import hiram.module.image.pojo.po.Infrared;
-import hiram.module.image.pojo.vo.InfraredListParam;
+import hiram.module.image.pojo.query.InfraredListViewQuery;
 import hiram.module.image.service.InfraredService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -48,10 +48,10 @@ public class InfraredController extends BaseController {
     public ResultObject<?> list(
             @PathVariable("pageNum") int pageNum,
             @PathVariable("pageSize") int pageSize,
-            @RequestBody(required = false) InfraredListParam infraredListParam){
+            @RequestBody(required = false) InfraredListViewQuery infraredListViewQuery){
 
         this.startPage();
-        List<Infrared> infrareds = infraredService.list(infraredListParam);
+        List<Infrared> infrareds = infraredService.list(infraredListViewQuery);
 
         if(logger.isDebugEnabled()){
             logger.debug(infrareds);

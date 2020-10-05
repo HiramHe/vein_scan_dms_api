@@ -1,7 +1,7 @@
 package hiram.module.system.service.impl;
 
 import hiram.module.system.mapper.UserRoleMapper;
-import hiram.module.system.pojo.dto.UserRoleInsertArgsDTO;
+import hiram.module.system.pojo.query.UserRoleInsertServiceQuery;
 import hiram.module.system.pojo.po.UserRole;
 import hiram.module.system.service.UserRoleService;
 import org.springframework.beans.BeanUtils;
@@ -49,14 +49,14 @@ public class UserRoleServiceImpl implements UserRoleService {
     /**
      * 插入用户角色
      *
-     * @param userRoleInsertArgsDTO
+     * @param userRoleInsertServiceQuery
      * @return
      */
     @Override
-    public UserRole insertUserRole(UserRoleInsertArgsDTO userRoleInsertArgsDTO) throws Exception {
+    public UserRole insertUserRole(UserRoleInsertServiceQuery userRoleInsertServiceQuery) throws Exception {
 
         UserRole userRole = new UserRole();
-        BeanUtils.copyProperties(userRoleInsertArgsDTO,userRole);
+        BeanUtils.copyProperties(userRoleInsertServiceQuery,userRole);
 
         Long rt = userRoleMapper.insertUserRole(userRole);
 

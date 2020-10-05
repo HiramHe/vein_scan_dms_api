@@ -1,12 +1,8 @@
-package hiram.module.image.pojo.dto;
+package hiram.module.image.pojo.query;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * @Author: HiramHe
@@ -15,7 +11,7 @@ import java.util.Date;
  */
 
 @Data
-public class InfraredDTO {
+public class InfraredServiceQuery {
 
     private String perspective;
     private String filename;

@@ -1,6 +1,6 @@
 package hiram.image;
 
-import hiram.module.image.pojo.dto.BUltrasoundDTO;
+import hiram.module.image.pojo.query.BUltrasoundServiceQuery;
 import hiram.module.image.pojo.po.BUltrasound;
 import hiram.module.image.service.BUltrasoundService;
 import org.junit.Test;
@@ -24,13 +24,13 @@ public class BUltrasoundServiceTest {
 
     @Test
     public void insertOneTest(){
-        BUltrasoundDTO bUltrasoundDTO = new BUltrasoundDTO();
-        bUltrasoundDTO.setFilename("bultrasoundTest.png");
-        bUltrasoundDTO.setPath(null);
+        BUltrasoundServiceQuery bUltrasoundServiceQuery = new BUltrasoundServiceQuery();
+        bUltrasoundServiceQuery.setFilename("bultrasoundTest.png");
+        bUltrasoundServiceQuery.setPath(null);
 
         BUltrasound bUltrasound = null;
         try {
-            bUltrasound = bUltrasoundService.insertOne(bUltrasoundDTO);
+            bUltrasound = bUltrasoundService.insertOne(bUltrasoundServiceQuery);
             System.out.println(bUltrasound.toString());
         } catch (Exception e) {
             System.out.println("插入失败");

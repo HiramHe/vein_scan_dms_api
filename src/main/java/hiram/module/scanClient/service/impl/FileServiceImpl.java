@@ -1,9 +1,9 @@
 package hiram.module.scanClient.service.impl;
 
 import hiram.component.properties.file.ImageProperties;
-import hiram.module.image.pojo.dto.BUltrasoundDTO;
-import hiram.module.image.pojo.dto.InfraredDTO;
-import hiram.module.image.pojo.dto.InfraredDescriptionDTO;
+import hiram.module.image.pojo.query.BUltrasoundServiceQuery;
+import hiram.module.image.pojo.query.InfraredServiceQuery;
+import hiram.module.image.pojo.query.InfraredDescriptionServiceQuery;
 import hiram.module.image.pojo.po.BUltrasound;
 import hiram.module.image.pojo.po.Infrared;
 import hiram.module.image.pojo.po.InfraredDescription;
@@ -49,43 +49,43 @@ public class FileServiceImpl implements FileService {
     @Transactional
     public boolean upload2Local(MultipartFile infraredImage,
                              MultipartFile bUltrasoundImage,
-                             InfraredDTO infraredDTO,
-                             InfraredDescriptionDTO infraredDescriptionDTO,
-                             BUltrasoundDTO bUltrasoundDTO) throws DataAccessException, IOException {
+                             InfraredServiceQuery infraredServiceQuery,
+                             InfraredDescriptionServiceQuery infraredDescriptionServiceQuery,
+                             BUltrasoundServiceQuery bUltrasoundServiceQuery) throws DataAccessException, IOException {
 
         //保存红外图像
         if (infraredImage != null){
-            saveFile(infraredImage,infraredDTO.getFilename(),imageProperties.getInfraredDirectory());
+            saveFile(infraredImage, infraredServiceQuery.getFilename(),imageProperties.getInfraredDirectory());
         }
 
         //保存B超图像
         if (bUltrasoundImage != null){
-            saveFile(bUltrasoundImage,bUltrasoundDTO.getFilename(),imageProperties.getUltrasoundDirectory());
+            saveFile(bUltrasoundImage, bUltrasoundServiceQuery.getFilename(),imageProperties.getUltrasoundDirectory());
         }
 
         //插入红外图像记录
         Infrared infrared = null;
         if (infraredImage != null){
-            infrared = infraredService.insertOne(infraredDTO);
+            infrared = infraredService.insertOne(infraredServiceQuery);
         }
 
         //插入B超图像记录
         BUltrasound bUltrasound = null;
         if (bUltrasoundImage != null){
-            bUltrasound = bUltrasoundService.insertOne(bUltrasoundDTO);
+            bUltrasound = bUltrasoundService.insertOne(bUltrasoundServiceQuery);
         }
 
         //插入红外图像描述
         InfraredDescription infraredDescription = null;
-        if (infraredDescriptionDTO != null){
+        if (infraredDescriptionServiceQuery != null){
             if (infrared != null){
-                infraredDescriptionDTO.setInfraredId(infrared.getInfraredId());
+                infraredDescriptionServiceQuery.setInfraredId(infrared.getInfraredId());
             }
             if (bUltrasound != null){
-                infraredDescriptionDTO.setBUltrasoundId(bUltrasound.getBUltrasoundId());
+                infraredDescriptionServiceQuery.setBUltrasoundId(bUltrasound.getBUltrasoundId());
             }
 
-            infraredDescription = infraredDescriptionService.insertOne(infraredDescriptionDTO);
+            infraredDescription = infraredDescriptionService.insertOne(infraredDescriptionServiceQuery);
         }
 
         if (logger.isDebugEnabled()){

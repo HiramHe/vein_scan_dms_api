@@ -1,4 +1,4 @@
-package hiram.module.image.pojo.dto;
+package hiram.module.image.pojo.query;
 
 import lombok.Data;
 
@@ -9,7 +9,7 @@ import lombok.Data;
  */
 
 @Data
-public class InfraredDescriptionDTO {
+public class InfraredDescriptionServiceQuery {
 
     private Long infraredId;
     private String description;

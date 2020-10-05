@@ -34,7 +34,7 @@
     </resultMap>
 
     <!--使用查询嵌套，解决一对多时的分页问题-->
-    <resultMap id="sysUserResult" type="hiram.module.system.pojo.dto.UserQueryRtDTO" extends="baseMap">
+    <resultMap id="sysUserResult" type="hiram.module.system.pojo.dto.UserSelectDTO" extends="baseMap">
         <id property="userId" column="user_id" />
         <collection property="roles" javaType="java.util.List" select="selectRoleByUserId" column="user_id" />
     </resultMap>
@@ -84,7 +84,7 @@
     </select>
 
     <!--集条件查询于一体-->
-    <select id="selectUserList" parameterType="hiram.module.system.pojo.dto.UserQueryArgsDTO" resultMap="sysUserResult">
+    <select id="selectUserList" parameterType="hiram.module.system.pojo.query.UserListServiceQuery" resultMap="sysUserResult">
         select u.*
         from user u
         where deleted=0
@@ -105,6 +105,12 @@
         left join user_role ur on r.role_id=ur.role_id
         where r.deleted = 0
             and user_id = #{user_id}
+    </select>
+
+    <select id="selectUserByUserId" parameterType="Long" resultType="hiram.module.system.pojo.po.SysUser">
+        select user_id,username,nickname,real_name,sex,birthday,email,phone_number,avatar,remark,enabled,deleted,gmt_create,gmt_modify,version
+        from user
+        where user_id = #{userId}
     </select>
 
     <insert id="insertUser" useGeneratedKeys="true" keyProperty="userId" parameterType="hiram.module.system.pojo.po.SysUser">

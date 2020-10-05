@@ -28,6 +28,7 @@ public enum ResultCode {
     FAILED_NOACTION(4001,"失败，无动作"),
     RECORD_EXIST(4002,"数据已存在"),
     FUNCTION_TODO(4003,"功能待实现"),
+    RECORD_NOT_EXIST(4004,"不存在"),
     COLLECTION_NULL(4005,"集合不得为空"),
     FAILED_AUTHENTICATE(4011, "身份认证失败"),
     LOGIN_EXPIRED(4012,"登录已失效，请重新登录"),

@@ -6,13 +6,10 @@ import hiram.common.utils.ObjectUtils;
 import hiram.component.common.pojo.vo.ResultObject;
 import hiram.component.common.controller.BaseController;
 import hiram.component.common.pojo.vo.TableData;
-import hiram.module.system.pojo.dto.UserQueryRtDTO;
-import hiram.module.system.pojo.dto.UserUpdateArgsDTO;
+import hiram.module.system.pojo.dto.UserSelectDTO;
+import hiram.module.system.pojo.query.*;
 import hiram.module.system.pojo.po.SysUser;
 import hiram.module.system.pojo.po.UserRole;
-import hiram.module.system.pojo.vo.UserInsertArgsVO;
-import hiram.module.system.pojo.vo.UserQueryArgsVO;
-import hiram.module.system.pojo.vo.UserUpdateArgsVO;
 import hiram.module.system.service.IUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -20,7 +17,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -45,6 +42,9 @@ public class UserController extends BaseController {
     @Autowired
     private IUserService iUserService;
 
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
     /*
     查询
     */
@@ -59,21 +59,43 @@ public class UserController extends BaseController {
     public ResultObject<?> list(
             @RequestParam(value = "pageNum") int pageNum,
             @RequestParam(value = "pageSize") int pageSize,
-            @RequestBody(required = false) UserQueryArgsVO userQueryArgsVO){
+            @RequestBody(required = false) UserListViewQuery userListViewQuery){
 
         if(logger.isDebugEnabled()){
-            if(userQueryArgsVO !=null && userQueryArgsVO.getBeginTime() != null){
-                System.out.println("beginTime:"+ userQueryArgsVO.getBeginTime());
-                System.out.println("Type:"+ userQueryArgsVO.getBeginTime().getClass());
+            if(userListViewQuery !=null && userListViewQuery.getBeginTime() != null){
+                logger.debug("beginTime:"+ userListViewQuery.getBeginTime());
+                logger.debug("Type:"+ userListViewQuery.getBeginTime().getClass());
             }
         }
 
-        this.startPage();
-        List<UserQueryRtDTO> userQueryRtDTOs = iUserService.selectUserList(userQueryArgsVO);
+        //将vo转化为dto
+        UserListServiceQuery userListServiceQuery = new UserListServiceQuery();
+        if (userListViewQuery != null){
+            BeanUtils.copyProperties(userListViewQuery, userListServiceQuery);
+        }
 
-        TableData tableData = this.getTableData(userQueryRtDTOs);
+        this.startPage();
+        List<UserSelectDTO> userSelectDTOs = iUserService.selectUserList(userListServiceQuery);
+
+        TableData tableData = this.getTableData(userSelectDTOs);
 
         return ResultObject.success(ResultCode.SUCCESS,tableData);
+    }
+
+    @ApiOperation(value = "根据用户id获取用户信息")
+    @GetMapping("/query/{userId}")
+    public ResultObject<?> query(@PathVariable(name = "userId",required = true) Long userId){
+
+        UserSelectDTO userSelectDTO = iUserService.selectUserByUserId(userId);
+
+        if (userSelectDTO == null){
+            return ResultObject.failed(ResultCode.RECORD_NOT_EXIST);
+        }
+
+        Map<String,UserSelectDTO> data = new HashMap<>();
+        data.put("user",userSelectDTO);
+
+        return ResultObject.success(ResultCode.SUCCESS,data);
     }
 
     /*
@@ -89,30 +111,35 @@ public class UserController extends BaseController {
      */
     @ApiOperation(value = "添加系统用户")
     @PutMapping("/add")
-    public ResultObject<?> add(@RequestBody UserInsertArgsVO userInsertArgsVO){
+    public ResultObject<?> add(@RequestBody UserInsertViewQuery userInsertViewQuery){
 
         ////检查用户名和密码是否为空
-        if(MyStringUtils.isEmpty(userInsertArgsVO.getUsername())  || MyStringUtils.isEmpty(userInsertArgsVO.getPassword())){
+        if(MyStringUtils.isEmpty(userInsertViewQuery.getUsername())  || MyStringUtils.isEmpty(userInsertViewQuery.getPassword())){
             return ResultObject.failed(ResultCode.USERNAME_PASSWORD_NULL);
         }
 
         //检查用户名唯一性
-        boolean isUserNameUnique = iUserService.checkUserNameUnique(null,userInsertArgsVO.getUsername());
-        if(isUserNameUnique){
+        boolean isUserNameUnique = iUserService.checkUserNameUnique(null, userInsertViewQuery.getUsername());
+        if(!isUserNameUnique){
             return ResultObject.failed(ResultCode.USER_EXIST);
         }
 
         //检查手机号是否已存在
-        if(!MyStringUtils.isEmpty(userInsertArgsVO.getPhoneNumber()) && !iUserService.checkPhoneUnique(null,userInsertArgsVO.getPhoneNumber())){
+        if(!MyStringUtils.isEmpty(userInsertViewQuery.getPhoneNumber()) && !iUserService.checkPhoneUnique(null, userInsertViewQuery.getPhoneNumber())){
             return ResultObject.failed(ResultCode.PHONENUMBER_NOT_UNIQUE);
         }
 
         //检查邮箱账号是否已存在
-        if(!MyStringUtils.isEmpty(userInsertArgsVO.getEmail()) && !iUserService.checkEmailUnique(null,userInsertArgsVO.getEmail())){
+        if(!MyStringUtils.isEmpty(userInsertViewQuery.getEmail()) && !iUserService.checkEmailUnique(null, userInsertViewQuery.getEmail())){
             return ResultObject.failed(ResultCode.EMAIL_NOT_UNIQUE);
         }
 
-        SysUser sysUser = iUserService.insertUser(userInsertArgsVO);
+        //封装vo到dto中，不修改vo中的值
+        UserInsertServiceQuery userInsertServiceQuery = new UserInsertServiceQuery();
+        BeanUtils.copyProperties(userInsertViewQuery, userInsertServiceQuery);
+        userInsertServiceQuery.setPassword(passwordEncoder.encode(userInsertViewQuery.getPassword()));
+
+        SysUser sysUser = iUserService.insertUser(userInsertServiceQuery);
 
         Map<String,SysUser> data = new HashMap<>();
         data.put("user:",sysUser);
@@ -168,9 +195,9 @@ public class UserController extends BaseController {
     @ApiOperation(value = "根据用户id，更新用户基本信息")
     @PostMapping("/update")
     public ResultObject<?> updateUser(
-            @Valid @RequestBody UserUpdateArgsVO userUpdateArgsVO){
+            @Valid @RequestBody UserUpdateViewQuery userUpdateViewQuery){
 
-        Long userId = userUpdateArgsVO.getUserId();
+        Long userId = userUpdateViewQuery.getUserId();
 
         //校验userId
         if (userId == null || userId<=0){
@@ -179,21 +206,21 @@ public class UserController extends BaseController {
 
         //校验所有参数是否都为null
         if (
-                MyStringUtils.isEmpty(userUpdateArgsVO.getNickname())
-                && MyStringUtils.isEmpty(userUpdateArgsVO.getRealName())
-                && MyStringUtils.isEmpty(userUpdateArgsVO.getSex())
-                && MyStringUtils.isEmpty(userUpdateArgsVO.getEmail())
-                && ObjectUtils.isNull(userUpdateArgsVO.getBirthday())
-                && MyStringUtils.isEmpty(userUpdateArgsVO.getPhoneNumber())
-                && MyStringUtils.isEmpty(userUpdateArgsVO.getAvatar())
-                && MyStringUtils.isEmpty(userUpdateArgsVO.getRemark())
-                && ObjectUtils.isNull(userUpdateArgsVO.getEnabled())
+                MyStringUtils.isEmpty(userUpdateViewQuery.getNickname())
+                && MyStringUtils.isEmpty(userUpdateViewQuery.getRealName())
+                && MyStringUtils.isEmpty(userUpdateViewQuery.getSex())
+                && MyStringUtils.isEmpty(userUpdateViewQuery.getEmail())
+                && ObjectUtils.isNull(userUpdateViewQuery.getBirthday())
+                && MyStringUtils.isEmpty(userUpdateViewQuery.getPhoneNumber())
+                && MyStringUtils.isEmpty(userUpdateViewQuery.getAvatar())
+                && MyStringUtils.isEmpty(userUpdateViewQuery.getRemark())
+                && ObjectUtils.isNull(userUpdateViewQuery.getEnabled())
         ){
             return ResultObject.success(ResultCode.SUCCESS_NOACTION);
         }
 
         //校验用户名唯一性
-        String username = userUpdateArgsVO.getUsername();
+        String username = userUpdateViewQuery.getUsername();
         if (username!=null){
             boolean isUserNameUnique = iUserService.checkUserNameUnique(userId,username);
 
@@ -203,7 +230,7 @@ public class UserController extends BaseController {
         }
 
         //校验email唯一性
-        String email = userUpdateArgsVO.getEmail();
+        String email = userUpdateViewQuery.getEmail();
         if (email!=null){
             boolean isEmailUnique = iUserService.checkEmailUnique(userId,email);
 
@@ -213,7 +240,7 @@ public class UserController extends BaseController {
         }
 
         //校验手机号唯一性
-        String phoneNumber = userUpdateArgsVO.getPhoneNumber();
+        String phoneNumber = userUpdateViewQuery.getPhoneNumber();
         if (phoneNumber!=null){
             boolean isPhoneUnique = iUserService.checkPhoneUnique(userId,phoneNumber);
 
@@ -223,7 +250,7 @@ public class UserController extends BaseController {
         }
 
         //处理roleIds
-        Long[] roleIds = userUpdateArgsVO.getRoleIds();
+        Long[] roleIds = userUpdateViewQuery.getRoleIds();
         List<UserRole> userRoleList = null;
         if (roleIds != null && roleIds.length > 0){
             userRoleList = new ArrayList<>();
@@ -240,15 +267,15 @@ public class UserController extends BaseController {
         }
 
         //将vo转换为dto
-        UserUpdateArgsDTO userUpdateArgsDTO = new UserUpdateArgsDTO();
-        BeanUtils.copyProperties(userUpdateArgsVO,userUpdateArgsDTO);
+        UserUpdateServiceQuery userUpdateServiceQuery = new UserUpdateServiceQuery();
+        BeanUtils.copyProperties(userUpdateViewQuery, userUpdateServiceQuery);
         if (userRoleList!=null && userRoleList.size()>0){
-            userUpdateArgsDTO.setUserRoleList(userRoleList);
+            userUpdateServiceQuery.setUserRoleList(userRoleList);
         }
 
         Long affectRows;
         try {
-            affectRows = iUserService.updateUser(userUpdateArgsDTO);
+            affectRows = iUserService.updateUser(userUpdateServiceQuery);
         } catch (Exception e) {
             return ResultObject.failed(ResultCode.FAILED);
         }

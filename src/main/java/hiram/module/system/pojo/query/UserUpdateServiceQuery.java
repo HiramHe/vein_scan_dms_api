@@ -1,14 +1,9 @@
-package hiram.module.system.pojo.dto;
+package hiram.module.system.pojo.query;
 
 import hiram.module.system.pojo.po.UserRole;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -18,7 +13,7 @@ import java.util.List;
  */
 
 @Data
-public class UserUpdateArgsDTO {
+public class UserUpdateServiceQuery {
 
     private Long userId;
 

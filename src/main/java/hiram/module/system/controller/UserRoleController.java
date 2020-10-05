@@ -2,8 +2,7 @@ package hiram.module.system.controller;
 
 import hiram.common.enums.ResultCode;
 import hiram.component.common.pojo.vo.ResultObject;
-import hiram.module.system.pojo.dto.UserRoleDeleteArgsDTO;
-import hiram.module.system.pojo.dto.UserRoleInsertArgsDTO;
+import hiram.module.system.pojo.query.UserRoleInsertServiceQuery;
 import hiram.module.system.pojo.po.UserRole;
 import hiram.module.system.service.UserRoleService;
 import io.swagger.annotations.Api;
@@ -38,11 +37,11 @@ public class UserRoleController {
     public ResultObject<?> add(@RequestParam() Long userId,
                                @RequestParam() Long roleId){
 
-        UserRoleInsertArgsDTO userRoleInsertArgsDTO = new UserRoleInsertArgsDTO(userId,roleId);
+        UserRoleInsertServiceQuery userRoleInsertServiceQuery = new UserRoleInsertServiceQuery(userId,roleId);
         UserRole userRole = null;
 
         try {
-            userRole = userRoleService.insertUserRole(userRoleInsertArgsDTO);
+            userRole = userRoleService.insertUserRole(userRoleInsertServiceQuery);
 
         } catch (Exception e) {
 

@@ -1,4 +1,4 @@
-package hiram.module.image.pojo.vo;
+package hiram.module.image.pojo.query;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
@@ -13,7 +13,7 @@ import java.sql.Timestamp;
  */
 
 @Data
-public class InfraredListParam {
+public class InfraredListViewQuery {
 
     private String patientName;
 

@@ -4,14 +4,13 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import hiram.common.constant.Constants;
 import hiram.module.system.mapper.UserMapper;
 import hiram.module.system.mapper.UserRoleMapper;
-import hiram.module.system.pojo.dto.UserInsertArgsDTO;
-import hiram.module.system.pojo.dto.UserQueryArgsDTO;
-import hiram.module.system.pojo.dto.UserQueryRtDTO;
-import hiram.module.system.pojo.dto.UserUpdateArgsDTO;
+import hiram.module.system.pojo.query.UserInsertServiceQuery;
+import hiram.module.system.pojo.query.UserListServiceQuery;
+import hiram.module.system.pojo.dto.UserSelectDTO;
+import hiram.module.system.pojo.query.UserUpdateServiceQuery;
 import hiram.module.system.pojo.po.SysUser;
 import hiram.module.system.pojo.po.UserRole;
-import hiram.module.system.pojo.vo.UserInsertArgsVO;
-import hiram.module.system.pojo.vo.UserQueryArgsVO;
+import hiram.module.system.pojo.query.UserInsertViewQuery;
 import hiram.module.system.service.IUserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +36,7 @@ public class UserServiceImpl implements IUserService {
     private UserRoleMapper userRoleMapper;
 
     @Autowired
-    BCryptPasswordEncoder passwordEncoder;
+    private BCryptPasswordEncoder passwordEncoder;
 
 
     /*
@@ -53,17 +52,25 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public List<UserQueryRtDTO> selectUserList(UserQueryArgsVO userQueryArgsVO) {
+    public List<UserSelectDTO> selectUserList(UserListServiceQuery userListServiceQuery) {
 
-        //将vo转化为dto
-        UserQueryArgsDTO userQueryArgsDTO = new UserQueryArgsDTO();
-        if (userQueryArgsVO != null){
-            BeanUtils.copyProperties(userQueryArgsVO,userQueryArgsDTO);
+        List<UserSelectDTO> userSelectDTOS = userMapper.selectUserList(userListServiceQuery);
+
+        return userSelectDTOS;
+    }
+
+    @Override
+    public UserSelectDTO selectUserByUserId(Long userId) {
+
+        SysUser dbUser = userMapper.selectUserByUserId(userId);
+
+        UserSelectDTO userSelectDTO = null;
+        if (dbUser != null){
+            userSelectDTO = new UserSelectDTO();
+            BeanUtils.copyProperties(dbUser,userSelectDTO);
         }
 
-        List<UserQueryRtDTO> userQueryRtDTOs = userMapper.selectUserList(userQueryArgsDTO);
-
-        return userQueryRtDTOs;
+        return userSelectDTO;
     }
 
     /*
@@ -86,10 +93,10 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     @Transactional
-    public Long updateUser(UserUpdateArgsDTO userUpdateArgsDTO) throws Exception {
+    public Long updateUser(UserUpdateServiceQuery userUpdateServiceQuery) throws Exception {
 
         SysUser sysUser = new SysUser();
-        BeanUtils.copyProperties(userUpdateArgsDTO,sysUser);
+        BeanUtils.copyProperties(userUpdateServiceQuery,sysUser);
 
         //更新用户
         Long rt = userMapper.updateUser(sysUser);
@@ -98,7 +105,7 @@ public class UserServiceImpl implements IUserService {
             return rt;
         }
 
-        List<UserRole> userRoleList = userUpdateArgsDTO.getUserRoleList();
+        List<UserRole> userRoleList = userUpdateServiceQuery.getUserRoleList();
         if (userRoleList!=null && userRoleList.size()>0){
             //删除用户与角色的关联
             userRoleMapper.deleteUserRoleByUserId(sysUser.getUserId());
@@ -133,16 +140,10 @@ public class UserServiceImpl implements IUserService {
     */
 
     @Override
-    public SysUser insertUser(UserInsertArgsVO userInsertArgsVO) {
-
-        //封装vo到dto中，不修改vo中的值
-        UserInsertArgsDTO userInsertArgsDTO = new UserInsertArgsDTO();
-        BeanUtils.copyProperties(userInsertArgsVO,userInsertArgsDTO);
-
-        userInsertArgsDTO.setPassword(passwordEncoder.encode(userInsertArgsDTO.getPassword()));
+    public SysUser insertUser(UserInsertServiceQuery userInsertServiceQuery) {
 
         SysUser sysUser = new SysUser();
-        BeanUtils.copyProperties(userInsertArgsDTO,sysUser);
+        BeanUtils.copyProperties(userInsertServiceQuery,sysUser);
 
         Long rt = userMapper.insertUser(sysUser);
 

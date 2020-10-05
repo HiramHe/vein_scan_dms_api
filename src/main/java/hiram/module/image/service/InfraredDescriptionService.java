@@ -1,6 +1,6 @@
 package hiram.module.image.service;
 
-import hiram.module.image.pojo.dto.InfraredDescriptionDTO;
+import hiram.module.image.pojo.query.InfraredDescriptionServiceQuery;
 import hiram.module.image.pojo.po.InfraredDescription;
 import org.springframework.dao.DataAccessException;
 
@@ -12,5 +12,5 @@ import org.springframework.dao.DataAccessException;
 
 public interface InfraredDescriptionService {
 
-    InfraredDescription insertOne(InfraredDescriptionDTO infraredDescriptionDTO) throws DataAccessException;
+    InfraredDescription insertOne(InfraredDescriptionServiceQuery infraredDescriptionServiceQuery) throws DataAccessException;
 }

@@ -1,4 +1,4 @@
-package hiram.module.system.pojo.dto;
+package hiram.module.system.pojo.query;
 
 import hiram.component.common.pojo.entity.BaseEntity;
 import hiram.module.system.pojo.po.SysRole;
@@ -19,7 +19,7 @@ rt = return
  */
 
 @Data
-public class UserInsertArgsDTO {
+public class UserInsertServiceQuery {
 
     private String username;
 

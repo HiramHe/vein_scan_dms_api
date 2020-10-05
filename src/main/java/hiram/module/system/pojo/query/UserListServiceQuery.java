@@ -1,4 +1,4 @@
-package hiram.module.system.pojo.dto;
+package hiram.module.system.pojo.query;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -21,7 +21,7 @@ ac = accept
 
 @Data
 @ApiModel
-public class UserQueryArgsDTO {
+public class UserListServiceQuery {
 
     private String username;
     private String phoneNumber;

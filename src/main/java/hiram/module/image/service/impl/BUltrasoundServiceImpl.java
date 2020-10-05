@@ -1,7 +1,7 @@
 package hiram.module.image.service.impl;
 
 import hiram.module.image.mapper.BUltrasoundMapper;
-import hiram.module.image.pojo.dto.BUltrasoundDTO;
+import hiram.module.image.pojo.query.BUltrasoundServiceQuery;
 import hiram.module.image.pojo.po.BUltrasound;
 import hiram.module.image.service.BUltrasoundService;
 import org.springframework.beans.BeanUtils;
@@ -22,10 +22,10 @@ public class BUltrasoundServiceImpl implements BUltrasoundService {
     BUltrasoundMapper bUltrasoundMapper;
 
     @Override
-    public BUltrasound insertOne(BUltrasoundDTO bUltrasoundDTO) throws DataAccessException {
+    public BUltrasound insertOne(BUltrasoundServiceQuery bUltrasoundServiceQuery) throws DataAccessException {
 
         BUltrasound bUltrasound = new BUltrasound();
-        BeanUtils.copyProperties(bUltrasoundDTO,bUltrasound);
+        BeanUtils.copyProperties(bUltrasoundServiceQuery,bUltrasound);
 
         int rt = bUltrasoundMapper.insertOne(bUltrasound);
 

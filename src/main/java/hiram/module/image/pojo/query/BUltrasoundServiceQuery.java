@@ -1,4 +1,4 @@
-package hiram.module.image.pojo.dto;
+package hiram.module.image.pojo.query;
 
 import lombok.Data;
 
@@ -9,7 +9,7 @@ import lombok.Data;
  */
 
 @Data
-public class BUltrasoundDTO {
+public class BUltrasoundServiceQuery {
 
     private String filename;
     private String path;

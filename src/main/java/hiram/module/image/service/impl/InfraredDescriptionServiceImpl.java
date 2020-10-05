@@ -1,7 +1,7 @@
 package hiram.module.image.service.impl;
 
 import hiram.module.image.mapper.InfraredDescriptionMapper;
-import hiram.module.image.pojo.dto.InfraredDescriptionDTO;
+import hiram.module.image.pojo.query.InfraredDescriptionServiceQuery;
 import hiram.module.image.pojo.po.InfraredDescription;
 import hiram.module.image.service.InfraredDescriptionService;
 import org.springframework.beans.BeanUtils;
@@ -22,10 +22,10 @@ public class InfraredDescriptionServiceImpl implements InfraredDescriptionServic
     InfraredDescriptionMapper infraredDescriptionMapper;
 
     @Override
-    public InfraredDescription insertOne(InfraredDescriptionDTO infraredDescriptionDTO) throws DataAccessException {
+    public InfraredDescription insertOne(InfraredDescriptionServiceQuery infraredDescriptionServiceQuery) throws DataAccessException {
 
         InfraredDescription infraredDescription = new InfraredDescription();
-        BeanUtils.copyProperties(infraredDescriptionDTO,infraredDescription);
+        BeanUtils.copyProperties(infraredDescriptionServiceQuery,infraredDescription);
 
         int rt = infraredDescriptionMapper.insertOne(infraredDescription);
 

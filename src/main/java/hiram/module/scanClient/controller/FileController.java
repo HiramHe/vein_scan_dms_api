@@ -1,15 +1,13 @@
 package hiram.module.scanClient.controller;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import hiram.common.enums.ResultCode;
 import hiram.common.utils.FileUtils;
 import hiram.common.utils.MyStringUtils;
-import hiram.component.common.pojo.dto.Coordinate;
 import hiram.component.common.pojo.vo.ResultObject;
 import hiram.component.properties.file.ImageProperties;
-import hiram.module.image.pojo.dto.BUltrasoundDTO;
-import hiram.module.image.pojo.dto.InfraredDTO;
-import hiram.module.image.pojo.dto.InfraredDescriptionDTO;
+import hiram.module.image.pojo.query.BUltrasoundServiceQuery;
+import hiram.module.image.pojo.query.InfraredServiceQuery;
+import hiram.module.image.pojo.query.InfraredDescriptionServiceQuery;
 import hiram.module.scanClient.service.FileService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -23,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -88,46 +85,46 @@ public class FileController {
         }
 
         //构建红外图像信息
-        InfraredDTO infraredDTO = new InfraredDTO();
-        infraredDTO.setPerspective(perspective);
-        infraredDTO.setFilename(infraredImageFileName);
-        infraredDTO.setPath(imageProperties.getInfraredDirectory());
-        infraredDTO.setScanTime(scanTime);
-        infraredDTO.setPatientId(patientId);
-        infraredDTO.setUserId(userId);
+        InfraredServiceQuery infraredServiceQuery = new InfraredServiceQuery();
+        infraredServiceQuery.setPerspective(perspective);
+        infraredServiceQuery.setFilename(infraredImageFileName);
+        infraredServiceQuery.setPath(imageProperties.getInfraredDirectory());
+        infraredServiceQuery.setScanTime(scanTime);
+        infraredServiceQuery.setPatientId(patientId);
+        infraredServiceQuery.setUserId(userId);
 
         //构建B超图像信息
-        BUltrasoundDTO bUltrasoundDTO = null;
+        BUltrasoundServiceQuery bUltrasoundServiceQuery = null;
         if(bUltrasoundImage!=null) {
             String bUltrasoundImageFileName = bUltrasoundImage.getOriginalFilename();
             if (!FileUtils.isImage(bUltrasoundImageFileName)){
                 return ResultObject.failed(ResultCode.FILE_FORMAT_NOT_SUPPORT);
             }
 
-            bUltrasoundDTO = new BUltrasoundDTO();
-            bUltrasoundDTO.setFilename(bUltrasoundImageFileName);
-            bUltrasoundDTO.setPath(imageProperties.getUltrasoundDirectory());
+            bUltrasoundServiceQuery = new BUltrasoundServiceQuery();
+            bUltrasoundServiceQuery.setFilename(bUltrasoundImageFileName);
+            bUltrasoundServiceQuery.setPath(imageProperties.getUltrasoundDirectory());
         }
 
         //构建红外图像描述对象
-        InfraredDescriptionDTO infraredDescriptionDTO = null;
+        InfraredDescriptionServiceQuery infraredDescriptionServiceQuery = null;
         if (!MyStringUtils.isEmpty(description) || !MyStringUtils.isEmpty(severityLevel)
                 || (descriptionXCoordinate!=null && descriptionYCoordinate!=null)
                 || (bUltrasoundXCoordinate!=null && bUltrasoundYCoordinate!=null)){
 
-            infraredDescriptionDTO = new InfraredDescriptionDTO();
-            infraredDescriptionDTO.setDescription(description);
-            infraredDescriptionDTO.setSeverityLevel(severityLevel);
-            infraredDescriptionDTO.setDescriptionXCoordinate(descriptionXCoordinate);
-            infraredDescriptionDTO.setDescriptionYCoordinate(descriptionYCoordinate);
-            infraredDescriptionDTO.setBUltrasoundXCoordinate(bUltrasoundXCoordinate);
-            infraredDescriptionDTO.setBUltrasoundYCoordinate(bUltrasoundYCoordinate);
+            infraredDescriptionServiceQuery = new InfraredDescriptionServiceQuery();
+            infraredDescriptionServiceQuery.setDescription(description);
+            infraredDescriptionServiceQuery.setSeverityLevel(severityLevel);
+            infraredDescriptionServiceQuery.setDescriptionXCoordinate(descriptionXCoordinate);
+            infraredDescriptionServiceQuery.setDescriptionYCoordinate(descriptionYCoordinate);
+            infraredDescriptionServiceQuery.setBUltrasoundXCoordinate(bUltrasoundXCoordinate);
+            infraredDescriptionServiceQuery.setBUltrasoundYCoordinate(bUltrasoundYCoordinate);
         }
 
 
         //保存数据
         try {
-            fileService.upload2Local(infraredImage,bUltrasoundImage,infraredDTO,infraredDescriptionDTO,bUltrasoundDTO);
+            fileService.upload2Local(infraredImage,bUltrasoundImage, infraredServiceQuery, infraredDescriptionServiceQuery, bUltrasoundServiceQuery);
         } catch (IOException e) {
 
             return ResultObject.failed(ResultCode.EXCEPTION_IO);
@@ -138,10 +135,10 @@ public class FileController {
             }
 
             //删除磁盘上的文件
-            fileService.deleteFile(infraredDTO.getFilename(),infraredDTO.getPath());
+            fileService.deleteFile(infraredServiceQuery.getFilename(), infraredServiceQuery.getPath());
 
-            if (bUltrasoundDTO != null){
-                fileService.deleteFile(bUltrasoundDTO.getFilename(),bUltrasoundDTO.getPath());
+            if (bUltrasoundServiceQuery != null){
+                fileService.deleteFile(bUltrasoundServiceQuery.getFilename(), bUltrasoundServiceQuery.getPath());
             }
 
             return ResultObject.failed(ResultCode.EXCEPTION_DAO);

@@ -1,4 +1,4 @@
-package hiram.module.system.pojo.dto;
+package hiram.module.system.pojo.query;
 
 import hiram.component.common.pojo.entity.BaseEntity;
 import lombok.Data;
@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class UserRoleInsertArgsDTO {
+public class UserRoleInsertServiceQuery {
 
     /** 用户ID */
 
@@ -22,7 +22,7 @@ public class UserRoleInsertArgsDTO {
     private Long roleId;
 
 
-    public UserRoleInsertArgsDTO(Long userId, Long roleId){
+    public UserRoleInsertServiceQuery(Long userId, Long roleId){
         this.userId = userId;
         this.roleId = roleId;
     }

@@ -1,4 +1,4 @@
-package hiram.module.system.pojo.vo;
+package hiram.module.system.pojo.query;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
@@ -16,7 +16,7 @@ import java.time.LocalDate;
  */
 
 @Data
-public class ProfileUpdateArgsVO {
+public class ProfileUpdateViewQuery {
 
     @NotNull(message = "useId不能为空")
     private Long userId;
