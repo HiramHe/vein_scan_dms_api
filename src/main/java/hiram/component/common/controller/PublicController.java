@@ -1,7 +1,7 @@
 package hiram.component.common.controller;
 
-import hiram.common.enums.ResultCode;
-import hiram.common.enums.ResourcePatternLocation;
+import hiram.common.enums.ResultCodeEnum;
+import hiram.common.enums.ResourcePatternLocationEnum;
 import hiram.component.common.pojo.vo.ResultObject;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -35,14 +35,14 @@ public class PublicController {
     public ResultObject<Map<String,Object>> listResultCode(){
 
         Map<Long,String> resultCodes = new HashMap<>();
-        for (ResultCode resultCode : ResultCode.values()) {
-            resultCodes.put(resultCode.getCode(),resultCode.getMsg());
+        for (ResultCodeEnum resultCodeEnum : ResultCodeEnum.values()) {
+            resultCodes.put(resultCodeEnum.getCode(), resultCodeEnum.getMsg());
         }
 
         Map<String,Object> data = new HashMap<>();
         data.put("code:msg",resultCodes);
 
-        return ResultObject.success(ResultCode.SUCCESS,data);
+        return ResultObject.success(ResultCodeEnum.SUCCESS,data);
     }
 
     /*
@@ -53,13 +53,13 @@ public class PublicController {
     public ResultObject<Map<String,Object>> listResourcePatternLocation(){
 
         Map<String,String> resourcePatternLocations = new HashMap<>();
-        for (ResourcePatternLocation resourcePatternLocation : ResourcePatternLocation.values()) {
-            resourcePatternLocations.put(resourcePatternLocation.getName(), resourcePatternLocation.getPathPattern());
+        for (ResourcePatternLocationEnum resourcePatternLocationEnum : ResourcePatternLocationEnum.values()) {
+            resourcePatternLocations.put(resourcePatternLocationEnum.getName(), resourcePatternLocationEnum.getPathPattern());
         }
 
         Map<String,Object> data = new HashMap<>();
         data.put("resource:pathPattern",resourcePatternLocations);
 
-        return ResultObject.success(ResultCode.SUCCESS,data);
+        return ResultObject.success(ResultCodeEnum.SUCCESS,data);
     }
 }

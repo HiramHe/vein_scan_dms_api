@@ -1,6 +1,6 @@
 package hiram.module.patient.controller;
 
-import hiram.common.enums.ResultCode;
+import hiram.common.enums.ResultCodeEnum;
 import hiram.common.utils.MyStringUtils;
 import hiram.component.common.controller.BaseController;
 import hiram.component.common.pojo.vo.ResultObject;
@@ -13,7 +13,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -57,13 +56,13 @@ public class PatientController extends BaseController {
         Patient patient = patientService.selectPatientByPatientId(patientId);
 
         if (patient == null){
-            return ResultObject.failed(ResultCode.RECORD_NOT_EXIST);
+            return ResultObject.failed(ResultCodeEnum.RECORD_NOT_EXIST);
         }
 
         Map<String,Patient> data = new HashMap<>();
         data.put("patient",patient);
 
-        return ResultObject.success(ResultCode.SUCCESS,data);
+        return ResultObject.success(ResultCodeEnum.SUCCESS,data);
     }
 
     @ApiOperation("新增患者")
@@ -75,7 +74,7 @@ public class PatientController extends BaseController {
             patientAddServiceQuery = new PatientAddServiceQuery();
             BeanUtils.copyProperties(patientAddViewQuery,patientAddServiceQuery);
         }else {
-            return ResultObject.failed(ResultCode.FAILED);
+            return ResultObject.failed(ResultCodeEnum.FAILED);
         }
 
         //校验姓名唯一性
@@ -83,7 +82,7 @@ public class PatientController extends BaseController {
 
             Boolean isPatientNameUnique = patientService.checkPatientNameUnique(null, patientAddViewQuery.getPatientName());
             if (!isPatientNameUnique){
-                return ResultObject.failed(ResultCode.NAME_EXIST);
+                return ResultObject.failed(ResultCodeEnum.NAME_EXIST);
             }
         }
 
@@ -92,7 +91,7 @@ public class PatientController extends BaseController {
 
             Boolean isPhoneNumberUnique = patientService.checkPhoneNumberUnique(null, patientAddViewQuery.getPhoneNumber());
             if (!isPhoneNumberUnique){
-                return ResultObject.failed(ResultCode.PHONENUMBER_NOT_UNIQUE);
+                return ResultObject.failed(ResultCodeEnum.PHONENUMBER_NOT_UNIQUE);
             }
         }
 
@@ -101,19 +100,19 @@ public class PatientController extends BaseController {
 
             Boolean isEmailUnique = patientService.checkEmailUnique(null, patientAddViewQuery.getEmail());
             if (!isEmailUnique){
-                return ResultObject.failed(ResultCode.EMAIL_NOT_UNIQUE);
+                return ResultObject.failed(ResultCodeEnum.EMAIL_NOT_UNIQUE);
             }
         }
 
         Patient patient = patientService.insertOne(patientAddServiceQuery);
 
         if (patient == null){
-            return ResultObject.failed(ResultCode.FAILED);
+            return ResultObject.failed(ResultCodeEnum.FAILED);
         }
 
         Map<String,Patient> data = new HashMap<>();
         data.put("patient",patient);
 
-        return ResultObject.success(ResultCode.SUCCESS,data);
+        return ResultObject.success(ResultCodeEnum.SUCCESS,data);
     }
 }

@@ -1,6 +1,6 @@
 package hiram.module.system.controller;
 
-import hiram.common.enums.ResultCode;
+import hiram.common.enums.ResultCodeEnum;
 import hiram.component.common.pojo.vo.ResultObject;
 import hiram.module.system.pojo.query.LoginViewQuery;
 import hiram.module.system.service.LoginService;
@@ -11,7 +11,6 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -45,7 +44,7 @@ public class LoginController {
         }
 
         if(StringUtils.isEmpty(loginViewQuery.getUsername()) || StringUtils.isEmpty(loginViewQuery.getPassword())){
-            return ResultObject.failed(ResultCode.USERNAME_PASSWORD_NULL);
+            return ResultObject.failed(ResultCodeEnum.USERNAME_PASSWORD_NULL);
         }
 
         String token = loginService.login(loginViewQuery.getUsername(), loginViewQuery.getPassword());
@@ -54,9 +53,9 @@ public class LoginController {
             Map<String,String> data = new HashMap<>();
             data.put("token",token);
 
-            return ResultObject.success(ResultCode.SUCCESS_AUTHENTICATE,data);
+            return ResultObject.success(ResultCodeEnum.SUCCESS_AUTHENTICATE,data);
         }else {
-            return ResultObject.failed(ResultCode.FAILED_AUTHENTICATE);
+            return ResultObject.failed(ResultCodeEnum.FAILED_AUTHENTICATE);
         }
 
     }

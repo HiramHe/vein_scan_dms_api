@@ -6,7 +6,7 @@ package hiram.common.enums;
  * @Description: ""
  */
 
-public enum ResourcePatternLocation {
+public enum ResourcePatternLocationEnum {
 
     IMAGE("images","/images/**",null),
     STATIC("static","/static/","classpath:/static/"),
@@ -19,7 +19,7 @@ public enum ResourcePatternLocation {
     private final String pathPattern;
     private final String location;
 
-    ResourcePatternLocation(String name, String pathPattern, String location) {
+    ResourcePatternLocationEnum(String name, String pathPattern, String location) {
         this.name = name;
         this.pathPattern = pathPattern;
         this.location = location;

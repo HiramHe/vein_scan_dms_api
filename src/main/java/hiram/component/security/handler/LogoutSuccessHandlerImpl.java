@@ -3,7 +3,7 @@ package hiram.component.security.handler;
 import hiram.component.common.pojo.vo.LoginUser;
 import hiram.component.common.service.ITokenService;
 import hiram.common.utils.JsonUtils;
-import hiram.common.enums.ResultCode;
+import hiram.common.enums.ResultCodeEnum;
 import hiram.component.common.pojo.vo.ResultObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -37,7 +37,7 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
                 iTokenService.deleteLoginUser(loginUser.getUuid());
             }
 
-            ResultObject resultObject = ResultObject.success(ResultCode.SUCCESS_LOGOUT,null);
+            ResultObject resultObject = ResultObject.success(ResultCodeEnum.SUCCESS_LOGOUT,null);
             JsonUtils.writeObject(request,response,resultObject);
 
         } catch (Exception e) {

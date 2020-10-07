@@ -1,6 +1,6 @@
 package hiram.component.exception;
 
-import hiram.common.enums.ResultCode;
+import hiram.common.enums.ResultCodeEnum;
 import hiram.component.common.pojo.vo.ResultObject;
 import io.jsonwebtoken.JwtException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -18,18 +18,18 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({JwtException.class})
     public ResultObject<?> handleException(JwtException exception){
 
-        return ResultObject.failed(ResultCode.TOKEN_UNTRUSTED);
+        return ResultObject.failed(ResultCodeEnum.TOKEN_UNTRUSTED);
     }
 
     @ExceptionHandler({TokenException.class})
     public ResultObject<?> handleException(TokenException exception){
 
-        return ResultObject.failed(ResultCode.TOKEN_NULL);
+        return ResultObject.failed(ResultCodeEnum.TOKEN_NULL);
     }
 
     @ExceptionHandler({UserException.class})
     public ResultObject<?> handleException(UserException exception){
 
-        return ResultObject.failed(ResultCode.USER_NOT_EXIST);
+        return ResultObject.failed(ResultCodeEnum.USER_NOT_EXIST);
     }
 }

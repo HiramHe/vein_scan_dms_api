@@ -1,6 +1,6 @@
 package hiram.component.web;
 
-import hiram.common.enums.ResourcePatternLocation;
+import hiram.common.enums.ResourcePatternLocationEnum;
 import hiram.component.properties.file.ImageProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -30,10 +30,10 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
-        registry.addResourceHandler(ResourcePatternLocation.STATIC.getPathPattern())
-                .addResourceLocations(ResourcePatternLocation.STATIC.getLocation());
+        registry.addResourceHandler(ResourcePatternLocationEnum.STATIC.getPathPattern())
+                .addResourceLocations(ResourcePatternLocationEnum.STATIC.getLocation());
 
-        registry.addResourceHandler(ResourcePatternLocation.IMAGE.getPathPattern())
+        registry.addResourceHandler(ResourcePatternLocationEnum.IMAGE.getPathPattern())
                 .addResourceLocations("file:" + imageProperties.getInfraredDirectory())
                 .addResourceLocations("file:" + imageProperties.getUltrasoundDirectory())
         ;
@@ -41,11 +41,11 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
         /*
         swagger静态资源映射
          */
-        registry.addResourceHandler(ResourcePatternLocation.SWAGGERUI.getPathPattern())
-                .addResourceLocations(ResourcePatternLocation.SWAGGERUI.getLocation())
+        registry.addResourceHandler(ResourcePatternLocationEnum.SWAGGERUI.getPathPattern())
+                .addResourceLocations(ResourcePatternLocationEnum.SWAGGERUI.getLocation())
         ;
-        registry.addResourceHandler(ResourcePatternLocation.WEBJARS.getPathPattern())
-                .addResourceLocations(ResourcePatternLocation.WEBJARS.getLocation())
+        registry.addResourceHandler(ResourcePatternLocationEnum.WEBJARS.getPathPattern())
+                .addResourceLocations(ResourcePatternLocationEnum.WEBJARS.getLocation())
         ;
 
     }

@@ -1,6 +1,6 @@
 package hiram.component.security.handler;
 
-import hiram.common.enums.ResultCode;
+import hiram.common.enums.ResultCodeEnum;
 import hiram.component.common.pojo.vo.ResultObject;
 import hiram.common.utils.JsonUtils;
 import org.springframework.security.access.AccessDeniedException;
@@ -38,7 +38,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
         msg = accessDeniedException.getMessage();
         msg = "权限不足";
 
-        ResultObject<String> resultObject = ResultObject.failed(200, ResultCode.FAILED.getCode(), msg,null);
+        ResultObject<String> resultObject = ResultObject.failed(200, ResultCodeEnum.FAILED.getCode(), msg,null);
 
         JsonUtils.writeObject(request,response,resultObject);
     }

@@ -1,6 +1,6 @@
 package hiram.module.image.controller;
 
-import hiram.common.enums.ResultCode;
+import hiram.common.enums.ResultCodeEnum;
 import hiram.component.common.pojo.vo.ResultObject;
 import hiram.component.common.controller.BaseController;
 import hiram.component.common.pojo.vo.TableData;
@@ -59,6 +59,6 @@ public class InfraredController extends BaseController {
 
         TableData tableData = this.getTableData(infrareds);
 
-        return ResultObject.success(ResultCode.SUCCESS,tableData);
+        return ResultObject.success(ResultCodeEnum.SUCCESS,tableData);
     }
 }

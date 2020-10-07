@@ -1,6 +1,6 @@
 package hiram.module.system.controller;
 
-import hiram.common.enums.ResultCode;
+import hiram.common.enums.ResultCodeEnum;
 import hiram.common.utils.MyStringUtils;
 import hiram.common.utils.ObjectUtils;
 import hiram.component.common.pojo.vo.ResultObject;
@@ -79,7 +79,7 @@ public class UserController extends BaseController {
 
         TableData tableData = this.getTableData(userSelectDTOs);
 
-        return ResultObject.success(ResultCode.SUCCESS,tableData);
+        return ResultObject.success(ResultCodeEnum.SUCCESS,tableData);
     }
 
     @ApiOperation(value = "根据用户id获取用户信息")
@@ -89,13 +89,13 @@ public class UserController extends BaseController {
         UserSelectDTO userSelectDTO = iUserService.selectUserByUserId(userId);
 
         if (userSelectDTO == null){
-            return ResultObject.failed(ResultCode.RECORD_NOT_EXIST);
+            return ResultObject.failed(ResultCodeEnum.RECORD_NOT_EXIST);
         }
 
         Map<String,UserSelectDTO> data = new HashMap<>();
         data.put("user",userSelectDTO);
 
-        return ResultObject.success(ResultCode.SUCCESS,data);
+        return ResultObject.success(ResultCodeEnum.SUCCESS,data);
     }
 
     /*
@@ -115,23 +115,23 @@ public class UserController extends BaseController {
 
         ////检查用户名和密码是否为空
         if(MyStringUtils.isEmpty(userInsertViewQuery.getUsername())  || MyStringUtils.isEmpty(userInsertViewQuery.getPassword())){
-            return ResultObject.failed(ResultCode.USERNAME_PASSWORD_NULL);
+            return ResultObject.failed(ResultCodeEnum.USERNAME_PASSWORD_NULL);
         }
 
         //检查用户名唯一性
         boolean isUserNameUnique = iUserService.checkUserNameUnique(null, userInsertViewQuery.getUsername());
         if(!isUserNameUnique){
-            return ResultObject.failed(ResultCode.USER_EXIST);
+            return ResultObject.failed(ResultCodeEnum.USER_EXIST);
         }
 
         //检查手机号是否已存在
         if(!MyStringUtils.isEmpty(userInsertViewQuery.getPhoneNumber()) && !iUserService.checkPhoneUnique(null, userInsertViewQuery.getPhoneNumber())){
-            return ResultObject.failed(ResultCode.PHONENUMBER_NOT_UNIQUE);
+            return ResultObject.failed(ResultCodeEnum.PHONENUMBER_NOT_UNIQUE);
         }
 
         //检查邮箱账号是否已存在
         if(!MyStringUtils.isEmpty(userInsertViewQuery.getEmail()) && !iUserService.checkEmailUnique(null, userInsertViewQuery.getEmail())){
-            return ResultObject.failed(ResultCode.EMAIL_NOT_UNIQUE);
+            return ResultObject.failed(ResultCodeEnum.EMAIL_NOT_UNIQUE);
         }
 
         //封装vo到dto中，不修改vo中的值
@@ -144,7 +144,7 @@ public class UserController extends BaseController {
         Map<String,SysUser> data = new HashMap<>();
         data.put("user:",sysUser);
 
-        return ResultObject.success(ResultCode.SUCCESS,data);
+        return ResultObject.success(ResultCodeEnum.SUCCESS,data);
     }
 
     /*
@@ -164,7 +164,7 @@ public class UserController extends BaseController {
         Map<String,Long> data = new HashMap<>();
         data.put("影响行数:",rows);
 
-        return ResultObject.success(ResultCode.SUCCESS,data);
+        return ResultObject.success(ResultCodeEnum.SUCCESS,data);
     }
 
     /*
@@ -180,7 +180,7 @@ public class UserController extends BaseController {
         Map<String,Long> data = new HashMap<>();
         data.put("影响行数:",rows);
 
-        return ResultObject.success(ResultCode.SUCCESS,data);
+        return ResultObject.success(ResultCodeEnum.SUCCESS,data);
     }
 
     /*
@@ -200,7 +200,7 @@ public class UserController extends BaseController {
 
         //校验userId
         if (userId == null || userId<=0){
-            return ResultObject.failed(ResultCode.WRONG_USERID);
+            return ResultObject.failed(ResultCodeEnum.WRONG_USERID);
         }
 
         //校验所有参数是否都为null
@@ -215,7 +215,7 @@ public class UserController extends BaseController {
                 && MyStringUtils.isEmpty(userUpdateViewQuery.getRemark())
                 && ObjectUtils.isNull(userUpdateViewQuery.getEnabled())
         ){
-            return ResultObject.success(ResultCode.SUCCESS_NOACTION);
+            return ResultObject.success(ResultCodeEnum.SUCCESS_NOACTION);
         }
 
         //校验用户名唯一性
@@ -224,7 +224,7 @@ public class UserController extends BaseController {
             boolean isUserNameUnique = iUserService.checkUserNameUnique(userId,username);
 
             if (!isUserNameUnique){
-                return ResultObject.failed(ResultCode.USER_EXIST);
+                return ResultObject.failed(ResultCodeEnum.USER_EXIST);
             }
         }
 
@@ -234,7 +234,7 @@ public class UserController extends BaseController {
             boolean isEmailUnique = iUserService.checkEmailUnique(userId,email);
 
             if (!isEmailUnique){
-                return ResultObject.failed(ResultCode.EMAIL_NOT_UNIQUE);
+                return ResultObject.failed(ResultCodeEnum.EMAIL_NOT_UNIQUE);
             }
         }
 
@@ -244,7 +244,7 @@ public class UserController extends BaseController {
             boolean isPhoneUnique = iUserService.checkPhoneUnique(userId,phoneNumber);
 
             if (!isPhoneUnique){
-                return ResultObject.failed(ResultCode.PHONENUMBER_NOT_UNIQUE);
+                return ResultObject.failed(ResultCodeEnum.PHONENUMBER_NOT_UNIQUE);
             }
         }
 
@@ -255,7 +255,7 @@ public class UserController extends BaseController {
             userRoleList = new ArrayList<>();
             for(Long roleId:roleIds){
                 if (roleId<=0){
-                    return ResultObject.failed(ResultCode.FAILED_NOACTION);
+                    return ResultObject.failed(ResultCodeEnum.FAILED_NOACTION);
                 }
 
                 UserRole ur = new UserRole();
@@ -276,13 +276,13 @@ public class UserController extends BaseController {
         try {
             affectRows = iUserService.updateUser(userUpdateServiceQuery);
         } catch (Exception e) {
-            return ResultObject.failed(ResultCode.FAILED);
+            return ResultObject.failed(ResultCodeEnum.FAILED);
         }
 
         Map<String,Long> data = new HashMap<>();
         data.put("影响行数",affectRows);
 
-        return ResultObject.success(ResultCode.SUCCESS, data);
+        return ResultObject.success(ResultCodeEnum.SUCCESS, data);
     }
 
     /*
@@ -298,7 +298,7 @@ public class UserController extends BaseController {
             @RequestParam(required = false) Long[] userIds){
 
         if(userIds == null || userIds.length == 0){
-            return ResultObject.failed(ResultCode.COLLECTION_NULL);
+            return ResultObject.failed(ResultCodeEnum.COLLECTION_NULL);
         }
 
         Long affectRows = iUserService.logicallyDeleteUserByIds(userIds);
@@ -306,7 +306,7 @@ public class UserController extends BaseController {
         Map<String,Long> data = new HashMap<>();
         data.put("影响行数",affectRows);
 
-        return ResultObject.success(ResultCode.SUCCESS, data);
+        return ResultObject.success(ResultCodeEnum.SUCCESS, data);
     }
 
     @ApiOperation(value = "根据用户id，逻辑删除指定用户")
@@ -319,7 +319,7 @@ public class UserController extends BaseController {
         Map<String,Long> data = new HashMap<>();
         data.put("影响行数",affectRows);
 
-        return ResultObject.success(ResultCode.SUCCESS, data);
+        return ResultObject.success(ResultCodeEnum.SUCCESS, data);
     }
 
     /*
@@ -335,7 +335,7 @@ public class UserController extends BaseController {
         Map<String,Long> data = new HashMap<>();
         data.put("影响行数",affectRows);
 
-        return ResultObject.success(ResultCode.SUCCESS, data);
+        return ResultObject.success(ResultCodeEnum.SUCCESS, data);
     }
 
     /*
@@ -350,12 +350,12 @@ public class UserController extends BaseController {
         int affectRows = iUserService.resetUserPwd(userId, newPassword);
 
         if (affectRows<=0){
-            return ResultObject.failed(ResultCode.FAILED);
+            return ResultObject.failed(ResultCodeEnum.FAILED);
         }
 
         Map<String,Integer> data = new HashMap<>();
         data.put("影响行数",affectRows);
 
-        return ResultObject.success(ResultCode.SUCCESS,data);
+        return ResultObject.success(ResultCodeEnum.SUCCESS,data);
     }
 }

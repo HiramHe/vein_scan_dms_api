@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
  */
 
 @JsonFormat
-public enum ResultCode {
+public enum ResultCodeEnum {
 
     /**
      * 成功
@@ -56,7 +56,7 @@ public enum ResultCode {
     private final long code;
     private final String msg;
 
-    private ResultCode(long code, String msg) {
+    private ResultCodeEnum(long code, String msg) {
         this.code = code;
         this.msg = msg;
     }

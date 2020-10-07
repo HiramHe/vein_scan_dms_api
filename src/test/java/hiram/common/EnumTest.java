@@ -1,6 +1,6 @@
 package hiram.common;
 
-import hiram.common.enums.ResultCode;
+import hiram.common.enums.ResultCodeEnum;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -17,8 +17,8 @@ public class EnumTest {
     @Test
     public void showEnum(){
         Map<Long,String> enums = new HashMap<>();
-        ResultCode[] values = ResultCode.values();
-        for (ResultCode value: values) {
+        ResultCodeEnum[] values = ResultCodeEnum.values();
+        for (ResultCodeEnum value: values) {
             enums.put(value.getCode(),value.getMsg());
         }
         for (Map.Entry<Long,String> entry:enums.entrySet()) {

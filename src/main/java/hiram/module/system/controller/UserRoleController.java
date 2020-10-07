@@ -1,6 +1,6 @@
 package hiram.module.system.controller;
 
-import hiram.common.enums.ResultCode;
+import hiram.common.enums.ResultCodeEnum;
 import hiram.component.common.pojo.vo.ResultObject;
 import hiram.module.system.pojo.query.UserRoleInsertServiceQuery;
 import hiram.module.system.pojo.po.UserRole;
@@ -46,16 +46,16 @@ public class UserRoleController {
         } catch (Exception e) {
 
             if (e instanceof DuplicateKeyException){
-                return ResultObject.failed(ResultCode.RECORD_EXIST);
+                return ResultObject.failed(ResultCodeEnum.RECORD_EXIST);
             }else {
-                return ResultObject.failed(ResultCode.FAILED);
+                return ResultObject.failed(ResultCodeEnum.FAILED);
             }
         }
 
         Map<String,UserRole> data = new HashMap<>();
         data.put("userRole",userRole);
 
-        return ResultObject.success(ResultCode.SUCCESS,data);
+        return ResultObject.success(ResultCodeEnum.SUCCESS,data);
     }
 
     @ApiOperation("删除用户角色")
@@ -69,19 +69,19 @@ public class UserRoleController {
             try {
                 rt = userRoleService.deleteUserRoleByUserId(userId);
             } catch (Exception e) {
-                return ResultObject.failed(ResultCode.FAILED);
+                return ResultObject.failed(ResultCodeEnum.FAILED);
             }
         }else {
             try {
                 rt = userRoleService.deleteUserRoleByUserIdRoleId(userId, roleId);
             } catch (Exception e) {
-                return ResultObject.failed(ResultCode.FAILED);
+                return ResultObject.failed(ResultCodeEnum.FAILED);
             }
         }
 
         Map<String,Long> data = new HashMap<>();
         data.put("影响行数",rt);
 
-        return ResultObject.success(ResultCode.SUCCESS,data);
+        return ResultObject.success(ResultCodeEnum.SUCCESS,data);
     }
 }

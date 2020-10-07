@@ -1,6 +1,6 @@
 package hiram.module.scanClient.controller;
 
-import hiram.common.enums.ResultCode;
+import hiram.common.enums.ResultCodeEnum;
 import hiram.common.utils.FileUtils;
 import hiram.common.utils.MyStringUtils;
 import hiram.component.common.pojo.vo.ResultObject;
@@ -68,21 +68,21 @@ public class FileController {
 
         //红外图像不得为空
         if (infraredImage ==null || infraredImage.isEmpty()){
-            return ResultObject.failed(ResultCode.FILE_UPLOAD_INFRARED_EMPTY);
+            return ResultObject.failed(ResultCodeEnum.FILE_UPLOAD_INFRARED_EMPTY);
         }
 
         //校验是否是图片
         String infraredImageFileName = infraredImage.getOriginalFilename();
         if(!FileUtils.isImage(infraredImageFileName)){
-            return ResultObject.failed(ResultCode.FILE_FORMAT_NOT_SUPPORT);
+            return ResultObject.failed(ResultCodeEnum.FILE_FORMAT_NOT_SUPPORT);
         }
 
         //校验坐标
         if ((descriptionXCoordinate==null && descriptionYCoordinate!=null) || (descriptionXCoordinate!=null && descriptionYCoordinate==null)){
-            return ResultObject.failed(ResultCode.COORDINATE_WRONG);
+            return ResultObject.failed(ResultCodeEnum.COORDINATE_WRONG);
         }
         if ((bUltrasoundXCoordinate==null && bUltrasoundYCoordinate!=null) || (bUltrasoundXCoordinate!=null && bUltrasoundYCoordinate==null)){
-            return ResultObject.failed(ResultCode.COORDINATE_WRONG);
+            return ResultObject.failed(ResultCodeEnum.COORDINATE_WRONG);
         }
 
         //构建红外图像信息
@@ -99,7 +99,7 @@ public class FileController {
         if(bUltrasoundImage!=null) {
             String bUltrasoundImageFileName = bUltrasoundImage.getOriginalFilename();
             if (!FileUtils.isImage(bUltrasoundImageFileName)){
-                return ResultObject.failed(ResultCode.FILE_FORMAT_NOT_SUPPORT);
+                return ResultObject.failed(ResultCodeEnum.FILE_FORMAT_NOT_SUPPORT);
             }
 
             bUltrasoundServiceQuery = new BUltrasoundServiceQuery();
@@ -130,7 +130,7 @@ public class FileController {
 
         } catch (IOException e) {
 
-            return ResultObject.failed(ResultCode.EXCEPTION_IO);
+            return ResultObject.failed(ResultCodeEnum.EXCEPTION_IO);
 
         } catch (DataAccessException e) {
 
@@ -145,17 +145,17 @@ public class FileController {
                 fileService.deleteFile(bUltrasoundServiceQuery.getFilename(), bUltrasoundServiceQuery.getPath());
             }
 
-            return ResultObject.failed(ResultCode.EXCEPTION_DAO);
+            return ResultObject.failed(ResultCodeEnum.EXCEPTION_DAO);
 
         } catch (Exception e) {
             if (logger.isDebugEnabled()){
                 logger.debug(e);
             }
 
-            return ResultObject.failed(ResultCode.EXCEPTION_SERVER);
+            return ResultObject.failed(ResultCodeEnum.EXCEPTION_SERVER);
         }
 
-        return ResultObject.success(ResultCode.SUCCESS_UPLOAD);
+        return ResultObject.success(ResultCodeEnum.SUCCESS_UPLOAD);
     }
 
 //    @ApiOperation(value = "单红外图像多B超图像上传")

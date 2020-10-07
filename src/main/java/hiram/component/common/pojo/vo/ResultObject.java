@@ -1,6 +1,6 @@
 package hiram.component.common.pojo.vo;
 
-import hiram.common.enums.ResultCode;
+import hiram.common.enums.ResultCodeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -43,29 +43,29 @@ public class ResultObject<T> {
         return resultObject;
     }
 
-    public static <T> ResultObject<T> getResultObjectWithResultCode(int httpCode, ResultCode resultCode, T data) {
-        return getResultObjectWithProperty(httpCode,resultCode.getCode(), resultCode.getMsg(),data);
+    public static <T> ResultObject<T> getResultObjectWithResultCode(int httpCode, ResultCodeEnum resultCodeEnum, T data) {
+        return getResultObjectWithProperty(httpCode, resultCodeEnum.getCode(), resultCodeEnum.getMsg(),data);
     }
 
-    public static <T> ResultObject<T> success(int httpCode,ResultCode resultCode,T data) {
-        return getResultObjectWithResultCode(httpCode,resultCode,data);
+    public static <T> ResultObject<T> success(int httpCode, ResultCodeEnum resultCodeEnum, T data) {
+        return getResultObjectWithResultCode(httpCode, resultCodeEnum,data);
     }
 
-    public static <T> ResultObject<T> success(ResultCode resultCode,T data) {
-        return getResultObjectWithResultCode(HTTPCODE_DEFAULT,resultCode,data);
+    public static <T> ResultObject<T> success(ResultCodeEnum resultCodeEnum, T data) {
+        return getResultObjectWithResultCode(HTTPCODE_DEFAULT, resultCodeEnum,data);
     }
 
-    public static <T> ResultObject<T> success(ResultCode resultCode) {
-        return getResultObjectWithResultCode(HTTPCODE_DEFAULT,resultCode,null);
+    public static <T> ResultObject<T> success(ResultCodeEnum resultCodeEnum) {
+        return getResultObjectWithResultCode(HTTPCODE_DEFAULT, resultCodeEnum,null);
     }
 
 
-    public static <T> ResultObject<T> failed(int httpCode,ResultCode resultCode) {
-        return getResultObjectWithResultCode(httpCode,resultCode,null);
+    public static <T> ResultObject<T> failed(int httpCode, ResultCodeEnum resultCodeEnum) {
+        return getResultObjectWithResultCode(httpCode, resultCodeEnum,null);
     }
 
-    public static <T> ResultObject<T> failed(ResultCode resultCode) {
-        return getResultObjectWithResultCode(HTTPCODE_DEFAULT,resultCode,null);
+    public static <T> ResultObject<T> failed(ResultCodeEnum resultCodeEnum) {
+        return getResultObjectWithResultCode(HTTPCODE_DEFAULT, resultCodeEnum,null);
     }
 
     public static <T> ResultObject<T> failed(int httpCode,long code, String msg,T data) {

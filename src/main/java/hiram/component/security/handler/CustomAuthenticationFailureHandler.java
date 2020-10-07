@@ -1,7 +1,7 @@
 package hiram.component.security.handler;
 
 
-import hiram.common.enums.ResultCode;
+import hiram.common.enums.ResultCodeEnum;
 import hiram.component.common.pojo.vo.ResultObject;
 import hiram.common.utils.JsonUtils;
 import org.springframework.security.core.AuthenticationException;
@@ -24,7 +24,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
                                         HttpServletResponse response,
                                         AuthenticationException e) throws IOException, ServletException {
 
-        ResultObject<String> resultObject = ResultObject.failed(HttpServletResponse.SC_OK, ResultCode.FAILED_AUTHENTICATE);
+        ResultObject<String> resultObject = ResultObject.failed(HttpServletResponse.SC_OK, ResultCodeEnum.FAILED_AUTHENTICATE);
 
         //输出
         JsonUtils.writeObject(request, response, resultObject);

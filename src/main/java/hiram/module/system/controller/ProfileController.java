@@ -4,7 +4,7 @@ import hiram.common.utils.MyStringUtils;
 import hiram.common.utils.ObjectUtils;
 import hiram.component.common.service.ITokenService;
 import hiram.common.utils.ServletUtils;
-import hiram.common.enums.ResultCode;
+import hiram.common.enums.ResultCodeEnum;
 import hiram.component.common.pojo.vo.ResultObject;
 import hiram.component.common.pojo.vo.LoginUser;
 import hiram.module.system.pojo.query.ProfileUpdateViewQuery;
@@ -86,9 +86,9 @@ public class ProfileController {
             data.put("user",userVO);
             data.put("roles",roleVOs);
 
-            resultObject = ResultObject.success(ResultCode.SUCCESS,data);
+            resultObject = ResultObject.success(ResultCodeEnum.SUCCESS,data);
         } else {
-            resultObject = ResultObject.failed(ResultCode.LOGIN_EXPIRED);
+            resultObject = ResultObject.failed(ResultCodeEnum.LOGIN_EXPIRED);
         }
 
         return resultObject;
@@ -103,10 +103,10 @@ public class ProfileController {
         String password = loginUser.getPassword();
 
         if (!encoder.matches(oldPassword,password)) {
-            return ResultObject.failed(ResultCode.OLDPASSWORD_ERROR);
+            return ResultObject.failed(ResultCodeEnum.OLDPASSWORD_ERROR);
         }
         if( encoder.matches(newPassword,password)){
-            return ResultObject.failed(ResultCode.NEWPASSWORD_SAME_ERROR);
+            return ResultObject.failed(ResultCodeEnum.NEWPASSWORD_SAME_ERROR);
         }
 
         if( iUserService.resetUserPwd(userId,newPassword) > 0){
@@ -114,10 +114,10 @@ public class ProfileController {
             loginUser.getUser().setPassword(encoder.encode(newPassword));
             iTokenService.setLoginUser(loginUser);
 
-            return ResultObject.success(ResultCode.SUCCESS);
+            return ResultObject.success(ResultCodeEnum.SUCCESS);
         }
 
-        return ResultObject.failed(ResultCode.RESETPASSWORD_ERROR);
+        return ResultObject.failed(ResultCodeEnum.RESETPASSWORD_ERROR);
     }
 
     /*
@@ -139,7 +139,7 @@ public class ProfileController {
                         && MyStringUtils.isEmpty(profileUpdateViewQuery.getPhoneNumber())
                         && MyStringUtils.isEmpty(profileUpdateViewQuery.getRemark())
         ){
-            return ResultObject.success(ResultCode.SUCCESS_NOACTION);
+            return ResultObject.success(ResultCodeEnum.SUCCESS_NOACTION);
         }
 
         LoginUser loginUser = iTokenService.getLoginUser(ServletUtils.getRequest());
@@ -151,7 +151,7 @@ public class ProfileController {
             boolean isUserNameUnique = iUserService.checkUserNameUnique(userId,username);
 
             if (!isUserNameUnique){
-                return ResultObject.failed(ResultCode.USER_EXIST);
+                return ResultObject.failed(ResultCodeEnum.USER_EXIST);
             }
         }
 
@@ -161,7 +161,7 @@ public class ProfileController {
             boolean isEmailUnique = iUserService.checkEmailUnique(userId,email);
 
             if (!isEmailUnique){
-                return ResultObject.failed(ResultCode.EMAIL_NOT_UNIQUE);
+                return ResultObject.failed(ResultCodeEnum.EMAIL_NOT_UNIQUE);
             }
         }
 
@@ -171,7 +171,7 @@ public class ProfileController {
             boolean isPhoneUnique = iUserService.checkPhoneUnique(userId,phoneNumber);
 
             if (!isPhoneUnique){
-                return ResultObject.failed(ResultCode.PHONENUMBER_NOT_UNIQUE);
+                return ResultObject.failed(ResultCodeEnum.PHONENUMBER_NOT_UNIQUE);
             }
         }
 
@@ -184,7 +184,7 @@ public class ProfileController {
         try {
             rt = iUserService.updateUser(userUpdateServiceQuery);
         } catch (Exception e) {
-            return ResultObject.failed(ResultCode.FAILED);
+            return ResultObject.failed(ResultCodeEnum.FAILED);
         }
 
         //更新缓存
@@ -222,10 +222,10 @@ public class ProfileController {
 
             iTokenService.setLoginUser(loginUser);
 
-            return ResultObject.success(ResultCode.SUCCESS);
+            return ResultObject.success(ResultCodeEnum.SUCCESS);
         }
 
-        return ResultObject.failed(ResultCode.FAILED);
+        return ResultObject.failed(ResultCodeEnum.FAILED);
     }
 
     /*
@@ -236,6 +236,6 @@ public class ProfileController {
     public ResultObject<?> avatar(@RequestParam MultipartFile file){
 
 
-        return ResultObject.failed(ResultCode.FUNCTION_TODO);
+        return ResultObject.failed(ResultCodeEnum.FUNCTION_TODO);
     }
 }

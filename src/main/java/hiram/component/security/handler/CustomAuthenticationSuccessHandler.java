@@ -1,6 +1,6 @@
 package hiram.component.security.handler;
 
-import hiram.common.enums.ResultCode;
+import hiram.common.enums.ResultCodeEnum;
 import hiram.component.common.pojo.vo.ResultObject;
 import hiram.component.common.service.ITokenService;
 import hiram.component.common.pojo.vo.LoginUser;
@@ -54,7 +54,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         ResultObject< Map<String,Object> > resultObject =
                 ResultObject.success(
                         HttpServletResponse.SC_OK,
-                        ResultCode.SUCCESS_AUTHENTICATE,
+                        ResultCodeEnum.SUCCESS_AUTHENTICATE,
                         data
                 );
 
